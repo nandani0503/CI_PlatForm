@@ -87,7 +87,7 @@ namespace CI_PlatForm.Controllers
                     MailHelper mailHelper = new MailHelper(configuration);
                     ViewBag.sendMail = mailHelper.Send(fpm.email, welcomeMessage + path);
                     ModelState.Clear();
-                    return RedirectToAction("Reset", new { UserId = UserId });
+                    return RedirectToAction("Index", new { UserId = UserId });
                 }
                 catch (Exception ex)
                 {
@@ -100,7 +100,7 @@ namespace CI_PlatForm.Controllers
                 ViewBag.isForgetPasswordOpen = true;
                 return View("ForgotPassword");
             }
-            return View("Reset");
+            return View("Index");
          }
         [HttpGet]
         public IActionResult Reset(long id)
