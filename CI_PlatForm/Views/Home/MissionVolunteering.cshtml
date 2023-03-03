@@ -1,0 +1,679 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+               <div class="container d-flex">
+                     
+                        <nav class="navbar navbar-expand-lg py-1">
+                            <div class="container-fluid">
+                                <a class="navbar-brand" href="#">
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <img src="/Images/CI Platform Assets/logo.png" alt="error" width="70"
+                                        height="25">
+                                </a>
+
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Explore
+                                                <img src="/Images/CI Platform Assets/drop-down.png"
+                                                    alt="Profile-dropdown" />
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Stories</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">News</a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Policy
+                                                <img src="/Images/CI Platform Assets/drop-down.png"
+                                                    alt="Profile-dropdown" />
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                      
+                      <nav class="navbar navbar-expand-lg py-1 position-absolute top-0 end-0" style="margin-right: 25px;margin-top: 9px;">
+                            <div class="nav-item d-flex">
+                                <form>
+                                    <div class="form-group">
+                                        <i class="bi bi-search" id="search" href="#"></i>
+                                        &nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </form>
+                                <div class="nav-item dropdown">
+
+                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-bell py-1"></i> &nbsp;&nbsp;&nbsp;
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                                <div class="nav-item dropdown">
+
+                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="/Images/CI Platform Assets/user-img.png"
+                                            alt="Error" height="25" width="25" style="border-radius: 15px;">
+                                        <span id="profile">John Donohue</span>
+                                        <img src="/Images/CI Platform Assets/drop-down.png"
+                                            alt="Profile-dropdown" id="Profile-dropdown" />
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Action</a></li>
+                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        </div>
+                        <hr />
+                    <div class="container">
+                        <div class="row py-0">
+                            <div class="col-lg-6 col-12">
+                    
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                        aria-describedby="inputGroup-sizing-default" placeholder="Search Mission...">
+                                </div>
+                    
+                            </div>
+                            <div class="col-lg-6 col-12 ">
+                                    <div class="row ">
+                                    <div class="col-lg-3 col-3">
+                    
+                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Country
+                                            <img src="/Images/CI Platform Assets/drop-down.png"
+                                                alt="Profile-dropdown" />
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                    
+                                    </div>
+                    
+                                    <div class="col-lg-3 col-3">
+                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            City
+                                            <img src="/Images/CI Platform Assets/drop-down.png"
+                                                alt="Profile-dropdown" />
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3 col-3">
+                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Theme
+                                            <img src="/Images/CI Platform Assets/drop-down.png"
+                                                alt="Profile-dropdown" />
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-3 col-3">
+                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Skills
+                                            <img src="/Images/CI Platform Assets/drop-down.png"
+                                                alt="Profile-dropdown" />
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        </ul>
+                                    </div>
+                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6" style="height:fit-content;">
+                            
+
+                                    <div class="w3-content" style="max-width:1200px">
+                                      <img class="mySlides" src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png" style="width:100%;display:none">
+                                      <img class="mySlides" src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png" style="width:100%">
+                                      <img class="mySlides" src="/Images/CI Platform Assets/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-1.png" style="width:100%;display:none">
+
+                                      <div class="w3-row-padding w3-section">
+                                        <div class="w3-col s4">
+                                          <img class="demo w3-opacity w3-hover-opacity-off" src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png" style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+                                        </div>
+                                        <div class="w3-col s4">
+                                          <img class="demo w3-opacity w3-hover-opacity-off" src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png" style="width:100%;cursor:pointer" onclick="currentDiv(2)">
+                                        </div>
+                                        <div class="w3-col s4">
+                                          <img class="demo w3-opacity w3-hover-opacity-off" src="/Images/CI Platform Assets/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-1.png" style="width:100%;cursor:pointer" onclick="currentDiv(3)">
+                                        </div>
+                                      </div>
+                                    </div> 
+                                      </div> 
+                                      <div class="col-lg-6">
+                                          <div class="container">
+                                              <div><h4>CSR initiative stands for Coffee & Farmer Equity</h4></div>
+                                              <div><p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
+                                                aliquid distinctio, excepturi veritatis repudiandae.</p></div>
+                                              <hr style="margin-top:35px; opacity:1"/>
+                                              <div class="trees">Plant 10,000 Trees</div>
+                                              <div class="row py-2">
+                                                  <div class="col-lg-6 col-md-6 col-6 d-flex justify-content-center">
+                                                      <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
+                                                                <div>10
+                                                                    <div>Seats left</div>
+                                                                </div>
+                                                  </div>
+                                                  <div class="col-lg-6 col-md-6 col-6 d-flex justify-content-center">
+                                                        <div><img src="/Images/CI Platform Assets/achieved.png" alt="" style="height:20px;width:20px">&nbsp;&nbsp;</div>
+                                                                <div><div class="progress">
+                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                    <div>8000 achieved</div>
+                                                                </div>
+                                                  </div>
+                                              </div>
+                                              <hr />
+                                              <div class="row">
+                                                  <div class="col-lg-5 col-md-5 col-12">
+                                                     <button type="button" class="btn btn-outline-secondary w-100 rounded-pill">
+                                                         <i class="bi bi-heart"></i>&nbsp;<span class="small">Add to Favourite</span>
+                                                     </button>
+                                                  </div>
+                                                  <div class="col-lg-7 col-md-7 col-12 ">
+                                                       <button type="button" class="btn btn-outline-secondary w-100 rounded-pill">
+                                                        <i class="bi bi-square-fill"></i>&nbsp;<span class="small">Recommanded to Co-worker</span>
+                                                     </button>
+                                                  </div>
+                                              </div>
+
+                                              <hr style="opacity:1;"/>
+                                              <div class="star">
+                                              <div class="d-flex">
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>
+                                              </div>
+                                              </div>
+                                       <div class="row py-2">
+                                           <div class="col-lg-3 col-md-6 col-6 border">
+                                               <i class="bi bi-geo-alt"></i>
+                                               <div class="small py-2">City</div>
+                                                    <p class="small">London</p></div>
+                                           <div class="col-lg-3 col-md-6 col-6 border">
+                                               <i class="bi bi-globe"></i>
+                                               <div class="small py-2">Theme</div>
+                                               <p class="small">Enviornment</p>
+                                           </div>
+                                           <div class="col-lg-3 col-md-6 col-6 border">
+                                               <i class="bi bi-calendar3"></i>
+                                               <div class="small">Date</div>
+                                               <p class="small">Ongoing Opportunity</p>
+                                           </div>
+                                           <div class="col-lg-3 col-md-6 col-6 border">
+                                               <i class="bi bi-people"></i>
+                                               <div class="small py-2">Organisation</div>
+                                               <p class="small">CSE Network</p>
+                                           </div>
+                                       </div>
+                                     <div class="text-center py-1">
+                                        <button type="button" class="btn btn-outline-warning">Apply Now</button>
+                                   </div>
+                              </div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                        <div class="col-lg-8">
+                            <div class="container">
+                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Mission</button>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Organization</button>
+                              </li>
+                              <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Comments</button>
+                              </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                              <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                   <div class="container">
+                                      <h3 class="py-2">Introduction</h3>
+                                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni, unde. Fugiat explicabo debitis, ad animi repellendus architecto! Ipsum quas, neque itaque sint incidunt cupiditate velit ut aperiam asperiores nemo voluptates, rem ipsam veniam! Fugiat rerum a nostrum repudiandae, error nesciunt laudantium. Odit adipisci tenetur quos modi doloremque cupiditate dignissimos quibusdam?</p>
+                                      <h3 class="py-2">Challenge</h3>
+                                      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni, unde. Fugiat ex  debitis, ad animi repellendus architecto! Ipsum quas, neque itaque sint incidunt cupiditate velit ut aperiam asperiores nemo voluptates, rem ipsam veniam! Fugiat rerum a nostrum repudiandae, error nesciunt laudantium. Odit adipisci tenetur quos modi doloremque cupiditate dignissimos quibusdam?</p>
+                                      <h3 class="py-2">Documents</h3>
+                                      <div class="row">
+                                          <div class="col-lg-4 col-md-4 col-12 py-2">
+                                          <button type="button" class="btn btn-outline-secondary">
+                                              <i class="bi bi-file-earmark-pdf"></i>lorem-ipsum.pdf
+                                          </button></div>
+                                          <div class="col-lg-4 col-md-4 col-12 py-2">
+                                            <button type="button" class="btn btn-outline-secondary">
+                                            <i class="bi bi-filetype-doc"></i>s_accusamus.doc
+                                            </button></div>
+                                          <div class="col-lg-4 col-md-4 col-12 py-2">
+                                           <button type="button" class="btn btn-outline-secondary">    
+                                          <i class="bi bi-filetype-xls"></i>important_doc.xls
+                                          </button></div>
+
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                  <div class="container p-3">
+                                      Optimy organizations working on envionmental, social, advocacy and human rights. They can work to promote social or political change on a broad scale or very locally. NGOs play a critical part in developing society, improving communities and promoting citizen participation.
+                                  </div>
+                              </div>
+                              <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                                  <div class="container p-3">
+                                      <form>
+                                          <div class="form-group">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter your Comments..."></textarea>
+                                          </div>
+                                      </form>
+                                      <div class="py-2">
+                                      <button type="button" class="btn btn-outline-warning rounded-pill">Post comment</button>
+                                      </div>
+                                     
+                                      <div class="container" style="height:600px;overflow-y:scroll;">
+                                          <div class="p-3 bg-light">
+                                          <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer1.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer2.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer3.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer4.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer5.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer6.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer7.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                           <span class="d-block p-2 my-2" style="background-color:white;">
+                                              <div class="row">
+                                              <div class="col-lg-3 col-md-3 col-12 text-center py-2">
+                                                  <div><img src="/Images/CI Platform Assets/volunteer8.png" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
+                                                  </div>
+                                                  <div class="col-lg-9 col-md-9 col-12 py-2">
+                                                  <div>Margaret Walsh
+                                                      <div class="small">Monday, October 21, 2019, 4:57 PM</div>
+                                                      <div class="py-2">Nice mission great opportunity for peoples</div>
+                                                  </div>
+                                                  </div>
+                                              </div>
+                                          </span>
+                                      </div>
+                                      </div>
+                                  </div>
+                              </div>
+                             </div>
+                            
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="container py-2">
+                                <div class="border border-secondary p-3">
+                                    <div class="mx-2 py-1">Information</div>
+                                     <hr class="hr"/>
+                                   <div class="row">
+                                       <div class="col-3 text-center">Skills</div>
+                                       <div class="col-9">Cool, Easy going, Math, Computer</div>
+                                   </div>
+                                   <hr class="hr"/>
+                                    <div class="row">
+                                       <div class="col-3 text-center">Days</div>
+                                       <div class="col-9">Weekend only</div>
+                                   </div>
+                                   <hr />
+                                    <div class="row">
+                                       <div class="col-3 text-center">Ratings</div>
+                                       <div class="col-9">
+                                            <div class="d-flex">
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>&nbsp;
+                                                  <i class="bi bi-star"></i>
+                                              </div>
+                                              <span>(by 125 volunteers)</span>
+                                       </div>
+                                   </div>
+                                </div>                             
+                            </div>
+                            
+                            <div class="container my-2 ">
+                                <div class="border border-secondary">
+                                    <div class="mx-2 py-1">Recent Volunteeres</div>
+                                    <div class="container">
+                                     <div class="row border">
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer1.png" class="rounded-circle p-2"  style="height:70px;width:70px;"/>
+                                             <div class="p-1">Andrew Johnson</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer2.png" class="rounded-circle p-2"  style="height:70px;width:70px;">
+                                             <div class="p-1">Charles Vigue</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer3.png" class="rounded-circle p-2"  style="height:70px;width:70px;">
+                                             <div class="p-1">Kathryn Roberts</div></div>
+                                     </div>
+                                     <div class="row border">
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer4.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
+                                             <div class="p-1">Estella Fowles</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer5.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
+                                             <div class="p-1">Rose Lewis</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer6.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
+                                             <div class="p-1">Raymond Pabon</div></div>
+                                     </div>
+                                     <div class="row border">
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer7.png" class="rounded-circle p-2" style="height:70px;width:70px;">
+                                             <div class="p-1">Travis Steen</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer8.png" class="rounded-circle p-2" style="height:70px;width:70px;">
+                                             <div class="p-1">Sarah Santillan</div></div>
+                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer9.png" class="rounded-circle p-2" style="height:70px;width:70px;">
+                                             <div class="p-1">Linda Richards</div></div>
+                                     </div>
+                                     
+                               </div>
+                                
+                                     <div class="row p-0">
+                                         
+                                     <nav aria-label="Page navigation example border-black">
+                                      <ul class="pagination">
+                                        <li class="page-item col-lg-1 col-md-1 col-1">
+                                          <a class="page-link text-black" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                              </a>
+                                        </li>
+                                        <li class="page-item col-lg-10 col-md-10 col-10"><a class="page-link text-black text-center" href="#"><span class="small">1-8 of 25 Recent Volunteers</span></a></li>
+                                       
+                                        <li class="page-item col-lg-1 col-md-1 col-1">
+                                          <a class="page-link text-black" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                      </ul>
+                                    </nav>
+                                   </div>
+                                     </div>
+                                    </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="container">
+                        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                        <h3 class="container py-2 text-center">
+                            Related Missions
+                        </h3>
+                        <div class="container py-2">
+                            <div class="row">
+                                                <div class="card col-lg-4 col-md-6 col-12">
+
+                                                    <img src="/Images/CI Platform Assets/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-1.png"
+                                                        class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"> CSR initiative stands for Coffee and Farmer Equity.</h5>
+                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
+                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
+                                                        <div class="row">
+
+                                                            <div class="col-lg-6 col-md-6 col-6">CSE Network</div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr class="hr" />
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 xs-6 d-flex">
+                                                                <div><i class="bi bi-person"></i>&nbsp;&nbsp;</div>
+                                                                <div>250
+                                                                    <div>Volunteered</div>
+                                                                </div>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                        <hr>
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-outline-warning">Apply</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="card col-lg-4 col-md-6 col-12">
+
+                                                    <img src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png"
+                                                        class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Animal welfare &Aacute; save birds campaign</h5>
+                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
+                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
+                                                        <div class="row">
+
+                                                            <div class="col-lg-6 col-md-6 col-6">JR Foundation</div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr class="hr" />
+                                                        <div class="row">
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
+                                                                <div>10
+                                                                    <div>Seats left</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <div><img src="/Images/CI Platform Assets/achieved.png" alt="" style="height:20px;width:20px">&nbsp;&nbsp;</div>
+                                                                <div><div class="progress">
+                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                    <div>8000 achieved</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-outline-warning">Apply</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="card col-lg-4 col-md-6 col-12">
+
+                                                    <img src="/Images/CI Platform Assets/Plantation-and-Afforestation-programme-1.png"
+                                                        class="card-img-top" alt="...">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Plantation and Afforestation programme</h5>
+                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
+                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
+                                                        <div class="row">
+
+                                                            <div class="col-lg-6 col-md-6 col-6">Tree Canada</div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>&nbsp;
+                                                                <i class="bi bi-star"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <hr class="hr" />
+                                                        <div class="row">
+                                                            <div class="d-flex">
+                                                            <div><img src="/Images/CI Platform Assets/achieved.png" style="height:20px; width:20px" />&nbsp;&nbsp;</div>
+                                                              <div><div class="progress">
+                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        </div>
+                                                                    8000 achieved</div>
+                                                                </div>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-outline-warning">Apply</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                </div>
+                        </div>
+                        </footer>
+                        </div>
+                    <div class="container">
+                          <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                                <ul class="col-lg-6 col-md-6 list-unstyled d-flex nav">
+                                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Privacy Policy</a></li>
+                                    </ul>
+                           </footer>
+                    </div>
+                    <script>
+                    function currentDiv(n) {
+                      showDivs(slideIndex = n);
+                    }
+
+                    function showDivs(n) {
+                      var i;
+                      var x = document.getElementsByClassName("mySlides");
+                      var dots = document.getElementsByClassName("demo");
+                      if (n > x.length) {slideIndex = 1}
+                      if (n < 1) {slideIndex = x.length}
+                      for (i = 0; i < x.length; i++) {
+                        x[i].style.display = "none";
+                      }
+                      for (i = 0; i < dots.length; i++) {
+                        dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+                      }
+                      x[slideIndex-1].style.display = "block";
+                      dots[slideIndex-1].className += " w3-opacity-off";
+                    }
+                    </script>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+                                    crossorigin="anonymous"></script>
+
+}
