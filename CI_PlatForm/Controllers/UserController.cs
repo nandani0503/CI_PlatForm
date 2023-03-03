@@ -12,9 +12,7 @@ namespace CI_PlatForm.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration configuration;
 
-        /*private readonly CiplatformContext _db;*/
 
-        /* private readonly IUserRepository aunthenticationManager;*/
 
         private readonly IUserRepository _UserRepository;
         public UserController(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IConfiguration _configuration)
@@ -22,8 +20,7 @@ namespace CI_PlatForm.Controllers
             _UserRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
             configuration = _configuration;
-            /*_db = db;*/
-            /* this.aunthenticationManager = authenticationManager;  */
+         
         }
 
         public IActionResult UserList()
@@ -41,7 +38,7 @@ namespace CI_PlatForm.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(User objLogin)
         {
-            /*if (_db.Users.Any(u => u.Email == objLogin.Email && u.Password == objLogin.Password))*/
+            
 
             var objUser = _UserRepository.UserList().Exists(u => u.Email == objLogin.Email && u.Password == objLogin.Password);
 
@@ -76,24 +73,6 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }
-        /* [HttpPost("authenticate")]
-
-
-         [ValidateAntiForgeryToken]
-         public IActionResult FP(User objreset)
-         {
-             _UserRepository.FP(objreset);
-             return (RedirectToAction("Reset", "User"));
-         }
-         [HttpPost("authenticate")]
-         public IActionResult Authenticate([FromBody] User user)
-         {
-             var token = aunthenticationManager.Authenticate(User.Email);
-             if (token == null)
-                 return Unauthorized();
-             return Ok(token);
-         }
-         */
         [HttpPost]
         public IActionResult ValidateForgotDetails(ForgotPassword fpm)
         {
@@ -108,7 +87,7 @@ namespace CI_PlatForm.Controllers
                     MailHelper mailHelper = new MailHelper(configuration);
                     ViewBag.sendMail = mailHelper.Send(fpm.email, welcomeMessage + path);
                     ModelState.Clear();
-                    return RedirectToAction("Index", new { UserId = UserId });
+                    return RedirectToAction("Reset", new { UserId = UserId });
                 }
                 catch (Exception ex)
                 {
@@ -121,7 +100,7 @@ namespace CI_PlatForm.Controllers
                 ViewBag.isForgetPasswordOpen = true;
                 return View("ForgotPassword");
             }
-            return View("Index");
+            return View("Reset");
          }
         [HttpGet]
         public IActionResult Reset(long id)

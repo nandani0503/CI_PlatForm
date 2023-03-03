@@ -16,9 +16,9 @@ public partial class User
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;
-    [NotMapped] // Does not affect the database
+    [NotMapped]
     [Compare("Password")]
-    public string ConfirmPassword { get; set; }
+    public string ConfirmPassword { get; set; } = null!;
 
     public int PhoneNumber { get; set; }
 
@@ -30,9 +30,9 @@ public partial class User
 
     public string? Department { get; set; }
 
-    public long CityId { get { return 1; } set { this.CityId = 1; } }
+    public long? CityId { get; set; }
 
-    public long CountryId { get{ return 1; } set { this.CityId = 1; } }
+    public long? CountryId { get; set; }
 
     public string? ProfileText { get; set; }
 
@@ -50,7 +50,7 @@ public partial class User
 
     public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
 
-    public virtual Country Country { get; set; } = null!;
+    public virtual Country? Country { get; set; }
 
     public virtual ICollection<FavoriteMission> FavoriteMissions { get; } = new List<FavoriteMission>();
 

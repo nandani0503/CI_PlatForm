@@ -24,8 +24,6 @@ namespace CI_Platform.Repository.Interface
 
         public Boolean ChangePassword(long UserId, Reset_Password model);
 
-        /*public void FP(User objreset);*/
-        /*public string Authenticate(string Email);*/
     }
 
 }

@@ -16,12 +16,12 @@ namespace CI_Platform.Repository.Repositories
     public class UserRepository : IUserRepository
     {
         public readonly CiplatformContext _CiplatformDbContext;
-        /*private readonly string pwd;*/
+       
 
         public UserRepository(CiplatformContext ciplatformDbContext/*, string pwd*/)
         {
             _CiplatformDbContext = ciplatformDbContext;
-            /* this.pwd = pwd;*/
+           
         }
         public List<User> UserList()
         {

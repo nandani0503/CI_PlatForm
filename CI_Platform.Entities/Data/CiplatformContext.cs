@@ -865,7 +865,6 @@ public partial class CiplatformContext : DbContext
 
             entity.HasOne(d => d.Country).WithMany(p => p.Users)
                 .HasForeignKey(d => d.CountryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_user_country");
         });
 
