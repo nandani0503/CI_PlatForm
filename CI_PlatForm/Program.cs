@@ -4,7 +4,7 @@ using CI_Platform.Entities.Data;
 using CI_Platform.Repository.Interface;
 using CI_Platform.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Session;
 var builder = WebApplication.CreateBuilder(args);
 /*builder.Services.AddDbContext<CiplatformContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/
@@ -15,16 +15,18 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<CiplatformContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+   
 }
 
 app.UseHttpsRedirection();
@@ -35,6 +37,7 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

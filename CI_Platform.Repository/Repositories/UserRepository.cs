@@ -16,12 +16,12 @@ namespace CI_Platform.Repository.Repositories
     public class UserRepository : IUserRepository
     {
         public readonly CiplatformContext _CiplatformDbContext;
-       
+    
 
-        public UserRepository(CiplatformContext ciplatformDbContext/*, string pwd*/)
+        public UserRepository(CiplatformContext ciplatformDbContext)
         {
             _CiplatformDbContext = ciplatformDbContext;
-           
+         
         }
         public List<User> UserList()
         {
@@ -56,11 +56,13 @@ namespace CI_Platform.Repository.Repositories
             }
         }
         public void Registration(User objUser)
-        {
-            _CiplatformDbContext.Users.Add(objUser);
-            _CiplatformDbContext.SaveChanges();
-        }
-
+        
+            
+            {
+                _CiplatformDbContext.Users.Add(objUser);
+                _CiplatformDbContext.SaveChanges();
+            }
+        
 
         public bool ResetPassword(long userId, string OldPassword, string NewPassword)
         {
@@ -121,6 +123,7 @@ namespace CI_Platform.Repository.Repositories
                 return null;
             }
         }
+        
 
 
 

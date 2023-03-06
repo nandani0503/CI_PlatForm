@@ -1,26 +1,28 @@
 ﻿
+using CI_Platform.Entities.Data;
 using CI_Platform.Entities.Models;
 using CI_Platform.Entities.ViewModel;
 using CI_Platform.Repository.Interface;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CI_PlatForm.Controllers
 {
     public class UserController : Controller
     {
-        
+        public readonly CiplatformContext _db;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration configuration;
 
 
 
         private readonly IUserRepository _UserRepository;
-        public UserController(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IConfiguration _configuration)
+        public UserController(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IConfiguration _configuration,CiplatformContext db)
         {
             _UserRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
             configuration = _configuration;
-         
+            _db = db;
         }
 
         public IActionResult UserList()
@@ -28,22 +30,25 @@ namespace CI_PlatForm.Controllers
             var listOfUsers = _UserRepository.UserList();
             return View(listOfUsers);
         }
-        
+
         public IActionResult Index()
         {
-           return View();
+            
+        
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(User objLogin)
         {
-            
 
-            var objUser = _UserRepository.UserList().Exists(u => u.Email == objLogin.Email && u.Password == objLogin.Password);
 
-            if (objUser == true)
+            var objUser = _db.Users.FirstOrDefault(u => u.Email == objLogin.Email && u.Password == objLogin.Password);
+
+            if (objUser != null)
             {
+               HttpContext.Session.SetString("username",objUser.FirstName+" "+objUser.LastName);
                 return RedirectToAction("PlatformLanding", "Home");
             }
             {
@@ -52,15 +57,24 @@ namespace CI_PlatForm.Controllers
             return View();
 
         }
-        
+
         public IActionResult Registration()
         {
+           
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Registration(User objUser)
         {
+            
+            
+            var objReg = _UserRepository.UserList().Exists(u => u.Email.Equals(objUser.Email)); 
+            if(objReg == true)
+            {
+                return View();
+            }
+
             if (objUser.Password == objUser.ConfirmPassword)
             {
                 _UserRepository.Registration(objUser);
@@ -68,6 +82,7 @@ namespace CI_PlatForm.Controllers
             }
             return RedirectToAction("Registration", "User");
         }
+    
 
         public IActionResult ForgotPassword()
         {

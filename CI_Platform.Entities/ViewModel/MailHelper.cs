@@ -37,7 +37,7 @@ namespace CI_Platform.Entities.ViewModel
                         Credentials = new NetworkCredential(username, password)
                     };
 
-                    var mailMessage = new MailMessage("pnandani05@gmail.com", to);
+                    var mailMessage = new MailMessage("dummye754@gmail.com", to);
                     mailMessage.Subject = "Forget Password";
                     mailMessage.Body = content;
                     mailMessage.IsBodyHtml = true;

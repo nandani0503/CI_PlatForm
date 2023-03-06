@@ -29,6 +29,7 @@ namespace CI_PlatForm.Controllers
         }
         public IActionResult PlatformLanding()
         {
+            ViewBag.sessionv = HttpContext.Session.GetString("username");
             return View();
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
