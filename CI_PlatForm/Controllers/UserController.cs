@@ -30,12 +30,10 @@ namespace CI_PlatForm.Controllers
             var listOfUsers = _UserRepository.UserList();
             return View(listOfUsers);
         }
-
+        //---------------------------------Login control---------------------------------------------------------//
         public IActionResult Index()
         {
-            
-        
-            return View();
+           return View();
         }
 
         [HttpPost]
@@ -49,15 +47,15 @@ namespace CI_PlatForm.Controllers
             if (objUser != null)
             {
                HttpContext.Session.SetString("username",objUser.FirstName+" "+objUser.LastName);
-                return RedirectToAction("PlatformLanding", "Home");
+                return RedirectToAction("PlatformLanding", "Mission");
             }
-            {
+           else {
                 return NotFound("User not Found");
             }
             return View();
 
         }
-
+  //-----------------------------------------------------------------------------Registration Control------------------------------------------------//
         public IActionResult Registration()
         {
            
@@ -78,12 +76,12 @@ namespace CI_PlatForm.Controllers
             if (objUser.Password == objUser.ConfirmPassword)
             {
                 _UserRepository.Registration(objUser);
-                return (RedirectToAction("PlatformLanding", "User"));
+               /* return (RedirectToAction("Index", "User"));*/
             }
-            return RedirectToAction("Registration", "User");
+            return RedirectToAction("Index", "User");
         }
     
-
+        //---------------------------------------------------------Forgot Password control-----------------------------------------------------------------//
         public IActionResult ForgotPassword()
         {
             return View();
@@ -117,6 +115,8 @@ namespace CI_PlatForm.Controllers
             }
             return View("Index");
          }
+
+    //----------------------------------------------------Reset password control-------------------------------------------------------------------//
         [HttpGet]
         public IActionResult Reset(long id)
         {

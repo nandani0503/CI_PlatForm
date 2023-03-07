@@ -1,4 +1,7 @@
-﻿@*
+﻿@model CI_Platform.Entities.Models.Country
+
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -12,13 +15,12 @@
                                         aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
-                                    <img src="/Images/CI Platform Assets/logo.png" alt="error" width="70"
-                                        height="25">
+                                 
                                 </a>
 
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li class="nav-item dropdown">
+                                        @*<li class="nav-item dropdown">
                                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Explore
                                                 <img src="/Images/CI Platform Assets/drop-down.png"
@@ -29,13 +31,13 @@
                                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                                             </ul>
-                                        </li>
+                                        </li>*@
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Stories</a>
                                         </li>
-                                        <li class="nav-item">
+                                        @*<li class="nav-item">
                                             <a class="nav-link" href="#">News</a>
-                                        </li>
+                                        </li>*@
                                         <li class="nav-item dropdown">
                                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Policy
@@ -105,55 +107,41 @@
                             <div class="col-lg-6 col-12 ">
                                     <div class="row ">
                                     <div class="col-lg-3 col-3">
-                    
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Country
-                                            <img src="/Images/CI Platform Assets/drop-down.png"
-                                                alt="Profile-dropdown" />
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
-                    
+                    <select id="CountryId" onchange="GetCity()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
+                                        <option selected>Country</option>
+                                        @foreach (var obj in @ViewBag.countries)
+                                        {
+                                        <option value="@obj.CountryId">@obj.Name</option>
+                                        }
+                                        </select>
                                     </div>
                     
                                     <div class="col-lg-3 col-3">
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            City
-                                            <img src="/Images/CI Platform Assets/drop-down.png"
-                                                alt="Profile-dropdown" />
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
+                                         <select id="CityId" onchange="GetCity()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
+                                        <option selected>City</option>
+                                        @foreach (var obj in @ViewBag.cities)
+                                        {
+                                        <option value="@obj.CityId">@obj.Name</option>
+                                        }
+                                        </select>
                                     </div>
                                     <div class="col-lg-3 col-3">
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Theme
-                                            <img src="/Images/CI Platform Assets/drop-down.png"
-                                                alt="Profile-dropdown" />
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
+                                         <select id="MissionThemeId" onchange="GetCity()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
+                                        <option selected>Theme</option>
+                                        @foreach (var obj in @ViewBag.missionthemes)
+                                        {
+                                        <option value="@obj.MissionThemeId">@obj.Title</option>
+                                        }
+                                        </select>
                                     </div>
                                     <div class="col-lg-3 col-3">
-                                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Skills
-                                            <img src="/Images/CI Platform Assets/drop-down.png"
-                                                alt="Profile-dropdown" />
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        </ul>
+                                        <select id="skillId" onchange="GetCity()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
+                                        <option selected>Skill</option>
+                                        @foreach (var obj in @ViewBag.skills)
+                                        {
+                                        <option value="@obj.SkillId">@obj.SkillName</option>
+                                        }
+                                        </select>
                                     </div>
                     
                                 </div>

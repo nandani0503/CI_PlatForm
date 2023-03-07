@@ -6,16 +6,20 @@ namespace CI_PlatForm.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+       /* private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-        }
+        }*/
 
        
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult MissionNotFound()
         {
             return View();
         }
@@ -27,11 +31,7 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }
-        public IActionResult PlatformLanding()
-        {
-            ViewBag.sessionv = HttpContext.Session.GetString("username");
-            return View();
-        }
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
