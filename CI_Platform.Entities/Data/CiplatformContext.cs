@@ -63,6 +63,7 @@ public partial class CiplatformContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserSkill> UserSkills { get; set; }
+   
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -147,7 +148,7 @@ public partial class CiplatformContext : DbContext
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.CityName)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("name");
@@ -249,7 +250,7 @@ public partial class CiplatformContext : DbContext
                 .HasMaxLength(16)
                 .IsUnicode(false)
                 .HasColumnName("ISO");
-            entity.Property(e => e.Name)
+            entity.Property(e => e.CountryName)
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("name");

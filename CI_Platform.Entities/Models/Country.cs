@@ -7,7 +7,7 @@ public partial class Country
 {
     public long CountryId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string CountryName { get; set; } = null!;
 
     public string? Iso { get; set; }
 

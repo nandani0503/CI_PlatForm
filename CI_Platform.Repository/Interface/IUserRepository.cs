@@ -20,11 +20,12 @@ namespace CI_Platform.Repository.Interface
 
         public long GetUserID(string Email);
 
-        public List<Country> CountryList();
+       /* public List<Country> CountryList();
         public List<City> CityList();
         public List<MissionTheme> MissionThemeList();
 
-        public List<Skill> SkillList();
+        public List<Skill> SkillList();*/
+       
 
         public bool ResetPassword(long userId, string OldPassword, string NewPassword);
 

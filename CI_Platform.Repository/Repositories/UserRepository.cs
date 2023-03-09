@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace CI_Platform.Repository.Repositories
 {
     public class UserRepository : IUserRepository
@@ -28,7 +29,7 @@ namespace CI_Platform.Repository.Repositories
             List<User> objUserList = _CiplatformDbContext.Users.ToList();
             return objUserList;
         }
-        public List<Country> CountryList()
+      /*  public List<Country> CountryList()
         {
             List<Country> objCountryList = _CiplatformDbContext.Countries.ToList();
             return objCountryList;
@@ -48,6 +49,7 @@ namespace CI_Platform.Repository.Repositories
             List<Skill> objSkillList = _CiplatformDbContext.Skills.ToList();
             return objSkillList;
         }
+       */
         public Boolean IsEmailAvailable(string email)
         {
             return _CiplatformDbContext.Users.Any(x => x.Email == email);
