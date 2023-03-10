@@ -35,8 +35,14 @@ namespace CI_PlatForm.Controllers
                 cardDetails.Theme = _MissionRepository.getThemeTitle(allDetailsCard.ThemeId);
                 cardDetails.Title = allDetailsCard.Title;
                 cardDetails.MissionId = allDetailsCard.MissionId;
-
-
+                cardDetails.CityName = _MissionRepository.getCity(allDetailsCard.CityId);
+                cardDetails.ShortDescription = allDetailsCard.ShortDescription;
+                cardDetails.OrganizationName = allDetailsCard.OrganizationName;
+                cardDetails.StartDate = allDetailsCard.StartDate;
+                cardDetails.EndDate = allDetailsCard.EndDate;
+                cardDetails.MediaName = _MissionRepository.getMediaName(allDetailsCard.MissionId);
+               cardDetails.Rating = _MissionRepository.getMissionRating(allDetailsCard.MissionId);
+                
                 missionAllDetails.Add(cardDetails);
             }
 

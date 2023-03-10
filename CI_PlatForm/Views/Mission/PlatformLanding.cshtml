@@ -122,7 +122,7 @@
                                         <option selected>City</option>
                                         @foreach (var obj in @ViewBag.cities)
                                         {
-                                        <option value="@obj.CityId" id="citySelector">@obj.CityName</option>
+                                        <option value="@obj.CityId" id="citySelector">@obj.Name</option>
                                         }
                                         </select>
                                     </div>
@@ -218,13 +218,17 @@
                     <div class="container pt-3">
                         <div class="gridItem">
                         <div class="row">
-                            <div class="col-lg-4 col-md-6 col-12">
+              
+                
+                    @foreach(var objcard in @ViewBag.cardDetail)
+                    {
+                         <div class="col-lg-4 col-md-6 col-12">
                                                 <div class="card">
                                                     <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="position-relative container-fluid" />
+                                                         <img src="/Images/CI Platform Assets/@objcard.MediaName" class="position-relative container-fluid" />
                                                     <div class="card-img-overlay d-flex flex-column align-items-end">
                                                           <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
+                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
                                                           </div>
                                                           <div>
                                                               <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
@@ -234,23 +238,29 @@
                                                          </div>
                                                     </div>
                                                     <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                        <div class="rounded-pill bg-light position-absolute text-center p-2 small">Environment</div>
+                                                        <div class="rounded-pill bg-light position-absolute text-center p-2 small" id="@objcard.MissionId">@objcard.Theme</div>
                                                     </div>
                                                 </div>
                                                     <div class="card-body">
-                                                        <h3 class="card-title">Grow Trees - On the path to enviornment sustainability</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
+                                                        <h3 class="card-title"> @objcard.Title </h3>
+                                                        <p class="card-text"> @objcard.ShortDescription</p>
                                                         <div class="row">
 
-                                                            <div class="col-lg-6 col-md-6 col-6 small">Tree Canada</div>
+                                                            <div class="col-lg-6 col-md-6 col-6 small"> @objcard.OrganizationName</div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
+                                                                @if (true)
+                                         {
+                                           for (var i = 0; i < (@objcard.Rating); i++)
+                                                {
+                                                    <i class="bi bi-star-fill checked"></i>
+                                                }  
+                                           for (var i = 0; i < 5 - (@objcard.Rating); i++)
+                                                 {
+                                                    <i class="bi bi-star"></i>
+                                                 }       
+                                         }
                                                             </div>
+                                                         
 
                                                         </div>
                                                         <div class="row py-4">
@@ -269,7 +279,7 @@
                                                             </div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
                                                                 <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">09/01/2019
+                                                                <div class="small">@objcard.EndDate.ToString("dd/MM/yyyy")
                                                                     <div class="small">Deadline</div>
                                                                 </div>
                                                             </div>
@@ -281,607 +291,29 @@
                                                             <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
                                                         </div>
                                                     </div>
-                                                    
+                                                     </div>
                                                 </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" class="position-relative container-fluid" />
-                                                      
-                                                          <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                       <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Children</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Education Supplies for Every Pair of Shoes Sold</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
+                                                }
+                                         
+                                                
+                                            
 
-                                                            <div class="col-lg-6 col-md-6 col-6 small">Australian Paradise</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From 10/01/2019 until 25/02/2019</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">250
-                                                                            <div class="small">Already Volunteered</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">09/01/2019
-                                                                    <div class="small">Deadline</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Nourish-the-Children-in--African-country-1.png" class="position-relative container-fluid" />
-                                                            <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Nutrition</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Nourish the Children in African country</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">The Hunger</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">Ongoing Opportunity</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">10
-                                                                            <div class="small">Seats left</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">09/01/2019
-                                                                    <div class="small">Deadline</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-1.png" class="position-relative container-fluid" />
-                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Environment</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">CSR initiative stands for Coffee and Farmer Equity</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">CSE Network</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">Ongoing Opportunity</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">250
-                                                                            <div class="small">Already volunteered</div>
-                                                                        </div>
-                                                            </div>
-                                                            
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png" class="position-relative container-fluid" />
-                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Nutrition</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Animal welfare & save birds campaign</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">JR Foundation</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">Plant 10,000 Trees</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">10
-                                                                            <div class="small">Seats left</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><img src="/Images/CI Platform Assets/achieved.png" alt="" style="height:20px;width:20px">&nbsp;&nbsp;</div>
-                                                                <div><div class="progress">
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                        </div>
-                                                                    <div class="small">8000 achieved</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Plantation-and-Afforestation-programme-1.png" class="position-relative container-fluid" />
-                                                            <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Health</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Plantation and Afforestation programme</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">Amaze Doctors</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">Plant 10,000 Trees</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-12 col-md-12 col-12 d-flex">
-                                                                <div><img src="/Images/CI Platform Assets/achieved.png" alt="" style="height:20px;width:20px">&nbsp;&nbsp;</div>
-                                                                <div><div class="progress">
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                        </div>
-                                                                    <div class="small">8000 achieved</div>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png" class="position-relative container-fluid" />
-                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Environment</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Grow Trees - On the path to enviornment sustainability</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">Tree Canada</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <hr />
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill">View Detail</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" class="position-relative container-fluid" />
-                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Children</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Education Supplies for Every Pair of Shoes Sold</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">Australian Paradise</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From 10/01/2019 until 25/02/2019</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">250
-                                                                            <div class="small">Already Volunteered</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">09/01/2019
-                                                                    <div class="small">Deadline</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
-                            <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/Nourish-the-Children-in--African-country-1.png" class="position-relative container-fluid" />
-                                                            <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                      
-                                                              <div class="rounded-pill bg-light position-absolute text-center p-2 small">Nutrition</div>
-                                                        
-                                                          </div>
-                                                          </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title">Nourish the Children in African country</h3>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small">The Hunger</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>&nbsp;
-                                                                <i class="bi bi-star"></i>
-                                                            </div>
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">Ongoing Opportunity</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">10
-                                                                            <div class="small">Seats left</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">09/01/2019
-                                                                    <div class="small">Deadline</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>
-                                                </div>
                                                 </div>
                                                 </div>
                             <div class="listItem">
                                         
-                                         <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class=" col-lg-4 col-md-4">
-                                                        <img src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                        <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>  
-                                      
+                          
+                                      @foreach(var objcard in @ViewBag.cardDetail){
                                         <div class="container py-2">
                                             <div class="card">
                                                 <div class="row">
                                                     <div class="col-lg-4 col-md-4">
                                                        <div class="card h-100">
-                                                       <img src="/Images/CI Platform Assets/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png" class="card-img-top h-100 position-relative" alt="...">
+                                                       <img src="/Images/CI Platform Assets/@objcard.MediaName" class="card-img-top h-100 position-relative" alt="...">
                                                        
                                                         <div class="card-img-overlay d-flex flex-column align-items-end">
                                                           <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
+                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
                                                           </div>
                                                           <div>
                                                               <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
@@ -893,21 +325,25 @@
                                                     </div>
                                                     </div>
                                                     <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
+                                                        <h5 class="Card Title"> @objcard.Title</h5>
+                                                        <p class="card-text">@objcard.ShortDescription</p>
                                                         <div class="row text-muted small">
                                                         <div class=" col-lg-6  col-md-6 col-6">
                                                         <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
+                                                        @objcard.OrganizationName</div>
+                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                         @if (true)
+                                                             {
+                                                               for (var i = 0; i < (@objcard.Rating); i++)
+                                                                    {
+                                                                        <i class="bi bi-star-fill checked"></i>
+                                                                    }  
+                                                               for (var i = 0; i < 5 - (@objcard.Rating); i++)
+                                                                     {
                                                                         <i class="bi bi-star"></i>
-                                                                    </div></div>
+                                                                     }       
+                                                             }
+                                                             </div>
                                                                     <div>
                                                                     <div class="mt-3">
                                                                     <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
@@ -915,7 +351,7 @@
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-6">
                                                         <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
+                                                        From @objcard.StartDate.ToString("dd/MM/yyyy") until @objcard.EndDate.ToString("dd/MM/yyyy")</div>
                                                         <div class="row">
                                                         <div class="cols-lg-6 col-md-6 col-6">
                                                         <div class="d-flex">
@@ -929,7 +365,7 @@
                                                         <div class="col-lg-6 col-md-6 col-12">
                                                                      <div class="d-flex">
                                                                         <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
+                                                                        <div>@objcard.EndDate.ToString("dd/MM/yyyy")
                                                                             <div>Deadline</div>
                                                                         </div>
                                                                     </div>
@@ -941,484 +377,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Nourish-the-Children-in--African-country-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div>
-                                                     </div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/CSR-initiative-stands-for-Coffee--and-Farmer-Equity-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Plantation-and-Afforestation-programme-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Education-Supplies-for-Every--Pair-of-Shoes-Sold-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                                             <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                        <img
-                                                                src="/Images/CI Platform Assets/Nourish-the-Children-in--African-country-1.png"
-                                                                class="card-img-top h-100" alt="...">
-                                                        <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                        </div></div>
-                                                    
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title">Grow Trees - On the path to enviornment sustainability</h5>
-                                                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolor
-                                                            aliquid distinctio, excepturi veritatis repudiandae.</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        Tree Canada</div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>&nbsp;
-                                                                        <i class="bi bi-star"></i>
-                                                                    </div></div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From 10/01/2019 until 25/02/2019</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>09/01/2019
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                    }
+                                       
+                               
+                                       
                                     
                                         
                                     

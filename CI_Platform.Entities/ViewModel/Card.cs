@@ -10,13 +10,13 @@ namespace CI_Platform.Entities.ViewModel
     {
         public long CityId { get; set; }
 
-    
+        public string? Theme { get; set; }
         public string CityName { get; set; } = null!;
        
         public long MissionId { get; set; }
      
         public string? Title { get; set; }
-        public string Image { get; set; } = null!;
+        public string? MediaName { get; set; }
         public string? ShortDescription { get; set; }
         public int Rating { get; set; }
 
@@ -28,7 +28,7 @@ namespace CI_Platform.Entities.ViewModel
         public int GoalValue { get; set; }
         public string? GoalObjectiveText { get; set; }
         public int? TotalSeat { get; set; }
-
+        /*public string? MediaPath { get; set; }*/
         public DateTime? Deadline { get; set; }
 
 

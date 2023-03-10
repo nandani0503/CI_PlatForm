@@ -44,18 +44,34 @@ namespace CI_Platform.Repository.Repositories
             List<Mission> missionDetail = _CiplatformDbContext.Missions.ToList();
             return missionDetail;
         }
-
+        public string getCity(long CityID)
+        {
+            var CityName = _CiplatformDbContext.Cities.FirstOrDefault(u => u.CityId == CityID);
+            return CityName.Name;
+        }
 
         public string getThemeTitle(long themeID)
         {
             var theme = _CiplatformDbContext.MissionThemes.FirstOrDefault(u => u.MissionThemeId == themeID);
             return theme.Title;
         }
-        public string getCountry(long CountryID)
+        public string getMediaName(long missionID)
+        {
+            var imagePath = _CiplatformDbContext.MissionMedia.FirstOrDefault(u => u.MissionId == missionID);
+            return imagePath.MediaName;
+        }
+     
+        public int getMissionRating(long missionId)
+        {
+            var rating = _CiplatformDbContext.MissionRatings.FirstOrDefault(u => u.MissionId == missionId);
+            return rating.Rating;
+        }
+      
+        /*public string getCountry(long CountryID)
         {
             var CountryName = _CiplatformDbContext.Countries.FirstOrDefault(u => u.CountryId == CountryID);
             return CountryName.CountryName;
-        }
+        }*/
 
     }
 }
