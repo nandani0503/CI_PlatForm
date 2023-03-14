@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+     @foreach(var objcard in @ViewBag.cardDetail)
+                                              {
+                                               <div class="col-lg-4 col-md-6 col-12">
+                                                <div class="card">
+                                                    <div class="card">
+                                                         <img src="/Images/CI Platform Assets/@objcard.MediaName" class="position-relative container-fluid" />
+                                                    <div class="card-img-overlay d-flex flex-column align-items-end">
+                                                          <div>
+                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
+                                                          </div>
+                                                          <div>
+                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
+                                                         </div>
+                                                         <div>
+                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
+                                                         </div>
+                                                    </div>
+                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
+                                                        <div class="rounded-pill bg-light position-absolute text-center p-2 small" id="@objcard.MissionId">@objcard.Theme</div>
+                                                    </div>
+                                                </div>
+                                                    <div class="card-body">
+                                                        <h3 class="card-title"> @objcard.Title </h3>
+                                                        <p class="card-text"> @objcard.ShortDescription</p>
+                                                        <div class="row">
+
+                                                            <div class="col-lg-6 col-md-6 col-6 small"> @objcard.OrganizationName</div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                @if (true)
+                                                                 {
+                                                                   for (var i = 0; i < (@objcard.Rating); i++)
+                                                                        {
+                                                                            <i class="bi bi-star-fill checked"></i>
+                                                                        }  
+                                                                   for (var i = 0; i < 5 - (@objcard.Rating); i++)
+                                                                         {
+                                                                            <i class="bi bi-star"></i>
+                                                                         }       
+                                                                 }
+                                                            </div>
+                                                         
+
+                                                        </div>
+                                                        <div class="row py-4">
+                                                            <div class="border-bottom border-top ">
+                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
+                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From 10/01/2019 until 25/02/2019</div>
+                                                              </div>
+                                                               
+                                                                   <div class="row pt-4 pb-3">
+                                                            
+                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                        <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
+                                                                        <div class="small">10
+                                                                            <div class="small">Seats left</div>
+                                                                        </div>
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
+                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
+                                                                <div class="small">@objcard.EndDate.ToString("dd/MM/yyyy")
+                                                                    <div class="small">Deadline</div>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
+                                                        </div>
+                                                    </div>
+                                                     </div>
+                                                </div>
+                                              }
+}
