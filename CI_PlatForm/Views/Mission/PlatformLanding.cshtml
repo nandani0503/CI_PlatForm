@@ -5,103 +5,17 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-     <div class="container d-flex">
-          <nav class="navbar navbar-expand-lg py-1">
-                <div class="container">
-
-                                <a class="navbar-brand" href="#">
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                        aria-expanded="false" aria-label="Toggle navigation">
-                                        <span class="navbar-toggler-icon"></span>
-                                    </button>
-                                 
-                                </a>
-
-                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        @*<li class="nav-item dropdown">
-                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Explore
-                                                <img src="/Images/CI Platform Assets/drop-down.png"
-                                                    alt="Profile-dropdown" />
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
-                                        </li>*@
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Stories</a>
-                                        </li>
-                                        @*<li class="nav-item">
-                                            <a class="nav-link" href="#">News</a>
-                                        </li>*@
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Policy
-                                                <img src="/Images/CI Platform Assets/drop-down.png"
-                                                    alt="Profile-dropdown" />
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                      <div class="container">
-                      <nav class="navbar navbar-expand-lg py-1 position-absolute top-0 end-0" style="margin-right: 25px;margin-top: 9px;">
-                            <div class="nav-item d-flex">
-                                <form>
-                                    <div class="form-group">
-                                        <i class="bi bi-search" id="search" href="#"></i>
-                                        &nbsp;&nbsp;&nbsp;
-                                    </div>
-                                </form>
-                                <div class="nav-item dropdown">
-
-                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-bell py-1"></i> &nbsp;&nbsp;&nbsp;
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
-                                <div class="nav-item dropdown">
-
-                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <img src="/Images/CI Platform Assets/user-img.png"
-                                            alt="Error" height="25" width="25" style="border-radius: 15px;">
-                                        <span id="profile">@ViewBag.sessionValue</span>
-                                        <img src="/Images/CI Platform Assets/drop-down.png"
-                                            alt="Profile-dropdown" id="Profile-dropdown" />
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </nav>
-                        </div>
-                      </div>
+   
+                      @Html.Partial("_TopNav")
                      
                         <hr />
-                        <div class="container">
+                       @* <div class="container">
                         <div class="row py-0">
                             <div class="col-lg-6 col-12">
                     
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="inputGroup-sizing-default"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Search Mission...">
+                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="Search Mission..." oninput="searchMission()" name="search">
                                 </div>
                     
                             </div>
@@ -131,22 +45,8 @@
                                 </li>
                             }
                         </ul>
-
-
-
-
-
-                    </div>
-                    
-                                   @* <div class="col-lg-3 col-3">*@
-                                         @*<div class="form-select d-flex align-items-center   hide_border_select h-100 border-0" type="button" id="dropdownMenuButton1"  data-bs-toggle="dropdown" aria-expanded="false">
-                                            City
-                                        </div>
-                                         <ul class="dropdown-menu scroll_dropdown w-100 " id="selectCityList" onchange="searchMission()"  name="city">
-                                         </ul>
-                                    </div>*@
-
-                                   <div class="col-lg-3 col-3">
+                     </div>
+                   <div class="col-lg-3 col-3">
                                     <div class="form-select select-menu border-lg-left border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                         City
                                     </div>
@@ -155,111 +55,60 @@
                                     </div>
                                     
                                     <div class="col-lg-3 col-3">
-                                        <select id="MissionThemeId" onchange="searchMission()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
-                                        <option selected>Theme</option>
-                                        @foreach (var obj in @ViewBag.missionTheme)
-                                        {
-                                        <option value="@obj.MissionThemeId">@obj.Title</option>
-                                        }
-                                        </select>
-                                        
+                                      
+                        <div class="form-select d-flex align-items-center   hide_border_select border-0"
+                             type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Theme
+                        </div>
+
+                        <ul class="dropdown-menu scroll_dropdown " onchange="searchMission();">
+
+                            @foreach (var obj in @ViewBag.missionTheme)
+                            {
+                                <li>
+                                    <div class="form-check dropdown-item px-2">
+                                        <input class="form-check-input mx-auto" type="checkbox" name="theme"
+                                           id="@obj.MissionThemeId" />
+                                        <label class="form-check-label ps-2" for="@obj.MissionThemeId">
+                                            @obj.Title
+                                        </label>
                                     </div>
-                                    <div class="col-lg-3 col-3">
-                                        <select id="skillId" onchange="searchMission()" class="form-select select-menu border-lg-left border-0" aria-label="Default select example">
-                                        <option selected>Skill</option>
-                                        @foreach (var obj in @ViewBag.SkillList)
-                                        {
-                                        <option value="@obj.SkillId">@obj.SkillName</option>
-                                        }
-                                        </select>
+                                </li>
+                            }
+                        </ul>
+                     </div>
+                   <div class="col-lg-3 col-3">
+                                      
+                          <div class="form-select d-flex align-items-center   hide_border_select border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            Skill
+                           </div>
+
+                           <ul class="dropdown-menu scroll_dropdown " onchange="searchMission();">
+
+                            @foreach (var obj in @ViewBag.skillList)
+                            {
+                                <li>
+                                    <div class="form-check dropdown-item px-2">
+                                        <input class="form-check-input mx-auto" type="checkbox" name="skill"
+                                           id="@obj.SkillId" />
+                                        <label class="form-check-label ps-2" for="@obj.SkillId">
+                                            @obj.SkillName
+                                        </label>
+                                    </div>
+                                </li>
+                            }
+                              </ul>
+                               
+
                                     </div>
                     
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <script>
-                             function searchMission(){
-                                 console.log("search");
-                                 var search = $('input[name="search"]').val();
-                                 var countries =[];
-                                 var cities =[];
-                                 var themes =[];
-                                 var skills =[];
-        
-                                 $('input[name="country"]:checked').each(function(){
-                                     countries.push(this.id);
-                                 });
-                                 $('input[name="city"]:checked').each(function(){
-                                     cities.push(this.value);
-                                 });
-                                 $('input[name="theme"]:checked').each(function(){
-                                     themes.push(this.id);
-                                 });
-                                 $('input[name="skill"]:checked').each(function(){
-                                     skills.push(this.id);
-                                 });
-                                 debugger
-                                 $.ajax({
-                                     url:"/Mission/Search",
-                                     method: "POST",
-                                     data:{
-                                         "search": search,
-                                         "countries": countries,
-                                         "cities": cities,
-                                         "themes": themes,
-                                         "skills": skills
-                                     },
-                                     success:function(data){
-                                        $("#mission").html(data);
-                                     },
-                                     error: function(request,error){
-                 
-                                         console.log(error);
-                                     }
-                                 })
-                             };
+                    </div>*@
 
-
-                             function GetCity()
-        {
-        var countryId= [];
-                                            $('input[name="country"]:checked').each(function(){
-                                            countryId.push(this.id);
-                                            });
-                                            debugger;
-                                            $.ajax({
-                                            url:"/Mission/GetCity",
-                                            method: "Post",
-                                            data: {
-                                            "countryId":countryId
-                                            },
-                                            success:function(data){
-                                            data = JSON.parse(data);
-                                            $("#selectCityList").empty();
-                                            data.forEach((name)=> {
-                                            document.getElementById("selectCityList").innerHTML += `
-
-                                            <li>
-                                            <div class="form-check dropdown-item px-3">
-                                            <input class="form-check-input mx-auto" name="city" type="checkbox" value="${name.Name}"
-                                            id="${name.CityId}" />
-                                            <label class="form-check-label ps-2" for="${name.CityId}">
-                                            ${name.Name}
-                                            </label>
-                                            </div>
-                                            </li>
-        `;
-        })
-        },
-        error: function(request,error){
-        console.log(error);
-        }
-        })
-        }
-                                                                          
-              
-                    </script>
+                    @Html.Partial("_SecondNav")
+                
                     <hr />
                      @*<div class="container">
                      <div class="d-flex">
@@ -298,23 +147,34 @@
                                     */
                                     </script>
                                    </div>*@
-                            <div class="container">
+                                  <div class="container">
                                     
                                         <div class="row">
                                             <div class="col-lg-9 col-md-9 col-6">Explore @ViewBag.totalMission Missions</div>
                                             <div class="col-lg-3 col-md-3 col-6">
 
-                                                <div class="d-flex">
-                                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <div class="d-flex justify-content-end">
+                                                   @* <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         Sort by
                                                         <img src="/Images/CI Platform Assets/drop-down.png"
                                                             alt="Profile-dropdown" />&nbsp;&nbsp;&nbsp;
                                                     </a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                    </ul>
+                                                    @*<ul class="dropdown-menu" name="sortBy">
+                                                       <li><a class="dropdown-item" value="1">Latest First</a></li>
+                                                        <li><a class="dropdown-item" value="2">Oldest First</a></li>
+                                                        <li><a class="dropdown-item" value="3">Sort by Deadline</a></li>
+                                                         <li><a class="dropdown-item" value="4">Sort by available seats</a></li>*@
+                                                           <select aria-label="Default select example" id="sortBy" onchange="searchMission()" class="form-select border-0" style="box-shadow: none;">
+                                                            <option selected>Sort By</option>
+                                                            <option value="1">Latest First</option>
+                                                            <option value="2">Oldest First</option>
+                                                            <option value="3">Sort by Deadline</option>
+                                                            <option value="4">Sort by available Seats</option>
+                                                           @* <option value="5">Highest Available Seats</option>
+                                                            <option value="6">Sort by my Favourite</option>*@
+                                                        </select>
+
+                                                   @* </ul>*@
 
                                                     <i class="d-sm-none d-md-block bi bi-list" id="list"></i>&nbsp;&nbsp;
                                                     <i class="d-sm-none d-md-block bi bi-grid" id="grid"></i>
@@ -330,168 +190,18 @@
                                       <div class="gridItem">
                                                 <div class="row" id="mission">
                                                    @Html.Partial("_gridView")
-                                             @* @foreach(var objcard in @ViewBag.cardDetail)
-                                              {
-                                               <div class="col-lg-4 col-md-6 col-12">
-                                                <div class="card">
-                                                    <div class="card">
-                                                         <img src="/Images/CI Platform Assets/@objcard.MediaName" class="position-relative container-fluid" />
-                                                    <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                    <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                        <div class="rounded-pill bg-light position-absolute text-center p-2 small" id="@objcard.MissionId">@objcard.Theme</div>
-                                                    </div>
-                                                </div>
-                                                    <div class="card-body">
-                                                        <h3 class="card-title"> @objcard.Title </h3>
-                                                        <p class="card-text"> @objcard.ShortDescription</p>
-                                                        <div class="row">
-
-                                                            <div class="col-lg-6 col-md-6 col-6 small"> @objcard.OrganizationName</div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                @if (true)
-                                                                 {
-                                                                   for (var i = 0; i < (@objcard.Rating); i++)
-                                                                        {
-                                                                            <i class="bi bi-star-fill checked"></i>
-                                                                        }  
-                                                                   for (var i = 0; i < 5 - (@objcard.Rating); i++)
-                                                                         {
-                                                                            <i class="bi bi-star"></i>
-                                                                         }       
-                                                                 }
-                                                            </div>
-                                                         
-
-                                                        </div>
-                                                        <div class="row py-4">
-                                                            <div class="border-bottom border-top ">
-                                                                <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From 10/01/2019 until 25/02/2019</div>
-                                                              </div>
-                                                               
-                                                                   <div class="row pt-4 pb-3">
-                                                            
-                                                                    <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                        <div><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div class="small">10
-                                                                            <div class="small">Seats left</div>
-                                                                        </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                                <div><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                <div class="small">@objcard.EndDate.ToString("dd/MM/yyyy")
-                                                                    <div class="small">Deadline</div>
-                                                                </div>
-                                                            </div>
-                                                        
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-center">
-                                                            <button type="button" class="btn btn-outline-warning rounded-pill ">Apply</button>
-                                                        </div>
-                                                    </div>
-                                                     </div>
-                                                </div>
-                                              }*@
+                                    
                                                 </div>
                                              </div>   
-                                      <div class="listItem">
+                                      <div class="listItem" id="missionList">
                                         @Html.Partial("_listView")
                           
-                                      @*@foreach(var objcard in @ViewBag.cardDetail)
-                                      {
-                                        <div class="container py-2">
-                                            <div class="card">
-                                                <div class="row">
-                                                    <div class="col-lg-4 col-md-4">
-                                                       <div class="card h-100">
-                                                       <img src="/Images/CI Platform Assets/@objcard.MediaName" class="card-img-top h-100 position-relative" alt="...">
-                                                       
-                                                       <div class="card-img-overlay d-flex flex-column align-items-end">
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
-                                                          </div>
-                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-heart"></i></button>
-                                                         </div>
-                                                         <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
-                                                    </div>
-                                                   <div class="card img-overlay d-flex align-items-center justify-content-center" >
-                                                        <div class="rounded-pill bg-light position-absolute text-center p-2 small" id="@objcard.MissionId">@objcard.Theme</div>
-                                                    </div>
-                                                 </div>
-                                                </div>
-                                                    <div class="card-body col-lg-8 col-md-8">
-                                                        <h5 class="Card Title"> @objcard.Title</h5>
-                                                        <p class="card-text">@objcard.ShortDescription</p>
-                                                        <div class="row text-muted small">
-                                                        <div class=" col-lg-6  col-md-6 col-6">
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                        @objcard.OrganizationName</div>
-                                                        <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                         @if (true)
-                                                             {
-                                                               for (var i = 0; i < (@objcard.Rating); i++)
-                                                                    {
-                                                                        <i class="bi bi-star-fill checked"></i>
-                                                                    }  
-                                                               for (var i = 0; i < 5 - (@objcard.Rating); i++)
-                                                                     {
-                                                                        <i class="bi bi-star"></i>
-                                                                     }       
-                                                             }
-                                                             </div>
-                                                                    <div>
-                                                                    <div class="mt-3">
-                                                                    <button type="button bg-light" class="btn btn-outline-warning">Apply</button>
-                                                                </div></div>
-                                                        </div>
-                                                        <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From @objcard.StartDate.ToString("dd/MM/yyyy") until @objcard.EndDate.ToString("dd/MM/yyyy")</div>
-                                                        <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
-                                                        <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
-                                                                        </div>
-                                                                        <div>10
-                                                                            <div>Seats left</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
-                                                                        <div>@objcard.EndDate.ToString("dd/MM/yyyy")
-                                                                            <div>Deadline</div>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                   </div>
-                                                                </div>
-                                                               </div>
-                                                              </div>
-                                                             </div>
-                                                            </div>
-                                                           </div>
-                                      }*@
+                                     
                          </div>
-                    </div>
+                     </div>
                    
                     <script>
+                    @*----------------------------list-grid toggle---------------------------------*@
                                     $('.listItem').hide();
                                     $('#grid').click(function () {
                                         $('.gridItem').show();
@@ -501,7 +211,112 @@
                                         $('.listItem').show();
                                         $('.gridItem').hide();
                                     })
-                                    </script>
+                    @*--------------------------City AJAX------------------------------------------*@
+
+
+                    function searchMission(){
+                                 console.log("search");
+                                 var search = $('input[name="search"]').val();
+                                 var countries =[];
+                                 var sort = $('#sortBy').find(":selected").val();
+                                 var cities =[];
+                                 var themes =[];
+                                 var skills =[];
+        
+                                 $('input[name="country"]:checked').each(function(){
+                                     countries.push(this.id);
+                                 });
+                                 $('input[name="city"]:checked').each(function(){
+                                     cities.push(this.id);
+                                 });
+                                 $('input[name="theme"]:checked').each(function(){
+                                     themes.push(this.id);
+                                 });
+                                 $('input[name="skill"]:checked').each(function(){
+                                     skills.push(this.id);
+                                 });
+
+                                 debugger
+                                 $.ajax({
+                                     url:"/Mission/Search",
+                                     method: "POST",
+                                     data:{
+                                         "search": search,
+                                         "countries": countries,
+                                         "cities": cities,
+                                         "themes": themes,
+                                         "skills": skills,
+                                          "sort" : sort
+                                     },
+                                     success:function(data){
+                                        $("#mission").html(data);
+                                     },
+                                     error: function(request,error){
+                 
+                                         console.log(error);
+                                     }
+                                 })
+
+                                 debugger
+                                  $.ajax({
+                                     url:"/Mission/SearchList",
+                                     method: "POST",
+                                     data:{
+                                         "search": search,
+                                         "countries": countries,
+                                         "cities": cities,
+                                         "themes": themes,
+                                         "skills": skills,
+                                          "sort" : sort
+                                     },
+                                     success:function(data){
+                                        $("#missionList").html(data);
+                                     },
+                                     error: function(request,error){
+                 
+                                         console.log(error);
+                                     }
+                                 })
+                             };
+
+
+                             function GetCity()
+                                           {
+                                            var countryId= [];
+                                            $('input[name="country"]:checked').each(function(){
+                                            countryId.push(this.id);
+                                            });
+                                            debugger;
+                                            $.ajax({
+                                            url:"/Mission/GetCity",
+                                            method: "Post",
+                                            data: {
+                                            "countryId":countryId
+                                            },
+                                            success:function(data){
+                                            data = JSON.parse(data);
+                                            $("#selectCityList").empty();
+                                            data.forEach((name)=> {
+                                            document.getElementById("selectCityList").innerHTML += `
+
+                                            <li>
+                                            <div class="form-check dropdown-item px-3">
+                                            <input class="form-check-input mx-auto" name="city" type="checkbox" value="${name.Name}"
+                                            id="${name.CityId}" />
+                                            <label class="form-check-label ps-2" for="${name.CityId}">
+                                            ${name.Name}
+                                            </label>
+                                            </div>
+                                            </li>
+                                             `;
+                                            })
+                                            },
+                                            error: function(request,error){
+                                            console.log(error);
+                                            }
+                                            })
+                                            };
+                                </script>
 
                         <div class = "container py-5">
 
@@ -538,5 +353,16 @@
                     </footer>
                     </div>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+                    <script type="text/javascript" language="javascript">
+                        function DisableBackButton() {
+                            window.history.forward();
+                        }
+                        DisableBackButton();
+                        window.onload = DisableBackButton;
+                        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton(); }
+                        window.onunload = function () { void (0); };
+                    </script>
+                    
+
      
 }

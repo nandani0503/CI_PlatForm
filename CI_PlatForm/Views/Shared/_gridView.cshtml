@@ -3,7 +3,7 @@
 *@
 @{
      @foreach(var objcard in @ViewBag.cardDetail)
-                                              {
+                                            {
                                                <div class="col-lg-4 col-md-6 col-12">
                                                 <div class="card">
                                                     <div class="card">
@@ -48,7 +48,7 @@
                                                         <div class="row py-4">
                                                             <div class="border-bottom border-top ">
                                                                 <div class="row d-flex align-items-center justify-content-center position-relative">
-                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From 10/01/2019 until 25/02/2019</div>
+                                                               <div class="border rounded-pill m-auto p-1 position-absolute small" style="width:fit-content;background-color:white;">From @objcard.StartDate.ToString("dd/MM/yyyy") until @objcard.EndDate.ToString("dd/MM/yyyy")</div>
                                                               </div>
                                                                
                                                                    <div class="row pt-4 pb-3">

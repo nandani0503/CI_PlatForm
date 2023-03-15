@@ -19,14 +19,11 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }
-        public IActionResult MissionNotFound()
+        
+       /* public IActionResult MissionVolunteering()
         {
             return View();
-        }
-        public IActionResult MissionVolunteering()
-        {
-            return View();
-        }
+        }*/
         public IActionResult VolunteeringStory()
         {
             return View();

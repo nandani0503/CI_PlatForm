@@ -21,31 +21,7 @@ namespace CI_Platform.Repository.Repositories
         }
 
 //---------------------Second Nav bar Drop down----------------------------------------------------------------
-        /*public List<Country> CountryList()
-        {
-            List<Country> objCountryList = _CiplatformDbContext.Countries.ToList();
-            return objCountryList;
-        }
-        public List<City> CityList()
-        {
-            List<City> objCityList = _CiplatformDbContext.Cities.ToList();
-            return objCityList;
-        }
-       /*public List<City> GetCityFromCountry(long countryId)
-        {
-            List<City> objCityList = _CiplatformDbContext.Cities.Where(i => i.CountryId == countryId).ToList();
-            return objCityList;
-        }
-        public List<MissionTheme> MissionThemeList()
-        {
-            List<MissionTheme> objMissionThemeList = _CiplatformDbContext.MissionThemes.ToList();
-            return objMissionThemeList;
-        }
-        public List<Skill> SkillList()
-        {
-            List<Skill> objSkillList = _CiplatformDbContext.Skills.ToList();
-            return objSkillList;
-        }*/
+   
         public List<Country> GetCountryData()
         {
             List<Country> objCountryList = _CiplatformDbContext.Countries.ToList();
@@ -67,45 +43,64 @@ namespace CI_Platform.Repository.Repositories
             return skillsList;
         }
 
-        //---------------------------Mission card--------------------------------------------------------------------
+//---------------------------Mission card--------------------------------------------------------------------
         public List<Mission> GetMissionList()
         {
             List<Mission> missionDetail = _CiplatformDbContext.Missions.ToList();
             return missionDetail;
         }
-        public List<Mission> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills)
+        
+        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy)
         {
             List<Mission> mission = new List<Mission>();
 
-            List<Mission> missions = _CiplatformDbContext.Missions.ToList();
+            List<Card> missions = GetMissionCard();
             if (search != "")
             {
-                missions = _CiplatformDbContext.Missions.Where(a => a.Title.Contains(search) || a.OrganizationName.Contains(search)).ToList();
+                missions = missions.Where(a => a.Title.ToLower().Contains(search) || a.OrganizationName.ToLower().Contains(search)).ToList();
 
             }
             if (countries.Length > 0)
             {
 
-                missions = _CiplatformDbContext.Missions.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
+                missions = missions.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
 
             }
             if (cities.Length > 0)
             {
 
-                missions = _CiplatformDbContext.Missions.Where(a => cities.Contains(a.CityId.ToString())).ToList();
+                missions = missions.Where(a => cities.Contains(a.CityId.ToString())).ToList();
 
             }
             if (themes.Length > 0)
             {
 
-                missions = _CiplatformDbContext.Missions.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
+                missions = missions.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
 
             }
             if (skills.Length > 0)
             {
 
-                missions = _CiplatformDbContext.Missions.Where(a => skills.Contains(a.MissionSkills.ToString())).ToList();
+                missions = missions.Where(a => skills.Contains(a.skillId.ToString())).ToList();
 
+            }
+            switch (sortBy)
+            {
+                case 1:
+                    missions = missions.OrderBy(i => i.StartDate).ToList();
+                    break;
+
+                case 2:
+                    missions = missions.OrderByDescending(i => i.StartDate).ToList();
+                    break;
+
+                case 3:
+                    missions = missions.OrderBy(i => i.Deadline).ToList();
+                    break;
+
+                case 4:
+                    missions = missions.OrderBy(i => i.TotalSeat).ToList();
+                    break;
             }
             return missions;
         }
@@ -138,10 +133,10 @@ namespace CI_Platform.Repository.Repositories
             var rating = _CiplatformDbContext.MissionRatings.FirstOrDefault(u => u.MissionId == missionId);
             return rating.Rating;
         }
-        public List<Card> GetMissionCard(List<Mission> missions)
+        public List<Card> GetMissionCard()
         {
             List<Card> missionAllDetails = new List<Card>();
-
+            var missions = _CiplatformDbContext.Missions.ToList();
             foreach (var allDetailsCard in missions)
             {
                 Card cardDetails = new Card();
@@ -152,13 +147,18 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.MissionId = allDetailsCard.MissionId;
                 cardDetails.CityName = getCity(allDetailsCard.CityId);
                 cardDetails.ShortDescription = allDetailsCard.ShortDescription;
+                cardDetails.CityId = allDetailsCard.CityId;
                 cardDetails.OrganizationName = allDetailsCard.OrganizationName;
                 cardDetails.StartDate = allDetailsCard.StartDate;
                 cardDetails.EndDate = allDetailsCard.EndDate;
                 cardDetails.MediaName = getMediaName(allDetailsCard.MissionId);
                 cardDetails.Rating = getMissionRating(allDetailsCard.MissionId);
+                cardDetails.CountryId= allDetailsCard.CountryId;
+                cardDetails.ThemeId=allDetailsCard.ThemeId;
                 /*cardDetails.TotalSeat = allDetailsCard.Avaibility;*/
 
+                var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
+                cardDetails.skillId = missionSkill.MissionSkillId;
                 missionAllDetails.Add(cardDetails);
             }
 

@@ -9,6 +9,8 @@ namespace CI_Platform.Entities.ViewModel
     public class Card
     {
         public long CityId { get; set; }
+        public long CountryId { get; set; }
+        public long ThemeId { get; set; }
 
         public string? Theme { get; set; }
         public string CityName { get; set; } = null!;
@@ -30,6 +32,7 @@ namespace CI_Platform.Entities.ViewModel
         public int? TotalSeat { get; set; }
         /*public string? MediaPath { get; set; }*/
         public DateTime? Deadline { get; set; }
+        public long skillId { get; set; }
 
 
 

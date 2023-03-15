@@ -41,7 +41,7 @@ namespace CI_PlatForm.Controllers
             //-------------------Mission card----------------------------------------------------------
 
 
-            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(missions);
+            List<Card> missionCardDetails = _MissionRepository.GetMissionCard();
 
             ViewBag.CardDetail = missionCardDetails;
             return View();
@@ -57,20 +57,46 @@ namespace CI_PlatForm.Controllers
             return Json(json);
         }
         //--------------------------------------search bar-------------------------------------------
-
-        public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills)
+        [HttpPost]
+        public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort)
         {
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-            List<Mission> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills);
-            List<Card> missionListingList = _MissionRepository.GetMissionCard(missions);
-
-            ViewBag.cardDetail = missionListingList;
-
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort);
+            ViewBag.cardDetail = missions;
+           
+            if (missions == null)
+            {
+                return PartialView("_MissionNotFound");
+            }
+           
             return PartialView("_gridView");
         }
+        public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort)
+        {
+            search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort);
+            ViewBag.cardDetail = missions;
+
+            if (missions == null)
+            {
+                return PartialView("_MissionNotFound");
+            }
+
+            return PartialView("_listView");
+        }
+
+        public IActionResult MissionVolunteering()
+        {
+            return View();
+        }
+        //---------------------Mission not found --------------------------------------------------------------------------------
+
+        /*public IActionResult MissionNotFound()
+        {
+            return View();
+        }*/
     }
-}
-        
+}        
    
         
            /*List<Country> countries = _MissionRepository.CountryList().ToList();
