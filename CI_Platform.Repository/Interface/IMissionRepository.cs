@@ -23,11 +23,16 @@ namespace CI_Platform.Repository.Interface
         public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills,int sortBy);
         public long getTotalMission();
         public List<Card> GetMissionCard();
+   
         public string getThemeTitle(long themeID);
        public string getMediaName(long missionID);
         public string getCity(long CityID);
      
        public int getMissionRating(long missionId);
+
+        //-------------------------------------------Mission Volunteering-----------------------------------------------------------------------
+        public bool addToFavourite(long missionId, long userId);
+      
 
 
     }

@@ -9,7 +9,7 @@ namespace CI_PlatForm.Controllers
     public class MissionController : Controller
     {
 
-        private readonly IMissionRepository _MissionRepository;
+        public readonly IMissionRepository _MissionRepository;
         public MissionController(IMissionRepository MissionRepository)
         {
             _MissionRepository = MissionRepository;
@@ -42,6 +42,7 @@ namespace CI_PlatForm.Controllers
 
 
             List<Card> missionCardDetails = _MissionRepository.GetMissionCard();
+            ViewBag.totalMission = missionCardDetails.Count();
 
             ViewBag.CardDetail = missionCardDetails;
             return View();
@@ -71,6 +72,7 @@ namespace CI_PlatForm.Controllers
            
             return PartialView("_gridView");
         }
+        [HttpPost]
         public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort)
         {
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
@@ -85,10 +87,21 @@ namespace CI_PlatForm.Controllers
             return PartialView("_listView");
         }
 
-        public IActionResult MissionVolunteering()
+        public IActionResult MissionVolunteering(long id)
         {
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            List<Card> VolunteerCard = _MissionRepository.GetMissionCard();
+            var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
+            ViewBag.cardData = missions;
             return View();
         }
+        public bool AddMissionToFav(int missionId)
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var fav = _MissionRepository.addToFavourite(missionId, userId);
+            return fav;
+        }
+       
         //---------------------Mission not found --------------------------------------------------------------------------------
 
         /*public IActionResult MissionNotFound()

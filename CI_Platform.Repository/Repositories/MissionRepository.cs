@@ -99,8 +99,16 @@ namespace CI_Platform.Repository.Repositories
                     break;
 
                 case 4:
-                    missions = missions.OrderBy(i => i.TotalSeat).ToList();
+                    missions = missions.OrderBy(i => i.Avaibility).ToList();
                     break;
+                
+                case 5:
+                    missions = missions.OrderByDescending(i => i.Avaibility).ToList();
+                    break;
+                
+                case 6:
+                    missions = missions.OrderBy(i => i.FavouriteMissionId).ToList();
+                    break ;
             }
             return missions;
         }
@@ -127,6 +135,14 @@ namespace CI_Platform.Repository.Repositories
             var imagePath = _CiplatformDbContext.MissionMedia.FirstOrDefault(u => u.MissionId == missionID);
             return imagePath.MediaName;
         }
+      
+        public string getGoalObject(long missionID)
+        {
+            var goaltext = _CiplatformDbContext.GoalMissions.FirstOrDefault(u => u.MissionId == missionID);
+            if (goaltext != null)
+            return goaltext.GoalObjectiveText;
+            return null;
+        }
      
         public int getMissionRating(long missionId)
         {
@@ -141,7 +157,6 @@ namespace CI_Platform.Repository.Repositories
             {
                 Card cardDetails = new Card();
 
-
                 cardDetails.Theme = getThemeTitle(allDetailsCard.ThemeId);
                 cardDetails.Title = allDetailsCard.Title;
                 cardDetails.MissionId = allDetailsCard.MissionId;
@@ -155,8 +170,12 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.Rating = getMissionRating(allDetailsCard.MissionId);
                 cardDetails.CountryId= allDetailsCard.CountryId;
                 cardDetails.ThemeId=allDetailsCard.ThemeId;
-                /*cardDetails.TotalSeat = allDetailsCard.Avaibility;*/
-
+                cardDetails.Avaibility = allDetailsCard.Avaibility;
+                cardDetails.MissionType= allDetailsCard.MissionType;
+                cardDetails.Description = allDetailsCard.Description;
+                
+                cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
+              
                 var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
                 cardDetails.skillId = missionSkill.MissionSkillId;
                 missionAllDetails.Add(cardDetails);
@@ -165,11 +184,43 @@ namespace CI_Platform.Repository.Repositories
             return missionAllDetails;
         }
 
-        /*public string getCountry(long CountryID)
+        /*public List<missionVolunteer> GetMissionVolunteer()
         {
-            var CountryName = _CiplatformDbContext.Countries.FirstOrDefault(u => u.CountryId == CountryID);
-            return CountryName.CountryName;
-        }*/
+            List<missionVolunteer> volunteerDetails = new List<missionVolunteer>();
+            var missionVol = _CiplatformDbContext.MissionDocuments.ToList();
+            foreach (var missionDoc in missionVol)
+            {
+                missionVolunteer volunteer = new missionVolunteer();
 
+                volunteer.
+            }
+        }
+        */
+
+        //---------------------------------------Mission Volunteering----------------------------------------------------------------------
+
+        public bool addToFavourite(long missionId, long userId)
+        {
+            FavoriteMission favourite = new();
+            favourite.MissionId = missionId;
+            favourite.UserId = userId;
+
+            var FavMission = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(i => i.MissionId == missionId && i.UserId == userId);
+            if (FavMission == null)
+            {
+                _CiplatformDbContext.FavoriteMissions.Add(favourite);
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                _CiplatformDbContext.FavoriteMissions.Remove(FavMission);
+                _CiplatformDbContext.SaveChanges();
+                return false;
+            }
+
+
+
+        }
+        }
     }
-}

@@ -46,7 +46,9 @@ namespace CI_PlatForm.Controllers
 
             if (objUser != null)
             {
-               HttpContext.Session.SetString("username",objUser.FirstName+" "+objUser.LastName);
+
+                HttpContext.Session.SetString("username", objUser.FirstName + " " + objUser.LastName);
+                HttpContext.Session.SetString("userId", objUser.UserId.ToString());
                 return RedirectToAction("PlatformLanding", "Mission");
             }
            else {

@@ -31,7 +31,7 @@ public partial class Mission
 
     public string? OrganizationDetail { get; set; }
 
-    public string? Avaibility { get; set; }
+    public int? Avaibility { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
