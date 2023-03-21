@@ -87,13 +87,31 @@ namespace CI_PlatForm.Controllers
             return PartialView("_listView");
         }
 
-        public IActionResult MissionVolunteering(long id)
+       public IActionResult MissionVolunteering(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard();
             var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
+            ViewBag.commentViewBag = _MissionRepository.getComment(missions.MissionId);
+            ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
+            var user = HttpContext.Session.GetInt32("userId");
+            ViewBag.userId = user;
+            var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
+            ViewBag.relatedMission = RelatedMission;
             return View();
+        }
+        public void PostCommentInMission(string comment, long missionId)
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
+
+            _MissionRepository.PostComment(comment, userId, missionId);
+        }
+
+        public void AddToRecentVolunteer(long missionId, long userId)
+        {
+            _MissionRepository.AddToRecent(missionId, userId);
+
         }
         public bool AddMissionToFav(int missionId)
         {
@@ -112,67 +130,3 @@ namespace CI_PlatForm.Controllers
 }        
    
         
-           /*List<Country> countries = _MissionRepository.CountryList().ToList();
-            ViewBag.countries=countries;
-            List<City> cities = _MissionRepository.CityList().ToList();
-            ViewBag.cities = cities;
-           /*List<City> cities = _MissionRepository.GetCityFromCountry().ToList();
-            ViewBag.cities = cities;
-            List<MissionTheme> missionthemes = _MissionRepository.MissionThemeList().ToList();
-            ViewBag.missionthemes = missionthemes;
-            List<Skill> skills = _MissionRepository.SkillList().ToList();
-            ViewBag.skills = skills;
-
-
-
-
-            List<Mission> missionDetail = _MissionRepository.GetMissionList();
-            List<Card> missionAllDetails = new List<Card>();
-            foreach (var allDetailsCard in missionDetail)
-            {
-                Card cardDetails = new Card();
-
-                cardDetails.Theme = _MissionRepository.getThemeTitle(allDetailsCard.ThemeId);
-                cardDetails.Title = allDetailsCard.Title;
-                cardDetails.MissionId = allDetailsCard.MissionId;
-                cardDetails.CityName = _MissionRepository.getCity(allDetailsCard.CityId);
-                cardDetails.ShortDescription = allDetailsCard.ShortDescription;
-                cardDetails.OrganizationName = allDetailsCard.OrganizationName;
-                cardDetails.StartDate = allDetailsCard.StartDate;
-                cardDetails.EndDate = allDetailsCard.EndDate;
-                cardDetails.MediaName = _MissionRepository.getMediaName(allDetailsCard.MissionId);
-               cardDetails.Rating = _MissionRepository.getMissionRating(allDetailsCard.MissionId);
-                
-                missionAllDetails.Add(cardDetails);
-            }
-
-            ViewBag.cardDetail = missionAllDetails;
-            
-            return View();
-          }
-            public JsonResult GetCity(long countryId)
-            {
-                List<City> city = _MissionRepository.GetCityFromCountry(countryId);
-                var json = JsonConvert.SerializeObject(city);
-
-                return Json(json);
-            }
-            //------------------------------searchbar-----------------------------------------------------------------
-
-
-            public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills)
-            {
-                search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-                List<Mission> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills);
-                List<Card> missionListingList = _MissionRepository.GetMissionCard(missions);
-
-                ViewBag.cardDetail = missionListingList;
-
-                return View();
-            }
-
-        }
-
-
-    }*/
-

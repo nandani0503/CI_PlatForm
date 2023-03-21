@@ -11,14 +11,14 @@ namespace CI_Platform.Repository.Interface
     public interface IMissionRepository
     {
 
-        //-----------------------------second navbar------------------------------------------------
+        //-----------------------------second navbar---------------------------------------------------------------------------------------------
        
 
         public List<Country> GetCountryData();
         public List<City> GetCityFromCountry(List<string> countryId);
         public List<MissionTheme> GetMissionTheme();
         public List<Skill> GetSkillsList();
-        //------------------------------------Mission card--------------------------------------------
+        //------------------------------------Mission card---------------------------------------------------------------------------------------
         public List<Mission> GetMissionList();
         public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills,int sortBy);
         public long getTotalMission();
@@ -32,8 +32,14 @@ namespace CI_Platform.Repository.Interface
 
         //-------------------------------------------Mission Volunteering-----------------------------------------------------------------------
         public bool addToFavourite(long missionId, long userId);
-      
 
+        public List<CommentViewModel> getComment(long missionId);
+
+        public void PostComment(string comment, long userId, long missionId);
+
+        public String GetSkillName(long missionId);
+
+        public void AddToRecent(long missionId, long userId);
 
     }
 }

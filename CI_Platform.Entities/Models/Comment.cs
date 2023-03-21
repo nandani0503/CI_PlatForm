@@ -10,6 +10,7 @@ public partial class Comment
     public long UserId { get; set; }
 
     public long MissionId { get; set; }
+    public string Comments { get; set; } = null!;
 
     public string? ApprovalStatus { get; set; }
 

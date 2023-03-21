@@ -184,18 +184,7 @@ namespace CI_Platform.Repository.Repositories
             return missionAllDetails;
         }
 
-        /*public List<missionVolunteer> GetMissionVolunteer()
-        {
-            List<missionVolunteer> volunteerDetails = new List<missionVolunteer>();
-            var missionVol = _CiplatformDbContext.MissionDocuments.ToList();
-            foreach (var missionDoc in missionVol)
-            {
-                missionVolunteer volunteer = new missionVolunteer();
-
-                volunteer.
-            }
-        }
-        */
+       
 
         //---------------------------------------Mission Volunteering----------------------------------------------------------------------
 
@@ -218,9 +207,79 @@ namespace CI_Platform.Repository.Repositories
                 _CiplatformDbContext.SaveChanges();
                 return false;
             }
-
-
-
         }
+
+            public List<CommentViewModel> getComment(long missionId)
+            {
+                List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == "PUBLISHED").ToList();
+                List<CommentViewModel> commentView = new List<CommentViewModel>();
+
+                foreach (var comment in comments)
+                {
+                    CommentViewModel commentList = new CommentViewModel();
+                    User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == comment.UserId);
+                    commentList.Comment = comment.Comments;
+                    commentList.Month = comment.CreatedAt.ToString("MMMM");
+                    commentList.Time = comment.CreatedAt.ToString("h:mm tt");
+                    commentList.Day = comment.CreatedAt.Day.ToString();
+                    commentList.WeekDay = comment.CreatedAt.DayOfWeek.ToString();
+                    commentList.Year = comment.CreatedAt.Year.ToString();
+                    commentList.Avatar = user.Avatar;
+                    commentList.UserName = user.FirstName + " " + user.LastName;
+
+                    commentView.Add(commentList);
+                }
+                return commentView;
+            }
+        
+
+            public void PostComment(string comment, long userId, long missionId)
+            {
+                Comment newComment = new Comment();
+                newComment.Comments = comment;
+                newComment.UserId = userId;
+                newComment.MissionId = missionId;
+
+                _CiplatformDbContext.Comments.Add(newComment);
+                _CiplatformDbContext.SaveChanges();
+            }
+
+
+            public String GetSkillName(long missionId)
+            {
+                return string.Join(", ", _CiplatformDbContext.Missions.Where(x => x.MissionId == missionId).SelectMany(x => x.MissionSkills).Select(x => x.Skill.SkillName).ToList());
+            }
+
+            public List<CommentViewModel> GetRecentUser(long missionId)
+            {
+                List<MissionApplication> missionApplication = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.ApprovalStatus == "PUBLISHED").ToList();
+                List<CommentViewModel> missionView = new List<CommentViewModel>();
+                foreach (MissionApplication application in missionApplication)
+                {
+                    CommentViewModel missionviewModel = new CommentViewModel();
+                    User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == application.UserId);
+                    missionviewModel.MissionId = missionId;
+                    missionviewModel.Avatar = user.Avatar;
+                    missionviewModel.UserName = user.FirstName + " " + user.LastName;
+
+                    missionView.Add(missionviewModel);
+
+                }
+                return missionView;
+            }
+
+            public void AddToRecent(long missionId, long userId)
+            {
+                MissionApplication missionapplication = new MissionApplication();
+                missionapplication.UserId = userId;
+                missionapplication.MissionId = missionId;
+                missionapplication.AppliedAt = DateTime.Now;
+
+                _CiplatformDbContext.MissionApplications.Add(missionapplication);
+                _CiplatformDbContext.SaveChanges();
+            }
+
+
+        
         }
     }

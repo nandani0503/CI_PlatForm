@@ -26,11 +26,11 @@ namespace CI_Platform.Entities.ViewModel
         public string? GoalObjectiveText { get; set; }
         public int GoalValue { get; set; }
         public int? Avaibility { get; set; }
-        /*public string? MediaPath { get; set; }*/
+        
         public DateTime? Deadline { get; set; }
       
         public long FavouriteMissionId { get; set; }
-        /*public long UserId { get; set; }*/
+        
 
         public string? Description { get; set; }
 
