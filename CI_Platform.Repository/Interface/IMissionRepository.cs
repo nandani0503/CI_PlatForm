@@ -28,7 +28,7 @@ namespace CI_Platform.Repository.Interface
        public string getMediaName(long missionID);
         public string getCity(long CityID);
      
-       public int getMissionRating(long missionId);
+       public List<MissionRating> getMissionRating(long missionId);
 
         //-------------------------------------------Mission Volunteering-----------------------------------------------------------------------
         public bool addToFavourite(long missionId, long userId);
@@ -40,6 +40,11 @@ namespace CI_Platform.Repository.Interface
         public String GetSkillName(long missionId);
 
         public void AddToRecent(long missionId, long userId);
+        public List<CommentViewModel> GetRecentUser(long missionId);
+
+        public List<MissionApplication> getMissionApplicant();
+
+        public bool Recommend(long user_id, long mission_id, List<long> co_workers);
 
     }
 }

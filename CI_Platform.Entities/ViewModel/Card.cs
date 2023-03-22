@@ -30,12 +30,13 @@ namespace CI_Platform.Entities.ViewModel
         public DateTime? Deadline { get; set; }
       
         public long FavouriteMissionId { get; set; }
-        
 
+        public string? missionIntro { get; set; }
         public string? Description { get; set; }
 
-
-       public string? DocumentPath { get; set; }
+        public string? OrganizationDetail { get; set; }
+        public string? DocumentPath { get; set; }
+        public string? aboutOrganization { get; set; }
 
     }
 }

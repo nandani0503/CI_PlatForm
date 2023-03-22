@@ -5,6 +5,8 @@ using CI_Platform.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -144,10 +146,10 @@ namespace CI_Platform.Repository.Repositories
             return null;
         }
      
-        public int getMissionRating(long missionId)
+        public List<MissionRating> getMissionRating(long missionId)
         {
-            var rating = _CiplatformDbContext.MissionRatings.FirstOrDefault(u => u.MissionId == missionId);
-            return rating.Rating;
+            List<MissionRating> rating = _CiplatformDbContext.MissionRatings.Where(u => u.MissionId == missionId).ToList();
+            return rating;
         }
         public List<Card> GetMissionCard()
         {
@@ -167,12 +169,15 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.StartDate = allDetailsCard.StartDate;
                 cardDetails.EndDate = allDetailsCard.EndDate;
                 cardDetails.MediaName = getMediaName(allDetailsCard.MissionId);
-                cardDetails.Rating = getMissionRating(allDetailsCard.MissionId);
+                cardDetails.Rating = (int)getMissionRating(allDetailsCard.MissionId).Average(a => a.Rating);
                 cardDetails.CountryId= allDetailsCard.CountryId;
                 cardDetails.ThemeId=allDetailsCard.ThemeId;
                 cardDetails.Avaibility = allDetailsCard.Avaibility;
                 cardDetails.MissionType= allDetailsCard.MissionType;
                 cardDetails.Description = allDetailsCard.Description;
+                cardDetails.missionIntro = allDetailsCard.Description;
+                cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
+                
                 
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
               
@@ -211,7 +216,7 @@ namespace CI_Platform.Repository.Repositories
 
             public List<CommentViewModel> getComment(long missionId)
             {
-                List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == "PUBLISHED").ToList();
+                List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == /*"PUBLISHED"*/ "PENDING").ToList();
                 List<CommentViewModel> commentView = new List<CommentViewModel>();
 
                 foreach (var comment in comments)
@@ -252,7 +257,7 @@ namespace CI_Platform.Repository.Repositories
 
             public List<CommentViewModel> GetRecentUser(long missionId)
             {
-                List<MissionApplication> missionApplication = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.ApprovalStatus == "PUBLISHED").ToList();
+                List<MissionApplication> missionApplication = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.ApprovalStatus == "APPROVE").ToList();
                 List<CommentViewModel> missionView = new List<CommentViewModel>();
                 foreach (MissionApplication application in missionApplication)
                 {
@@ -274,12 +279,59 @@ namespace CI_Platform.Repository.Repositories
                 missionapplication.UserId = userId;
                 missionapplication.MissionId = missionId;
                 missionapplication.AppliedAt = DateTime.Now;
-
+                missionapplication.ApprovalStatus = "PENDING";
                 _CiplatformDbContext.MissionApplications.Add(missionapplication);
                 _CiplatformDbContext.SaveChanges();
             }
-
-
-        
+        public List<MissionApplication> getMissionApplicant()
+        {
+            List<MissionApplication> missionapplications = _CiplatformDbContext.MissionApplications.ToList();
+            return missionapplications;
         }
+        public bool Recommend(long user_id, long mission_id, List<long> co_workers)
+        {
+            foreach (var user in co_workers)
+            {
+                _CiplatformDbContext.MissionInvites.Add(new MissionInvite
+                {
+                    FromUserId = user_id,
+                    ToUserId = user,
+                    MissionId = mission_id
+                });
+            }
+            _CiplatformDbContext.SaveChanges();
+            User from_user = _CiplatformDbContext.Users.FirstOrDefault(c => c.UserId.Equals(user_id));
+            List<string> Email_users = (from u in _CiplatformDbContext.Users
+                                        where co_workers.Contains(u.UserId)
+                                        select u.Email).ToList();
+            foreach (var email in Email_users)
+            {
+                var senderEmail = new MailAddress("dummye754@gmail.com", "CI_PlatForm");
+                var receiverEmail = new MailAddress(email, "Receiver");
+                var password = "cfwhnexvaurcxgkd";
+                var sub = "Recommendation";
+                var body = "Recommend By " + from_user?.FirstName + " " + from_user?.LastName + "\n" + $"https://localhost:7217/Mission/VolunteerMission/{mission_id}";
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = sub,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
+                }
+            }
+            return true;
+        }
+
+
+    }
     }

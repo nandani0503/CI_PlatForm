@@ -24,10 +24,10 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }*/
-        public IActionResult VolunteeringStory()
+       /* public IActionResult VolunteeringStory()
         {
             return View();
-        }
+        }*/
       
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -10,9 +10,11 @@ namespace CI_PlatForm.Controllers
     {
 
         public readonly IMissionRepository _MissionRepository;
-        public MissionController(IMissionRepository MissionRepository)
+        public readonly IUserRepository _UserRepository;
+        public MissionController(IMissionRepository MissionRepository, IUserRepository userRepository)
         {
             _MissionRepository = MissionRepository;
+            _UserRepository = userRepository;
         }
 
         //------------------Mission drop down---------------------------
@@ -86,19 +88,33 @@ namespace CI_PlatForm.Controllers
 
             return PartialView("_listView");
         }
-
+    /*----------------------------------Volunteer mission-----------------------------------------------------------------------------*/
        public IActionResult MissionVolunteering(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard();
+            
             var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
+            
             ViewBag.commentViewBag = _MissionRepository.getComment(missions.MissionId);
+            
             ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
+            
             var user = HttpContext.Session.GetInt32("userId");
             ViewBag.userId = user;
+            
+            var userDetails = _UserRepository.UserList().Where(i => i.UserId != user);
+            ViewBag.userDetails = userDetails;
+
+            ViewBag.getVolunteer = _MissionRepository.GetRecentUser(missions.MissionId);
+            ViewBag.totalVol = _MissionRepository.GetRecentUser(missions.MissionId).Count();
+            ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
+
             var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
             ViewBag.relatedMission = RelatedMission;
+            
             return View();
         }
         public void PostCommentInMission(string comment, long missionId)
@@ -108,8 +124,9 @@ namespace CI_PlatForm.Controllers
             _MissionRepository.PostComment(comment, userId, missionId);
         }
 
-        public void AddToRecentVolunteer(long missionId, long userId)
+        public void AddToRecentVolunteer(long missionId)
         {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
             _MissionRepository.AddToRecent(missionId, userId);
 
         }
@@ -119,7 +136,21 @@ namespace CI_PlatForm.Controllers
             var fav = _MissionRepository.addToFavourite(missionId, userId);
             return fav;
         }
-       
+        /*public void VolunteerList(string Volunteers)
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetInt32("userId"));
+            var missionId = Mission
+
+
+
+            var voluntees = _MissionRepository.Recommend(userId, missionId, Volunteers);
+
+        }*/
+        public IActionResult VolunteeringStory()
+        {
+            return View();
+        }
+
         //---------------------Mission not found --------------------------------------------------------------------------------
 
         /*public IActionResult MissionNotFound()

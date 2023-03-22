@@ -5,9 +5,9 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI_PlatForm", "CI_PlatForm\CI_PlatForm.csproj", "{C37B4F67-B839-4244-9534-D237CE110594}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI_Platform.Entities", "CI_Platform.Entities\CI_Platform.Entities.csproj", "{EBEE7B6D-BF16-40DC-840C-FB9D39B31E38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI_PlatForm.Entities", "CI_Platform.Entities\CI_PlatForm.Entities.csproj", "{EBEE7B6D-BF16-40DC-840C-FB9D39B31E38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CI_Platform.Repository", "CI_Platform.Repository\CI_Platform.Repository.csproj", "{EF3C106F-EA36-47F1-A85B-5DA25DA692CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CI_PlatForm.Repository", "CI_Platform.Repository\CI_PlatForm.Repository.csproj", "{EF3C106F-EA36-47F1-A85B-5DA25DA692CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
