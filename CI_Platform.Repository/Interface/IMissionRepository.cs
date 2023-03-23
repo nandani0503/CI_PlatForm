@@ -1,5 +1,6 @@
 ﻿using CI_Platform.Entities.Models;
 using CI_Platform.Entities.ViewModel;
+using CI_PlatForm.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,13 @@ namespace CI_Platform.Repository.Interface
         public List<MissionApplication> getMissionApplicant();
 
         public bool Recommend(long user_id, long mission_id, List<long> co_workers);
+
+        /*--------------------------------------Volunteer Story-------------------------------------------------------------------------*/
+
+        public List<StoryViewModel> GetStoryDetails();
+        public List<StoryViewModel> GetStoryData(string? search, /*string[] countries, string[] cities, */string[] themes, string[] skills);
+
+        public string GetType(long storyId);
 
     }
 }

@@ -2,6 +2,7 @@
 using CI_Platform.Entities.Models;
 using CI_Platform.Entities.ViewModel;
 using CI_Platform.Repository.Interface;
+using CI_PlatForm.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -279,7 +280,7 @@ namespace CI_Platform.Repository.Repositories
                 missionapplication.UserId = userId;
                 missionapplication.MissionId = missionId;
                 missionapplication.AppliedAt = DateTime.Now;
-                missionapplication.ApprovalStatus = "PENDING";
+                missionapplication.ApprovalStatus = "APPROVE";
                 _CiplatformDbContext.MissionApplications.Add(missionapplication);
                 _CiplatformDbContext.SaveChanges();
             }
@@ -310,7 +311,7 @@ namespace CI_Platform.Repository.Repositories
                 var receiverEmail = new MailAddress(email, "Receiver");
                 var password = "cfwhnexvaurcxgkd";
                 var sub = "Recommendation";
-                var body = "Recommend By " + from_user?.FirstName + " " + from_user?.LastName + "\n" + $"https://localhost:7217/Mission/VolunteerMission/{mission_id}";
+                var body = "Recommend By " + from_user?.FirstName + " " + from_user?.LastName + "\n" + $"https://localhost:7217/Mission/MissionVolunteering/{mission_id}";
                 var smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
@@ -331,7 +332,91 @@ namespace CI_Platform.Repository.Repositories
             }
             return true;
         }
+        /*----------------------------------------Story Listing----------------------------------------------------------------*/
 
+        public string getStoryImg(long storyId)
+        {
+            var imagePath = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
+            return imagePath.Path;
+        }
+        
+        
+        
+        public string GetType(long storyId)
+        {
+            var type = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
+            return type.Type;   
+        }
+       
+        
+        
+        public List<StoryViewModel> GetStoryDetails()
+        {
+            List<Story> PublishedStory = _CiplatformDbContext.Stories.Where(s => s.Status == "PUBLISHED").ToList();
+
+
+            List<StoryViewModel> stories = new List<StoryViewModel>();
+
+            foreach (var story in PublishedStory)
+            {
+
+                StoryViewModel storyInfo = new StoryViewModel();
+                User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == story.UserId);
+
+
+                /*storyInfo.Theme = _CiplatformDbContext.MissionThemes.FirstOrDefault(a => a.MissionThemeId == _CiplatformDbContext.Missions.FirstOrDefault(a => a.MissionId == story.MissionId).ThemeId).Title;*/
+                storyInfo.Type = GetType(story.StoryId);
+                
+                storyInfo.Title = story.Title;
+                storyInfo.Description = story.Description;
+                storyInfo.storyImage = getStoryImg(story.StoryId);
+                storyInfo.Avatar = user.Avatar;
+                storyInfo.UserName = user.FirstName + " " + user.LastName;
+
+
+                stories.Add(storyInfo);
+            }
+
+            return stories;
+        }
+        public List<StoryViewModel> GetStoryData(string? search,/* string[] countries, string[] cities,*/ string[] themes, string[] skills)
+        {
+
+
+            List<StoryViewModel> stories = GetStoryDetails();
+            if (search != "")
+            {
+                stories = stories.Where(a => a.Title.ToLower().Contains(search)).ToList();
+
+            }
+           /* if (countries.Length > 0)
+            {
+
+                stories = stories.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
+
+            }
+            if (cities.Length > 0)
+            {
+
+                stories = stories.Where(a => cities.Contains(a.CityId.ToString())).ToList();
+
+            }*/
+            if (themes.Length > 0)
+            {
+
+                stories = stories.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
+
+            }
+            if (skills.Length > 0)
+            {
+
+                stories = stories.Where(a => skills.Contains(a.SkillId.ToString())).ToList();
+
+            }
+
+
+            return stories;
+        }
 
     }
     }

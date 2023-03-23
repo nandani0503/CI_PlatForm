@@ -6,12 +6,17 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+   
+
+
+
+
                   @Html.Partial("_TopNav")
                      <hr />
                     
                     
        //--------------------------------Slider----------------------------------------------------------------------
-                  <form method="post">
+                  
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-6" style="height:fit-content;">
@@ -35,7 +40,7 @@
                                       </div>
                                     </div> 
                                       </div> 
-
+        
                  @*-------------------------------------Description-------------------------------------------------*@       
 
                                       <div class="col-lg-6">
@@ -65,10 +70,7 @@
                                                                <div>Seats left</div>
                                                                 </div>
                                                  </div>
-                                                 
-                                                  
-                                                  
-                                                    @if (@ViewBag.cardData.MissionType == false)
+                                                  @if (@ViewBag.cardData.MissionType == false)
                                                     {
                                                         <div class="col-lg-6 col-md-6 col-6 d-flex justify-content-center">
                                                         <div><img src="/Images/CI Platform Assets/achieved.png" alt="" style="height:20px;width:20px">&nbsp;&nbsp;</div>
@@ -84,62 +86,68 @@
                                                     <div class="col-lg-6 col-md-6 col-6">
                                                     <div>@ViewBag.cardData.EndDate.ToString("dd/MM/yyyy")</div>
                                                     <div>Deadline</div></div>
-                                                    
                                                     }
-                                                
                                                 </div>
-                        
                                                
+                                               
+                                                <hr />
+                        <div class="row">
+                            <div class="col-lg-5 col-md-5 col-12">
+                                <button type="submit" class="btn btn-outline-secondary w-100 rounded-pill" onclick="AddMissionToFav(@ViewBag.cardData.MissionId)">
+                                    <i class="bi bi-heart" id="addtofav"></i>&nbsp;<span class="small">Add to Favourite</span>
+                                </button>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-12 ">
+                                <button type="submit" class="btn rounded-5 " style="border-color: black;" data-bs-toggle="modal" data-bs-target="#exampleModal"><img src="/Images/CI Platform Assets/add1.png"> Recommend to a Co-Worker</button>
 
-                                             
-                                              <hr />
-                                              <div class="row">
-                                                  <div class="col-lg-5 col-md-5 col-12">
-                                                     <button type="submit" class="btn btn-outline-secondary w-100 rounded-pill" onclick="AddMissionToFav(@ViewBag.cardData.MissionId)">
-                                                         <i class="bi bi-heart" id="addtofav"></i>&nbsp;<span class="small">Add to Favourite</span>
-                                                     </button>
-                                                  </div>
-                                                  <div class="col-lg-7 col-md-7 col-12 ">
-                                                     <button type="submit" class="btn btn-outline-secondary w-100 rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                        <i class="bi bi-square-fill"></i>&nbsp;<span class="small">Recommanded to Co-worker</span>
-                                                     </button>
-                                                       @*<p id="volunteer-status" class="text-center"></p>*@
-                                 <!-- Modal -->
-                                                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                      <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                          <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Co-Worker List</h5>
-                                        
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Co-Worker List</h5>
 
-                                                                          </div>
-                                                                          <div class="modal-body" OnSend="sendInvitation()">
-                                                                              <small class="text-danger">Select the name who want you send invitation.</small>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-                                                                             @foreach(var worker in @ViewBag.userDetails)
-                                                                             {
-                                                                              <div class="form-check px-2">
-                                                                                <input class="form-check-input mx-auto" name="volunteers" type="checkbox" value="@worker.FirstName" 
-                                                                                       id="@worker.UserId" /> 
-                                                                                <label class="form-check-label ps-2" for="@worker.UserId">
-                                                                                    @worker.FirstName &nbsp; @worker.LastName
-                                                                                </label>
-                                                                            </div>
-                                                                              }
-
-                                                                          <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                                           <button type="submit" class="btn btn-success">Send Invitation</button>
-                                        
-                                                                          </div>
-                                                                        </div>
-                                                                      </div>
-                                                                    </div>
+                                            </div>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Select</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var worker in @ViewBag.userDetails)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" @*name="CoWorkers"*@ name="volunteers" type="checkbox" value="@worker.FirstName" id="@worker.UserId" />
+                                                                    <input type="hidden" id="uid" value="@worker.UserId" />
                                                                 </div>
-                                                            </div>
-                                                  </div>
-                                              </div>
+                                                            </td>
+                                                            <td>@worker.FirstName @worker.LastName</td>
+                                                            <td>@worker.Email</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" onclick="sendInvitation(@ViewBag.cardData.MissionId)" class="btn btn-success">Send Invitation</button>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
 
                                               <hr style="opacity:1;"/>
                                               <div class="star">
@@ -155,16 +163,7 @@
                                                      <i class="bi bi-star"></i>
                                                       }       
                                                    
-                                                    <div class="container">
-                                                      <span id="rateMe4"  class="feedback"></span>
-                                                    </div>
-
-                                                    <!-- rating.js file -->
-                                                    <script @*src="js/addons/rating.js"*@>
-                                                    // Rating Initialization
-                                                        $(document).ready(function() {
-                                                          $('#rateMe4').mdbRate();
-                                                        });</script>
+                                                   
                                               </div>
                                        <div class="row py-2">
                                            <div class="col-lg-3 col-md-6 col-6 border">
@@ -187,17 +186,18 @@
                                                <p class="small">@ViewBag.cardData.OrganizationName</p>
                                            </div>
                                        </div>
-                                       <form>
+                                      
                                      <div class="text-center py-1">
                                         <button type="submit" class="btn btn-outline-warning border rounded-pill"  onclick="AddToRecent(@ViewBag.cardData.MissionId)">Apply Now &nbsp;<img src="/Images/CI Platform Assets/right-arrow.png"></button>
                                    </div>
-                                   </form>
-                                @* <p id="volunteer-status" class="text-center"></p>
-                                 <!-- Modal -->*@
-                 
+                                  
+                                <p id="volunteer-status" class="text-center"></p>
+                            
+                                 </div>
+                             </div>
                         </div>
                         </div>
-                    </div>
+                       
               @*--------------------------------------------Introduction---------------------------------------------------------------------------------------*@   
                     
                     <div class="container">
@@ -247,44 +247,11 @@
                                   </div>
                               </div>
 
-    @*---------------------------------------------------Comments-----------------------------------------------------------*@            
-                              <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-                                
-                              <div class="container p-3">
-                               <form>
-                                <textarea class="form-control" id="user-comment" rows="3" placeholder="Enter your Comments..."></textarea>
-                                <div class="py-2">
-                                      <button type="submit" id="@ViewBag.cardData.MissionId" class="btn btn-outline-warning rounded-pill" onclick="PostComment(this.id)">Post Comment</button>
-                                      </div>
-                                     </form>
-                                      <div class="container" style="height:600px;overflow-y:scroll;">
-                                          <div class="p-3 bg-light">
-                                            @if (ViewBag.commentViewBag != null)
-                                            {
-                                                @foreach (var item in @ViewBag.commentViewBag)
-                                                {
-                                                    <span class="d-block p-2 my-2" style="background-color:white;">
-                                                        <div class="row">
-                                                            <div class="col-lg-3 col-md-3 col-12 text-center py-2">
-                                                                <div><img src="/Images/CI Platform Assets/@item.Avatar" style="border-radius:50%;" class="h-50 w-50 align-items-center"/></div>
-                                                            </div>
-                                                            <div class="col-lg-9 col-md-9 col-12 py-2">
-                                                                <div>@item.UserName
-                                                                    <div class="small">@item.Day,@item.Month,@item.Year.@item.WeekDay @item.Time</div>
-                                                                    <div class="py-2">@item.Comment</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </span>
-                                                }
+    @*---------------------------------------------------Comments-----------------------------------------------------------*@   
 
-                                            }
-
-                                         
-                                      </div>
-                                      </div>
-                                  </div>
-                              </div>
+                 @Html.Partial("_Comment")
+    
+                         
                              </div>
                             
                             </div>
@@ -336,30 +303,9 @@
                                        {
                                          <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/@RecentVolu.Avatar" class="rounded-circle p-2"  style="height:70px;width:70px;"/>
                                              <div class="p-1">@RecentVolu.UserName</div></div>
-                                         /*<div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer2.png" class="rounded-circle p-2"  style="height:70px;width:70px;">
-                                             <div class="p-1">Charles Vigue</div></div>
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer3.png" class="rounded-circle p-2"  style="height:70px;width:70px;">
-                                             <div class="p-1">Kathryn Roberts</div></div>*/
-                                             }
+                                         }
                                      </div>
-                                    @* <div class="row border">
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer4.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
-                                             <div class="p-1">Estella Fowles</div></div>
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer5.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
-                                             <div class="p-1">Rose Lewis</div></div>
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer6.png" class="rounded-circle p-2"  style="height:65px;width:65px;">
-                                             <div class="p-1">Raymond Pabon</div></div>
-                                     </div>
-                                     <div class="row border">
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer7.png" class="rounded-circle p-2" style="height:70px;width:70px;">
-                                             <div class="p-1">Travis Steen</div></div>
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer8.png" class="rounded-circle p-2" style="height:70px;width:70px;">
-                                             <div class="p-1">Sarah Santillan</div></div>
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/volunteer9.png" class="rounded-circle p-2" style="height:70px;width:70px;">
-                                             <div class="p-1">Linda Richards</div></div>
-                                     </div>
-                                    *@ 
-                               </div>
+                                 </div>
                                 
                                      <div class="row p-0">
                                          
@@ -421,25 +367,17 @@
 
                                                             <div class="col-lg-6 col-md-6 col-6 small"> @cards.OrganizationName</div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                               @* @if (true)
-                                                                 {
-                                                                   for (var i = 0; i < (@cards.Rating); i++)
+                                                               
+                                                                  @for (var i = 0; i < (@cards.Rating); i++)
                                                                         {
                                                                             <i class="bi bi-star-fill checked"></i>
                                                                         }  
-                                                                   for (var i = 0; i < 5 - (@cards.Rating); i++)
+                                                                   @for (var i = 0; i < 5 - (@cards.Rating); i++)
                                                                          {
                                                                             <i class="bi bi-star"></i>
                                                                          }       
-                                                                 }*@
-                                                                 <div class="container">
-                                                                  <span id="rateMe2"  class="empty-stars"></span>
-                                                                </div>
-
-                                                                <!-- rating.js file -->
-                                                                <script>$(document).ready(function() {
-                                                                  $('#rateMe2').mdbRate();
-                                                                });</script>
+                                                                 
+                                                               
                                                             </div>
                                                          
 
@@ -513,7 +451,7 @@
                                                    </footer>
                            
                                                     </div>
-                                                    </form>
+                                                   
                     <script>
                     function currentDiv(n) {
                       showDivs(slideIndex = n);
@@ -599,12 +537,12 @@
                              $('input[name="volunteers"]:checked').each(function(){
                                  VolunteerList.push(this.id);
                              });
-
+                            
                              $.ajax({
                                  url:"/Mission/VolunteerList",
                                  method: "POST",
                                  data:{
-                 
+                                     "MissionId" : @ViewBag.cardData.MissionId,
                                      "Volunteers" : VolunteerList
                                  },
                                  success:function(data){
@@ -619,7 +557,8 @@
                         }
 
                     function AddToRecent(missionId)
-                            {
+                                        {
+                                
                                         $.ajax({
                                         url:"/Mission/AddToRecentVolunteer",
                                         method: "POST",
@@ -634,11 +573,9 @@
                                              $("#volunteer-status").html("Request sent for approvel");
                                              $("#volunteer-status").css("color","green");
                                             }
-                                            });
+                                            })
                                 }
                     </script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-                                    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-                                    crossorigin="anonymous"></script>
+                   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>  
 
 }

@@ -30,28 +30,27 @@
 
                                                             <div class="col-lg-6 col-md-6 col-6 small"> @objcard.OrganizationName</div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                              @*  @if (true)
-                                                                 {
-                                                                   for (var i = 0; i < (@objcard.Rating); i++)
+                                                              
+                                                                   @for (var i = 0; i < (@objcard.Rating); i++)
                                                                         {
                                                                             <i class="bi bi-star-fill checked"></i>
                                                                         }  
-                                                                   for (var i = 0; i < 5 - (@objcard.Rating); i++)
+                                                                   @for (var i = 0; i < 5 - (@objcard.Rating); i++)
                                                                          {
                                                                             <i class="bi bi-star"></i>
                                                                          }       
-                                                                 }*@
-                                                                <div class="container">
+                                                                 
+                                                              @*  <div class="container">
                                                                   <span id="rateMe4"  class="feedback">
                                                                   </span>
                                                                 </div>
 
                                                                 <!-- rating.js file -->
-                                                                <script @*src="js/addons/rating.js"*@>
+                                                                <script @*src="js/addons/rating.js">
                                                                  // Rating Initialization
                                                                     $(document).ready(function() {
                                                                       $('#rateMe4').mdbRate();
-                                                                    });</script>
+                                                                    });</script>*@
                                                                
                                                             </div>
                                                          

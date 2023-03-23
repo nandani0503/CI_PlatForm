@@ -1,6 +1,7 @@
 ﻿using CI_Platform.Entities.Models;
 using CI_Platform.Entities.ViewModel;
 using CI_Platform.Repository.Interface;
+using CI_PlatForm.Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -37,8 +38,9 @@ namespace CI_PlatForm.Controllers
 
             var totalMission = _MissionRepository.getTotalMission();
             ViewBag.totalMission = totalMission;
-
-
+            
+            
+           
 
             //-------------------Mission card----------------------------------------------------------
 
@@ -101,8 +103,11 @@ namespace CI_PlatForm.Controllers
             ViewBag.commentViewBag = _MissionRepository.getComment(missions.MissionId);
             
             ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
-            
-            var user = HttpContext.Session.GetInt32("userId");
+
+            /*var user = HttpContext.Session.GetInt32("userId");
+            ViewBag.userId = user;*/
+
+            var user = Convert.ToInt64(HttpContext.Session.GetString("userId"));
             ViewBag.userId = user;
             
             var userDetails = _UserRepository.UserList().Where(i => i.UserId != user);
@@ -114,7 +119,12 @@ namespace CI_PlatForm.Controllers
 
             var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
             ViewBag.relatedMission = RelatedMission;
+
+
+
+
             
+
             return View();
         }
         public void PostCommentInMission(string comment, long missionId)
@@ -136,27 +146,59 @@ namespace CI_PlatForm.Controllers
             var fav = _MissionRepository.addToFavourite(missionId, userId);
             return fav;
         }
-        /*public void VolunteerList(string Volunteers)
+       public void VolunteerList(List<long> Volunteers, long MissionId)
         {
-            long userId = Convert.ToInt64(HttpContext.Session.GetInt32("userId"));
-            var missionId = Mission
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            /*long userId = Convert.ToInt64(HttpContext.Session.GetInt32("userId"));*/
+            var voluntees = _MissionRepository.Recommend(userId, MissionId, Volunteers);
 
-
-
-            var voluntees = _MissionRepository.Recommend(userId, missionId, Volunteers);
-
-        }*/
+        }
+        /* ------------------------Volunteer story---------------------------------------------------*/
         public IActionResult VolunteeringStory()
         {
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+
+            var CountryList = _MissionRepository.GetCountryData();
+            ViewBag.CountryList = CountryList;
+
+            var MissionTheme = _MissionRepository.GetMissionTheme();
+            ViewBag.missionTheme = MissionTheme;
+
+            var SkillList = _MissionRepository.GetSkillsList();
+            ViewBag.skillList = SkillList;
+
+            var storyInfo = _MissionRepository.GetStoryDetails();
+            ViewBag.storyInfo = storyInfo;
+            
             return View();
         }
+        public ActionResult SearchStory(string? search, /*string[] countries, string[] cities,*/ string[] themes, string[] skills)
+        {
+            search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
 
+
+            List<StoryViewModel> storyInfo = _MissionRepository.GetStoryData(search,/* countries, cities,*/ themes, skills);
+
+
+         
+            
+            //ViewBag.cardDetail = stories;
+
+            //var storyInfo = _iHomeRepo.GetStoryDetails();
+            ViewBag.storyInfo = storyInfo;
+            return View("_storyCard");
+        }
         //---------------------Mission not found --------------------------------------------------------------------------------
 
         /*public IActionResult MissionNotFound()
         {
             return View();
         }*/
+        public IActionResult shareStory()
+        {
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            return View();
+        }
     }
 }        
    

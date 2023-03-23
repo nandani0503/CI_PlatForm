@@ -35,17 +35,16 @@
                                                         <div class="col-lg-6 col-md-6 col-6 d-flex">
                                                         @objcard.OrganizationName</div>
                                                         <div class="col-lg-6 col-md-6 col-6 d-flex">
-                                                         @if (true)
-                                                             {
-                                                               for (var i = 0; i < (@objcard.Rating); i++)
+                                                        
+                                                               @for (var i = 0; i < (@objcard.Rating); i++)
                                                                     {
                                                                         <i class="bi bi-star-fill checked"></i>
                                                                     }  
-                                                               for (var i = 0; i < 5 - (@objcard.Rating); i++)
+                                                               @for (var i = 0; i < 5 - (@objcard.Rating); i++)
                                                                      {
                                                                         <i class="bi bi-star"></i>
                                                                      }       
-                                                             }
+                                                             
                                                                <div class="container">
                                                                   <span id="rateMe2"  class="empty-stars"></span>
                                                                 </div>
