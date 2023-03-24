@@ -50,9 +50,10 @@ namespace CI_Platform.Repository.Interface
         /*--------------------------------------Volunteer Story-------------------------------------------------------------------------*/
 
         public List<StoryViewModel> GetStoryDetails();
-        public List<StoryViewModel> GetStoryData(string? search, /*string[] countries, string[] cities, */string[] themes, string[] skills);
-
+        /*public List<StoryViewModel> GetStoryData(string? searchStory, /*string[] countries, string[] cities, string[] themes, string[] skills);*/
+        public List<StoryViewModel> GetStoryData(string? searchStory);
         public string GetType(long storyId);
+        public List<Mission> GetStoryList();
 
     }
 }

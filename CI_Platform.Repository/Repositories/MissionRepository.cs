@@ -16,15 +16,15 @@ namespace CI_Platform.Repository.Repositories
     public class MissionRepository : IMissionRepository
     {
         public readonly CiplatformContext _CiplatformDbContext;
-        
+
         public MissionRepository(CiplatformContext ciplatformDbContext)
         {
             _CiplatformDbContext = ciplatformDbContext;
-       
+
         }
 
-//---------------------Second Nav bar Drop down----------------------------------------------------------------
-   
+        //---------------------Second Nav bar Drop down----------------------------------------------------------------
+
         public List<Country> GetCountryData()
         {
             List<Country> objCountryList = _CiplatformDbContext.Countries.ToList();
@@ -46,13 +46,13 @@ namespace CI_Platform.Repository.Repositories
             return skillsList;
         }
 
-//---------------------------Mission card--------------------------------------------------------------------
+        //---------------------------Mission card--------------------------------------------------------------------
         public List<Mission> GetMissionList()
         {
             List<Mission> missionDetail = _CiplatformDbContext.Missions.ToList();
             return missionDetail;
         }
-        
+
         public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy)
         {
             List<Mission> mission = new List<Mission>();
@@ -104,14 +104,14 @@ namespace CI_Platform.Repository.Repositories
                 case 4:
                     missions = missions.OrderBy(i => i.Avaibility).ToList();
                     break;
-                
+
                 case 5:
                     missions = missions.OrderByDescending(i => i.Avaibility).ToList();
                     break;
-                
+
                 case 6:
                     missions = missions.OrderBy(i => i.FavouriteMissionId).ToList();
-                    break ;
+                    break;
             }
             return missions;
         }
@@ -121,7 +121,7 @@ namespace CI_Platform.Repository.Repositories
             var total = _CiplatformDbContext.Missions.Count();
             return total;
         }
-      
+
 
         public string getThemeTitle(long themeID)
         {
@@ -138,15 +138,15 @@ namespace CI_Platform.Repository.Repositories
             var imagePath = _CiplatformDbContext.MissionMedia.FirstOrDefault(u => u.MissionId == missionID);
             return imagePath.MediaName;
         }
-      
+
         public string getGoalObject(long missionID)
         {
             var goaltext = _CiplatformDbContext.GoalMissions.FirstOrDefault(u => u.MissionId == missionID);
             if (goaltext != null)
-            return goaltext.GoalObjectiveText;
+                return goaltext.GoalObjectiveText;
             return null;
         }
-     
+
         public List<MissionRating> getMissionRating(long missionId)
         {
             List<MissionRating> rating = _CiplatformDbContext.MissionRatings.Where(u => u.MissionId == missionId).ToList();
@@ -171,17 +171,17 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.EndDate = allDetailsCard.EndDate;
                 cardDetails.MediaName = getMediaName(allDetailsCard.MissionId);
                 cardDetails.Rating = (int)getMissionRating(allDetailsCard.MissionId).Average(a => a.Rating);
-                cardDetails.CountryId= allDetailsCard.CountryId;
-                cardDetails.ThemeId=allDetailsCard.ThemeId;
+                cardDetails.CountryId = allDetailsCard.CountryId;
+                cardDetails.ThemeId = allDetailsCard.ThemeId;
                 cardDetails.Avaibility = allDetailsCard.Avaibility;
-                cardDetails.MissionType= allDetailsCard.MissionType;
+                cardDetails.MissionType = allDetailsCard.MissionType;
                 cardDetails.Description = allDetailsCard.Description;
                 cardDetails.missionIntro = allDetailsCard.Description;
                 cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
-                
-                
+
+
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
-              
+
                 var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
                 cardDetails.skillId = missionSkill.MissionSkillId;
                 missionAllDetails.Add(cardDetails);
@@ -190,7 +190,7 @@ namespace CI_Platform.Repository.Repositories
             return missionAllDetails;
         }
 
-       
+
 
         //---------------------------------------Mission Volunteering----------------------------------------------------------------------
 
@@ -215,75 +215,75 @@ namespace CI_Platform.Repository.Repositories
             }
         }
 
-            public List<CommentViewModel> getComment(long missionId)
+        public List<CommentViewModel> getComment(long missionId)
+        {
+            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == /*"PUBLISHED"*/ "PENDING").ToList();
+            List<CommentViewModel> commentView = new List<CommentViewModel>();
+
+            foreach (var comment in comments)
             {
-                List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == /*"PUBLISHED"*/ "PENDING").ToList();
-                List<CommentViewModel> commentView = new List<CommentViewModel>();
+                CommentViewModel commentList = new CommentViewModel();
+                User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == comment.UserId);
+                commentList.Comment = comment.Comments;
+                commentList.Month = comment.CreatedAt.ToString("MMMM");
+                commentList.Time = comment.CreatedAt.ToString("h:mm tt");
+                commentList.Day = comment.CreatedAt.Day.ToString();
+                commentList.WeekDay = comment.CreatedAt.DayOfWeek.ToString();
+                commentList.Year = comment.CreatedAt.Year.ToString();
+                commentList.Avatar = user.Avatar;
+                commentList.UserName = user.FirstName + " " + user.LastName;
 
-                foreach (var comment in comments)
-                {
-                    CommentViewModel commentList = new CommentViewModel();
-                    User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == comment.UserId);
-                    commentList.Comment = comment.Comments;
-                    commentList.Month = comment.CreatedAt.ToString("MMMM");
-                    commentList.Time = comment.CreatedAt.ToString("h:mm tt");
-                    commentList.Day = comment.CreatedAt.Day.ToString();
-                    commentList.WeekDay = comment.CreatedAt.DayOfWeek.ToString();
-                    commentList.Year = comment.CreatedAt.Year.ToString();
-                    commentList.Avatar = user.Avatar;
-                    commentList.UserName = user.FirstName + " " + user.LastName;
-
-                    commentView.Add(commentList);
-                }
-                return commentView;
+                commentView.Add(commentList);
             }
-        
+            return commentView;
+        }
 
-            public void PostComment(string comment, long userId, long missionId)
+
+        public void PostComment(string comment, long userId, long missionId)
+        {
+            Comment newComment = new Comment();
+            newComment.Comments = comment;
+            newComment.UserId = userId;
+            newComment.MissionId = missionId;
+
+            _CiplatformDbContext.Comments.Add(newComment);
+            _CiplatformDbContext.SaveChanges();
+        }
+
+
+        public String GetSkillName(long missionId)
+        {
+            return string.Join(", ", _CiplatformDbContext.Missions.Where(x => x.MissionId == missionId).SelectMany(x => x.MissionSkills).Select(x => x.Skill.SkillName).ToList());
+        }
+
+        public List<CommentViewModel> GetRecentUser(long missionId)
+        {
+            List<MissionApplication> missionApplication = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.ApprovalStatus == "APPROVE").ToList();
+            List<CommentViewModel> missionView = new List<CommentViewModel>();
+            foreach (MissionApplication application in missionApplication)
             {
-                Comment newComment = new Comment();
-                newComment.Comments = comment;
-                newComment.UserId = userId;
-                newComment.MissionId = missionId;
+                CommentViewModel missionviewModel = new CommentViewModel();
+                User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == application.UserId);
+                missionviewModel.MissionId = missionId;
+                missionviewModel.Avatar = user.Avatar;
+                missionviewModel.UserName = user.FirstName + " " + user.LastName;
 
-                _CiplatformDbContext.Comments.Add(newComment);
-                _CiplatformDbContext.SaveChanges();
+                missionView.Add(missionviewModel);
+
             }
+            return missionView;
+        }
 
-
-            public String GetSkillName(long missionId)
-            {
-                return string.Join(", ", _CiplatformDbContext.Missions.Where(x => x.MissionId == missionId).SelectMany(x => x.MissionSkills).Select(x => x.Skill.SkillName).ToList());
-            }
-
-            public List<CommentViewModel> GetRecentUser(long missionId)
-            {
-                List<MissionApplication> missionApplication = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.ApprovalStatus == "APPROVE").ToList();
-                List<CommentViewModel> missionView = new List<CommentViewModel>();
-                foreach (MissionApplication application in missionApplication)
-                {
-                    CommentViewModel missionviewModel = new CommentViewModel();
-                    User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == application.UserId);
-                    missionviewModel.MissionId = missionId;
-                    missionviewModel.Avatar = user.Avatar;
-                    missionviewModel.UserName = user.FirstName + " " + user.LastName;
-
-                    missionView.Add(missionviewModel);
-
-                }
-                return missionView;
-            }
-
-            public void AddToRecent(long missionId, long userId)
-            {
-                MissionApplication missionapplication = new MissionApplication();
-                missionapplication.UserId = userId;
-                missionapplication.MissionId = missionId;
-                missionapplication.AppliedAt = DateTime.Now;
-                missionapplication.ApprovalStatus = "APPROVE";
-                _CiplatformDbContext.MissionApplications.Add(missionapplication);
-                _CiplatformDbContext.SaveChanges();
-            }
+        public void AddToRecent(long missionId, long userId)
+        {
+            MissionApplication missionapplication = new MissionApplication();
+            missionapplication.UserId = userId;
+            missionapplication.MissionId = missionId;
+            missionapplication.AppliedAt = DateTime.Now;
+            missionapplication.ApprovalStatus = "APPROVE";
+            _CiplatformDbContext.MissionApplications.Add(missionapplication);
+            _CiplatformDbContext.SaveChanges();
+        }
         public List<MissionApplication> getMissionApplicant()
         {
             List<MissionApplication> missionapplications = _CiplatformDbContext.MissionApplications.ToList();
@@ -339,17 +339,17 @@ namespace CI_Platform.Repository.Repositories
             var imagePath = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
             return imagePath.Path;
         }
-        
-        
-        
+
+
+
         public string GetType(long storyId)
         {
             var type = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
-            return type.Type;   
+            return type.Type;
         }
-       
-        
-        
+
+
+
         public List<StoryViewModel> GetStoryDetails()
         {
             List<Story> PublishedStory = _CiplatformDbContext.Stories.Where(s => s.Status == "PUBLISHED").ToList();
@@ -364,59 +364,41 @@ namespace CI_Platform.Repository.Repositories
                 User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == story.UserId);
 
 
-                /*storyInfo.Theme = _CiplatformDbContext.MissionThemes.FirstOrDefault(a => a.MissionThemeId == _CiplatformDbContext.Missions.FirstOrDefault(a => a.MissionId == story.MissionId).ThemeId).Title;*/
+               
                 storyInfo.Type = GetType(story.StoryId);
-                
+
                 storyInfo.Title = story.Title;
                 storyInfo.Description = story.Description;
                 storyInfo.storyImage = getStoryImg(story.StoryId);
                 storyInfo.Avatar = user.Avatar;
                 storyInfo.UserName = user.FirstName + " " + user.LastName;
-
-
                 stories.Add(storyInfo);
             }
 
             return stories;
         }
-        public List<StoryViewModel> GetStoryData(string? search,/* string[] countries, string[] cities,*/ string[] themes, string[] skills)
+
+        public List<StoryViewModel> GetStoryData(string? searchStory)
         {
-
-
+            List<Story> story = new List<Story>();
             List<StoryViewModel> stories = GetStoryDetails();
-            if (search != "")
+            if(searchStory != "")
             {
-                stories = stories.Where(a => a.Title.ToLower().Contains(search)).ToList();
-
+                stories = stories.Where(a => a.Title.ToLower().Contains(searchStory)).ToList();
             }
-           /* if (countries.Length > 0)
-            {
-
-                stories = stories.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
-
-            }
-            if (cities.Length > 0)
-            {
-
-                stories = stories.Where(a => cities.Contains(a.CityId.ToString())).ToList();
-
-            }*/
-            if (themes.Length > 0)
-            {
-
-                stories = stories.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
-
-            }
-            if (skills.Length > 0)
-            {
-
-                stories = stories.Where(a => skills.Contains(a.SkillId.ToString())).ToList();
-
-            }
-
-
             return stories;
+        }
+        public List<Story> GetStoryData()
+        {
+            List<Story> storyDetail = _CiplatformDbContext.Stories.ToList();
+            return storyDetail;
+        }
+       public List<Mission> GetStoryList()
+        {
+            List<Mission> missionStory = _CiplatformDbContext.Missions.ToList();
+            return missionStory;
         }
 
     }
+
     }

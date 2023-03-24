@@ -104,8 +104,7 @@ namespace CI_PlatForm.Controllers
             
             ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
 
-            /*var user = HttpContext.Session.GetInt32("userId");
-            ViewBag.userId = user;*/
+            
 
             var user = Convert.ToInt64(HttpContext.Session.GetString("userId"));
             ViewBag.userId = user;
@@ -119,12 +118,7 @@ namespace CI_PlatForm.Controllers
 
             var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
             ViewBag.relatedMission = RelatedMission;
-
-
-
-
             
-
             return View();
         }
         public void PostCommentInMission(string comment, long missionId)
@@ -149,7 +143,6 @@ namespace CI_PlatForm.Controllers
        public void VolunteerList(List<long> Volunteers, long MissionId)
         {
             long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            /*long userId = Convert.ToInt64(HttpContext.Session.GetInt32("userId"));*/
             var voluntees = _MissionRepository.Recommend(userId, MissionId, Volunteers);
 
         }
@@ -158,8 +151,7 @@ namespace CI_PlatForm.Controllers
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
 
-            var CountryList = _MissionRepository.GetCountryData();
-            ViewBag.CountryList = CountryList;
+           
 
             var MissionTheme = _MissionRepository.GetMissionTheme();
             ViewBag.missionTheme = MissionTheme;
@@ -172,31 +164,34 @@ namespace CI_PlatForm.Controllers
             
             return View();
         }
-        public ActionResult SearchStory(string? search, /*string[] countries, string[] cities,*/ string[] themes, string[] skills)
+      
+       [HttpPost]
+       public ActionResult SearchStory(string? searchStory)
         {
-            search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-
-
-            List<StoryViewModel> storyInfo = _MissionRepository.GetStoryData(search,/* countries, cities,*/ themes, skills);
-
-
-         
-            
-            //ViewBag.cardDetail = stories;
-
-            //var storyInfo = _iHomeRepo.GetStoryDetails();
+            searchStory = string.IsNullOrEmpty(searchStory) ? "" : searchStory.ToLower();
+            List<StoryViewModel> storyInfo = _MissionRepository.GetStoryData(searchStory);
             ViewBag.storyInfo = storyInfo;
             return View("_storyCard");
+            if(storyInfo == null)
+            {
+                return View("_MissionNotFound");
+            }
         }
+
+
+        
+
+
         //---------------------Mission not found --------------------------------------------------------------------------------
 
-        /*public IActionResult MissionNotFound()
-        {
-            return View();
-        }*/
-        public IActionResult shareStory()
+       
+        public IActionResult ShareStory()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            
+
+            var missionStory = _MissionRepository.GetStoryList();
+            ViewBag.missionStory = missionStory;
             return View();
         }
     }
