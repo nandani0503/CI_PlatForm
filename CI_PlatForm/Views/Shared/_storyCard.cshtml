@@ -12,9 +12,9 @@
                                                              <div class="bg-black">
                                                                 <img src= "@storyCard.storyImage" class="cardImg position-relative w-100 p-0" /> 
                                                                </div>
-                                                             
-                                                           <button class="position-absolute btn btn-outline-light rounded-pill">View details<i class="bi bi-arrow-right"></i></button>
-                                                        
+                                                        <a asp-action="StoryDetail" asp-route-id="@storyCard.StoryId" asp-controller="Mission" class="position-absolute">
+                                                           <button class="btn btn-outline-light rounded-pill">View details<i class="bi bi-arrow-right"></i></button>
+                                                        </a>
                                                           </div>
                                                           <div class="card img-overlay d-flex align-items-center justify-content-center" >
                                                       
@@ -40,90 +40,4 @@
                                                 </div>
                                                 }
                                                 </div>
-                                                /*<script>
-                                                 function searchMission(){
-                                                     console.log("search");
-                                                     var search = $('input[name="search"]').val();
-                                                     var countries =[];
-                                                     var sort = $('#sortBy').find(":selected").val();
-                                                     var cities =[];
-                                                     var themes =[];
-                                                     var skills =[];
-        
-                                                     $('input[name="country"]:checked').each(function(){
-                                                         countries.push(this.id);
-                                                     });
-                                                     $('input[name="city"]:checked').each(function(){
-                                                         cities.push(this.id);
-                                                     });
-                                                     $('input[name="theme"]:checked').each(function(){
-                                                         themes.push(this.id);
-                                                     });
-                                                     $('input[name="skill"]:checked').each(function(){
-                                                         skills.push(this.id);
-                                                     });
-
-                                
-                                                     $.ajax({
-                                                         url:"/Mission/Search",
-                                                         method: "POST",
-                                                         data:{
-                                                             "search": search,
-                                                             "countries": countries,
-                                                             "cities": cities,
-                                                             "themes": themes,
-                                                             "skills": skills,
-                                                              "sort" : sort
-                                                         },
-                                                         success:function(data){
-                                                            $("#mission").html(data);
-                                                         },
-                                                         error: function(request,error){
-                 
-                                                             console.log(error);
-                                                         }
-                                                     })
-
-                                
-                          
-                                                 };
-
-
-                                                 function GetCity()
-                                                               {
-                                                                var countryId= [];
-                                                                $('input[name="country"]:checked').each(function(){
-                                                                countryId.push(this.id);
-                                                                });
-                                           
-                                                                $.ajax({
-                                                                url:"/Mission/GetCity",
-                                                                method: "Post",
-                                                                data: {
-                                                                "countryId":countryId
-                                                                },
-                                                                success:function(data){
-                                                                data = JSON.parse(data);
-                                                                $("#selectCityList").empty();
-                                                                data.forEach((name)=> {
-                                                                document.getElementById("selectCityList").innerHTML += `
-
-                                                                <li>
-                                                                <div class="form-check dropdown-item px-3">
-                                                                <input class="form-check-input mx-auto" name="city" type="checkbox" value="${name.Name}"
-                                                                id="${name.CityId}" />
-                                                                <label class="form-check-label ps-2" for="${name.CityId}">
-                                                                ${name.Name}
-                                                                </label>
-                                                                </div>
-                                                                </li>
-                                                                 `;
-                                                                })
-                                                                },
-                                                                error: function(request,error){
-                                                                console.log(error);
-                                                                }
-                                                                })
-                                                                };
-                                                                    </script>*/
-}
+     }                                         

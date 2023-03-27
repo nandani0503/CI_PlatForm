@@ -24,6 +24,8 @@ namespace CI_PlatForm.Controllers
 
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
 
+            
+
             var CountryList = _MissionRepository.GetCountryData();
             ViewBag.countryList = CountryList;
 
@@ -36,8 +38,8 @@ namespace CI_PlatForm.Controllers
             var missions = _MissionRepository.GetMissionList();
             ViewBag.missions = missions;
 
-            var totalMission = _MissionRepository.getTotalMission();
-            ViewBag.totalMission = totalMission;
+            /*var totalMission = _MissionRepository.getTotalMission();
+            ViewBag.totalMission = totalMission;*/
             
             
            
@@ -49,11 +51,17 @@ namespace CI_PlatForm.Controllers
             ViewBag.totalMission = missionCardDetails.Count();
 
             ViewBag.CardDetail = missionCardDetails;
+
+            //--------------------------Pagnation----------------------------------------
+
+            ViewBag.Totalpages = Math.Ceiling(missionCardDetails.Count() / 6.0);
+            ViewBag.missionCardDetails = missionCardDetails.Skip((1-1)*6).Take(6).ToList();
+            ViewBag.pg_no = 1;
             return View();
 
         }
 
-        [HttpPost]
+        /*[HttpPost]*/
         public JsonResult GetCity(List<string> countryId)
         {
             List<City> city = _MissionRepository.GetCityFromCountry(countryId);
@@ -63,10 +71,10 @@ namespace CI_PlatForm.Controllers
         }
         //--------------------------------------search bar-------------------------------------------
         [HttpPost]
-        public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort)
+        public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort, int paging)
         {
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort);
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort,paging);
             ViewBag.cardDetail = missions;
            
             if (missions == null)
@@ -77,10 +85,10 @@ namespace CI_PlatForm.Controllers
             return PartialView("_gridView");
         }
         [HttpPost]
-        public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort)
+        public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort, int paging)
         {
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort);
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort, paging);
             ViewBag.cardDetail = missions;
 
             if (missions == null)
@@ -115,6 +123,9 @@ namespace CI_PlatForm.Controllers
             ViewBag.getVolunteer = _MissionRepository.GetRecentUser(missions.MissionId);
             ViewBag.totalVol = _MissionRepository.GetRecentUser(missions.MissionId).Count();
             ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
+
+            ViewBag.checkFav = _MissionRepository.checkFavourite(id, user);
+            var coWokerList = _MissionRepository.Recommend;
 
             var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
             ViewBag.relatedMission = RelatedMission;
@@ -192,6 +203,14 @@ namespace CI_PlatForm.Controllers
 
             var missionStory = _MissionRepository.GetStoryList();
             ViewBag.missionStory = missionStory;
+
+            return View();
+        }
+        public IActionResult StoryDetail(long id)
+        {
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+           
+
             return View();
         }
     }

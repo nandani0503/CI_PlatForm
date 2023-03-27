@@ -76,7 +76,7 @@
                     @*--------------------------City AJAX------------------------------------------*@
 
 
-                    function searchMission(){
+                    function searchMission(paging){
                                  console.log("search");
                                  var search = $('input[name="search"]').val();
                                  var countries =[];
@@ -84,6 +84,9 @@
                                  var cities =[];
                                  var themes =[];
                                  var skills =[];
+                                 if(paging == undefined){
+                                     paging = 1;
+                                 }
         
                                  $('input[name="country"]:checked').each(function(){
                                      countries.push(this.id);
@@ -98,7 +101,7 @@
                                      skills.push(this.id);
                                  });
 
-                                
+                                 
                                  $.ajax({
                                      url:"/Mission/Search",
                                      method: "POST",
@@ -180,35 +183,43 @@
                                             };
 
                                             
-                                            @*const paginatedList = document.getElementById("mission");
-                                            const listItems = paginatedList.querySelectorAll("li");
-                                            const nextButton = document.getElementById("next-button");
-                                            const prevButton = document.getElementById("prev-button");
-                                            const paginationLimit = 10;
-                                            const pageCount = (@ViewBag.totalMission == 6);
-                                            let currentPage;*@
+                                           
                                             
                                 </script>
 
                         <div class = "container py-5">
 
                         <nav aria-label="Page navigation example">
-                          <ul class="pagination justify-content-center">
+                          <ul class="pagination justify-content-center" onchange="searchMission()">
                             <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Previous" id="prev-button">
+                              <a class="page-link" href="#" aria-label="Previous" onclick="Previous(2)">
                                 <span aria-hidden="true">&laquo;</span>
                              </a>
                             </li>
-                            
-                            <li class="page-item"><a class="page-link" href="#" active>1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">6</a></li>
+                           
+
+                @{
+                    double totalpages = ViewBag.Totalpages;
+
+                    for(int i = 1; i<= totalpages; i++)
+                    {
+                        @if(i == ViewBag.pg_no)
+                        {
+                            <li class="page-item">
+                            <a class="page-link" onclick="searchMission(@i)">@i</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                            <a class="page-link" onclick="searchMission(@i)">@i</a>
+                            </li>
+                        }
+                    }
+                }
                             
                             <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Next" id="next-button">
+                              <a class="page-link" href="#" aria-label="Next" onclick="NextPage(1)">
                                 <span aria-hidden="true">&raquo;</span>
                            
                               </a>

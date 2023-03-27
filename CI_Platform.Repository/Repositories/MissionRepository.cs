@@ -53,8 +53,10 @@ namespace CI_Platform.Repository.Repositories
             return missionDetail;
         }
 
-        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy)
+        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy, int paging)
         {
+            var pageSize = 6;
+
             List<Mission> mission = new List<Mission>();
 
             List<Card> missions = GetMissionCard();
@@ -86,6 +88,10 @@ namespace CI_Platform.Repository.Repositories
 
                 missions = missions.Where(a => skills.Contains(a.skillId.ToString())).ToList();
 
+            }
+            if(paging != null)
+            {
+                missions = missions.Skip((paging - 1) * pageSize).Take(pageSize).ToList();
             }
             switch (sortBy)
             {
@@ -178,8 +184,6 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.Description = allDetailsCard.Description;
                 cardDetails.missionIntro = allDetailsCard.Description;
                 cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
-
-
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
 
                 var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
@@ -273,6 +277,18 @@ namespace CI_Platform.Repository.Repositories
             }
             return missionView;
         }
+        public bool checkFavourite(long missionId, long userId)
+        {
+            var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
+            if(fav != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public void AddToRecent(long missionId, long userId)
         {
@@ -362,11 +378,8 @@ namespace CI_Platform.Repository.Repositories
 
                 StoryViewModel storyInfo = new StoryViewModel();
                 User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == story.UserId);
-
-
-               
                 storyInfo.Type = GetType(story.StoryId);
-
+                storyInfo.StoryId = story.StoryId;
                 storyInfo.Title = story.Title;
                 storyInfo.Description = story.Description;
                 storyInfo.storyImage = getStoryImg(story.StoryId);
@@ -388,6 +401,8 @@ namespace CI_Platform.Repository.Repositories
             }
             return stories;
         }
+
+       
         public List<Story> GetStoryData()
         {
             List<Story> storyDetail = _CiplatformDbContext.Stories.ToList();
@@ -398,7 +413,8 @@ namespace CI_Platform.Repository.Repositories
             List<Mission> missionStory = _CiplatformDbContext.Missions.ToList();
             return missionStory;
         }
-
+        
+        
     }
 
     }
