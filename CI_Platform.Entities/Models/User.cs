@@ -39,9 +39,9 @@ public partial class User
     public long? CityId { get; set; }
 
     public long? CountryId { get; set; }
-
+   
     public string? ProfileText { get; set; }
-
+    
     public string? LinkedInUrl { get; set; }
 
     public string? Title { get; set; }

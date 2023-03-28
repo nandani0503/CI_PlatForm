@@ -38,8 +38,6 @@ namespace CI_PlatForm.Controllers
             var missions = _MissionRepository.GetMissionList();
             ViewBag.missions = missions;
 
-            /*var totalMission = _MissionRepository.getTotalMission();
-            ViewBag.totalMission = totalMission;*/
             
             
            
@@ -211,6 +209,15 @@ namespace CI_PlatForm.Controllers
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
            
 
+            return View();
+        }
+        public IActionResult UserDetail()
+        {
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+
+
+            var CountryList = _MissionRepository.GetCountryData();
+            ViewBag.countryList = CountryList;
             return View();
         }
     }
