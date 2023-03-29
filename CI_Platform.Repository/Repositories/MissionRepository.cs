@@ -53,13 +53,13 @@ namespace CI_Platform.Repository.Repositories
             return missionDetail;
         }
 
-        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy, int paging)
+        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy, int paging, long user)
         {
             var pageSize = 6;
 
-            List<Mission> mission = new List<Mission>();
+            /*List<Mission> mission = new List<Mission>();*/
 
-            List<Card> missions = GetMissionCard();
+            List<Card> missions = GetMissionCard(user);
             if (search != "")
             {
                 missions = missions.Where(a => a.Title.ToLower().Contains(search) || a.OrganizationName.ToLower().Contains(search)).ToList();
@@ -89,10 +89,7 @@ namespace CI_Platform.Repository.Repositories
                 missions = missions.Where(a => skills.Contains(a.skillId.ToString())).ToList();
 
             }
-            if(paging != null)
-            {
-                missions = missions.Skip((paging - 1) * pageSize).Take(pageSize).ToList();
-            }
+            
             switch (sortBy)
             {
                 case 1:
@@ -119,14 +116,18 @@ namespace CI_Platform.Repository.Repositories
                     missions = missions.OrderBy(i => i.FavouriteMissionId).ToList();
                     break;
             }
+            if (paging != null)
+            {
+                missions = missions.Skip((paging - 1) * pageSize).Take(6).ToList();
+            }
             return missions;
         }
 
-        public long getTotalMission()
+       /* public long getTotalMission()
         {
             var total = _CiplatformDbContext.Missions.Count();
             return total;
-        }
+        }*/
 
 
         public string getThemeTitle(long themeID)
@@ -153,18 +154,28 @@ namespace CI_Platform.Repository.Repositories
             return null;
         }
 
-        public List<MissionRating> getMissionRating(long missionId)
+        public List<MissionRating> /*int*/ getMissionRating(long missionId)
         {
-            List<MissionRating> rating = _CiplatformDbContext.MissionRatings.Where(u => u.MissionId == missionId).ToList();
-            return rating;
+            /*List<MissionRating>*/
+            var rating = _CiplatformDbContext.MissionRatings.Where(u => u.MissionId == missionId).ToList();/*FirstOrDefault(u => u.MissionId == missionId);*/
+            return rating/*.Rating*/;
         }
-        public List<Card> GetMissionCard()
+        public List<Card> GetMissionCard(long user_id)
         {
             List<Card> missionAllDetails = new List<Card>();
             var missions = _CiplatformDbContext.Missions.ToList();
             foreach (var allDetailsCard in missions)
             {
                 Card cardDetails = new Card();
+                var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId && u.UserId == user_id);
+                if(fav != null)
+                {
+                    cardDetails.checkFav = true;
+                }
+                else
+                {
+                    cardDetails.checkFav = false;
+                }
 
                 cardDetails.Theme = getThemeTitle(allDetailsCard.ThemeId);
                 cardDetails.Title = allDetailsCard.Title;
@@ -182,7 +193,7 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.Avaibility = allDetailsCard.Avaibility;
                 cardDetails.MissionType = allDetailsCard.MissionType;
                 cardDetails.Description = allDetailsCard.Description;
-                cardDetails.missionIntro = allDetailsCard.Description;
+                /*cardDetails.missionIntro = allDetailsCard.Description;*/
                 cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
 
@@ -198,6 +209,31 @@ namespace CI_Platform.Repository.Repositories
 
         //---------------------------------------Mission Volunteering----------------------------------------------------------------------
 
+
+        public bool checkFavourite(long missionId, long userId)
+        {
+            var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
+            if (fav != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool checkApplied(long missionId, long userId)
+        {
+            var apply = _CiplatformDbContext.MissionApplications.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
+            if(apply != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool addToFavourite(long missionId, long userId)
         {
             FavoriteMission favourite = new();
@@ -277,7 +313,7 @@ namespace CI_Platform.Repository.Repositories
             }
             return missionView;
         }
-        public bool checkFavourite(long missionId, long userId)
+        /*public bool checkFavourite(long missionId, long userId)
         {
             var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
             if(fav != null)
@@ -288,7 +324,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 return false;
             }
-        }
+        }*/
 
         public void AddToRecent(long missionId, long userId)
         {
@@ -296,7 +332,7 @@ namespace CI_Platform.Repository.Repositories
             missionapplication.UserId = userId;
             missionapplication.MissionId = missionId;
             missionapplication.AppliedAt = DateTime.Now;
-            missionapplication.ApprovalStatus = "APPROVE";
+            /*missionapplication.ApprovalStatus = "APPROVE";*/
             _CiplatformDbContext.MissionApplications.Add(missionapplication);
             _CiplatformDbContext.SaveChanges();
         }

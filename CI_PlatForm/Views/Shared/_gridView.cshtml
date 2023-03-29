@@ -13,11 +13,64 @@
                                                               <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
                                                           </div>
                                                           <div>
-                                                              <button type="submit" class="bg-dark text-white bg-opacity-bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i class="bi bi-heart" id="addtofav"></i></button>
-                                                         </div>
+                                                            @if (@objcard.checkFav == true)
+                                                            {
+                                                                <button type="submit" class="bg-dark text-white bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i style="color:red" class="bi bi-heart-fill" id="addtofav_@objcard.MissionId"></i></button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="submit" class="bg-dark text-white bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i style="color:white" class="bi bi-heart" id="addtofav_@objcard.MissionId"></i></button>
+                                                            }
+                                                        </div>
                                                          <div>
-                                                              <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
-                                                         </div>
+                                                              <button type="submit" class="bg-dark text-white bg-opacity-bg-opacity-50" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-people"></i></button>
+                                                              </div>
+                                                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Co-Worker List</h5>
+
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                                                                        </div>
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Select</th>
+                                                                                    <th>Name</th>
+                                                                                    <th>Email</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var worker in @ViewBag.userDetails)
+                                                                                {
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <div class="form-check">
+                                                                                                <input class="form-check-input"  name="volunteers" type="checkbox" value="@worker.FirstName" id="@worker.UserId" />
+                                                                                                <input type="hidden" id="uid" value="@worker.UserId" />
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>@worker.FirstName @worker.LastName</td>
+                                                                                        <td>@worker.Email</td>
+                                                                                    </tr>
+                                                                                }
+                                                                            </tbody>
+                                                                            <tfoot>
+                                                                                <tr>
+                                                                                    <td colspan="3">
+                                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                                        <button type="submit" onclick="sendInvitation(@ViewBag.cardData.MissionId)" class="btn btn-success">Send Invitation</button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tfoot>
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                         
                                                     </div>
                                                     <div class="card img-overlay d-flex align-items-center justify-content-center" >
                                                         <div class="rounded-pill bg-light position-absolute text-center p-2 small" id="@objcard.MissionId">@objcard.Theme</div>
@@ -40,18 +93,7 @@
                                                                             <i class="bi bi-star"></i>
                                                                          }       
                                                                  
-                                                              @*  <div class="container">
-                                                                  <span id="rateMe4"  class="feedback">
-                                                                  </span>
-                                                                </div>
-
-                                                                <!-- rating.js file -->
-                                                                <script @*src="js/addons/rating.js">
-                                                                 // Rating Initialization
-                                                                    $(document).ready(function() {
-                                                                      $('#rateMe4').mdbRate();
-                                                                    });</script>*@
-                                                               
+                         
                                                             </div>
                                                          
 
@@ -125,14 +167,25 @@
                                                         console.log(missions)
                                                         if (missions == true){
                                                             console.log('addtofav output:'.missions);
-                                                            $('#addtofav').removeClass();
-                                                            $('#addtofav').addClass("bi bi-heart-fill");
-                                                            $('#addtofav').css("color","red");
+                                                            $('#addtofav_' + missionId).removeClass();
+                                                            $('#addtofav_' + missionId).addClass("bi bi-heart-fill");
+                                                            $('#addtofav_' + missionId).css("color","red");
+                                                            /*----------------List---------------------*/
+                                                            $('#addtofavList_' + missionId).removeClass();
+                                                            $('#addtofavList_' + missionId).addClass("bi bi-heart-fill");
+                                                            $('#addtofavList_' + missionId).css("color","red");
+                                                            toastr.success('Add to Favourite successfully');
                                                         }
-                                                        else{
-                                                            $('#addtofav').css("color","black");
-                                                            $('#addtofav').removeClass();
-                                                             $('#addtofav').addClass("bi bi-heart");
+                                                        else
+                                                        {
+                                                            $('#addtofav_' + missionId).css("color","white");
+                                                            $('#addtofav_' + missionId).removeClass();
+                                                            $('#addtofav_' + missionId).addClass("bi bi-heart");
+                                                            /*------------List-----------------------------*/
+                                                            $('#addtofavList_' + missionId).css("color","white");
+                                                            $('#addtofavList_' + missionId).removeClass();
+                                                            $('#addtofavList_' + missionId).addClass("bi bi-heart");
+                                                            toastr.success('Remove from Favourite successfully');
                                                         }
                                                     },
                                                     error: function (request, error){
@@ -140,6 +193,32 @@
                                                     }
                                                 })
                                             }
+
+                                            function sendInvitation()
+                        {
+                            var VolunteerList = [];
+
+                             $('input[name="volunteers"]:checked').each(function(){
+                                 VolunteerList.push(this.id);
+                             });
+                            
+                             $.ajax({
+                                 url:"/Mission/VolunteerList",
+                                 method: "POST",
+                                 data:{
+                                     "MissionId" : @ViewBag.cardData.MissionId,
+                                     "Volunteers" : VolunteerList
+                                 },
+                                 success:function(data){
+                                    $("#mission").html(data);
+                                 },
+                                 error: function(request,error){
+                 
+                                     console.log(error);
+                                 }
+                             })
+
+                        }
                                             </script>
                                               
                                      }

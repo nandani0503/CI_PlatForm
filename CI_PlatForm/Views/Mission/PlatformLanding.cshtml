@@ -5,6 +5,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    <script src="~/js/site.js"></script>
    
                       @Html.Partial("_TopNav")
                      
@@ -111,7 +112,8 @@
                                          "cities": cities,
                                          "themes": themes,
                                          "skills": skills,
-                                          "sort" : sort
+                                          "sort" : sort,
+                                          "paging" : paging
                                      },
                                      success:function(data){
                                         $("#mission").html(data);
@@ -132,7 +134,8 @@
                                          "cities": cities,
                                          "themes": themes,
                                          "skills": skills,
-                                          "sort" : sort
+                                          "sort" : sort,
+                                          "paging" : paging
                                      },
                                      success:function(data){
                                         $("#missionList").html(data);
@@ -181,7 +184,29 @@
                                             }
                                             })
                                             };
+                                       function AddToRecent(missionId)
+                                        {
+                                
+                                        $.ajax({
+                                        url:"/Mission/AddToRecentVolunteer",
+                                        method: "POST",
+                                        data:
+                                            {
+                                            
+                                            missionId:missionId
+                                            },
+                                            success:function(@*data*@ missions)
+                                            {
 
+                                            console.log(@*"success"*@missions)
+                                            if(missions == true){
+                                                console.log('addofav output:'.missions);
+                                             $("#volunteer-status").html("Request sent for approvel");
+                                             $("#volunteer-status").css("color","green");
+                                            }
+                                            }
+                                            })
+                                }
                                             
                                            
                                             
@@ -192,7 +217,7 @@
                         <nav aria-label="Page navigation example">
                           <ul class="pagination justify-content-center" onchange="searchMission()">
                             <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Previous" onclick="Previous(2)">
+                              <a class="page-link btn pageBtn" href="#" aria-label="Previous" onclick="searchMission(1)">
                                 <span aria-hidden="true">&laquo;</span>
                              </a>
                             </li>
@@ -206,20 +231,20 @@
                         @if(i == ViewBag.pg_no)
                         {
                             <li class="page-item">
-                            <a class="page-link" onclick="searchMission(@i)">@i</a>
+                            <a class="page-link btn pageBtn active" onclick="searchMission(@i)">@i</a>
                             </li>
                         }
                         else
                         {
                             <li class="page-item">
-                            <a class="page-link" onclick="searchMission(@i)">@i</a>
+                            <a class="page-link btn pageBtn" onclick="searchMission(@i)">@i</a>
                             </li>
                         }
                     }
-                }
-                            
+                
+                     }       
                             <li class="page-item">
-                              <a class="page-link" href="#" aria-label="Next" onclick="NextPage(1)">
+                              <a class="page-link btn pageBtn" href="#" aria-label="Next" onclick="searchMission(@ViewBag.Totalpages)">
                                 <span aria-hidden="true">&raquo;</span>
                            
                               </a>

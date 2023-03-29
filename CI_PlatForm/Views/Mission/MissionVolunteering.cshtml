@@ -65,7 +65,7 @@
                                                     </div>
                                               <div class="row py-2">
                                                   <div class="col-lg-6 col-md-6 col-6 d-flex justify-content-center">
-                                                        <i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
+                                                 <i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
                                                          <div>@ViewBag.cardData.Avaibility
                                                                <div>Seats left</div>
                                                                 </div>
@@ -294,10 +294,11 @@
                                 </div>                             
                             </div>
                        @*-----------------------------------------------Recent volunteer------------------------------------------*@     
-                            <div class="container my-2 ">
+                        @* @Html.Partial("_RecentVolunteer") *@ 
+                        <div class="container my-2 ">
                                 <div class="border border-secondary">
                                     <div class="mx-2 py-1">Recent Volunteeres</div>
-                                    <div class="container">
+                                   @* <div class="container">
                                      <div class="row border">
                                        @foreach(var RecentVolu in @ViewBag.getVolunteer)
                                        {
@@ -305,8 +306,8 @@
                                              <div class="p-1">@RecentVolu.UserName</div></div>
                                          }
                                      </div>
-                                 </div>
-                                
+                                 </div>*@
+                                 @Html.Partial("_RecentVolunteer")
                                      <div class="row p-0">
                                          
                                      <nav aria-label="Page navigation example border-black">
@@ -368,13 +369,13 @@
                                                             <div class="col-lg-6 col-md-6 col-6 small"> @cards.OrganizationName</div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
                                                                
-                                                                  @for (var i = 0; i < (@cards.Rating); i++)
+                                                                  @for (var i = 0; i < (@ViewBag.cardData.Rating); i++)
                                                                         {
-                                                                            <i class="bi bi-star-fill checked"></i>
+                                                                            <label class="rtcolor checked" style="color:#F88634;text-shadow: 0 0 0 #F88634;" id="rating_@i">&#9733;</label>
                                                                         }  
-                                                                   @for (var i = 0; i < 5 - (@cards.Rating); i++)
+                                                                   @for (var i = (@ViewBag.cardData.Rating) + 1; i <= 5 ; i++)
                                                                          {
-                                                                            <i class="bi bi-star"></i>
+                                                                            <label class="rtcolor text-black" id="rating_@i">&#9733;</label>
                                                                          }       
                                                                  
                                                                
@@ -567,11 +568,15 @@
                                             
                                             missionId:missionId
                                             },
-                                            success:function(data)
+                                            success:function(/*data*/ missions)
                                             {
-                                            console.log("success");
+
+                                            console.log(/*"success"*/ missions)
+                                            if(missions == true){
+                                                console.log('addofav output:'.missions);
                                              $("#volunteer-status").html("Request sent for approvel");
                                              $("#volunteer-status").css("color","green");
+                                            }
                                             }
                                             })
                                 }

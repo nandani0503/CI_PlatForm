@@ -16,7 +16,15 @@
                                                               <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-geo-alt"></i><span id="@objcard.CityId">@objcard.CityName</span></button>
                                                           </div>
                                                           <div>
-                                                              <button type="submit" class="bg-dark text-white bg-opacity-bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i class="bi bi-heart" id="addtofav"></i></button>
+                                                            
+                                                             @if (@objcard.checkFav == true)
+                                                            {
+                                                                <button type="submit" class="bg-dark text-white bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i style="color:red" class="bi bi-heart-fill" id="addtofavList_@objcard.MissionId"></i></button>
+                                                            }
+                                                            else
+                                                            {
+                                                                <button type="submit" class="bg-dark text-white bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i style="color:white" class="bi bi-heart" id="addtofavList_@objcard.MissionId"></i></button>
+                                                            }
                                                          </div>
                                                          <div>
                                                               <button type="button" class="bg-dark text-white bg-opacity-bg-opacity-50" ><i class="bi bi-people"></i></button>
@@ -59,7 +67,9 @@
                                                                     <div class="mt-3">
                                                                     <a asp-controller="Mission" asp-action="MissionVolunteering" asp-route-id = "@objcard.MissionId">
                                                                     <button type="button bg-light" class="btn btn-outline-warning border rounded-pill">Apply</button>
-                                                            </a>    </div></div>
+                                                            </a>    
+                                                            </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-6">
                                                         <div class="border rounded-pill text-center px-4">
@@ -90,6 +100,46 @@
                                                             </div>
                                                            </div>
                                       }
+                                       <script> 
+                                                 function AddMissionToFav(missionId){
+                      
+                                                   $.ajax({
+                                                    url: "/Mission/AddMissionToFav",
+                                                    method : "POST",
+
+                                                    data:{
+                                                        "missionId" : missionId
+                                                    },
+                                                    success: function (missions){
+                                                        console.log(missions)
+                                                        if (missions == true){
+                                                            console.log('addtofav output:'.missions);
+                                                            $('#addtofav_' + missionId).removeClass();
+                                                            $('#addtofav_' + missionId).addClass("bi bi-heart-fill");
+                                                            $('#addtofav_' + missionId).css("color","red");
+                                                            /*----------------List---------------------*/
+                                                            $('#addtofavList_' + missionId).removeClass();
+                                                            $('#addtofavList_' + missionId).addClass("bi bi-heart-fill");
+                                                            $('#addtofavList_' + missionId).css("color","red");
+                                                            toastr.success('Add to Favourite successfully');
+                                                        }
+                                                        else{
+                                                            $('#addtofav_' + missionId).css("color","white");
+                                                            $('#addtofav_' + missionId).removeClass();
+                                                            $('#addtofav_' + missionId).addClass("bi bi-heart");
+                                                            /*------------List-----------------------------*/
+                                                            $('#addtofavList_' + missionId).css("color","white");
+                                                            $('#addtofavList_' + missionId).removeClass();
+                                                            $('#addtofavList_' + missionId).addClass("bi bi-heart");
+                                                            toastr.success('Remove from Favourite successfully');
+                                                        }
+                                                    },
+                                                    error: function (request, error){
+                                                        console.log(error);
+                                                    }
+                                                })
+                                            }
+                                            </script>
 
 
 }

@@ -15,6 +15,7 @@ namespace CI_Platform.Entities.ViewModel
         public long CountryId { get; set; }
         public long CityId { get; set; }
         public string CityName { get; set; } = null!;
+        public string SkillName { get; set; } = null!;
         public string? Title { get; set; }
         public string? ShortDescription { get; set; }
         public DateTime? StartDate { get; set; }
@@ -31,12 +32,13 @@ namespace CI_Platform.Entities.ViewModel
       
         public long FavouriteMissionId { get; set; }
 
-        public string? missionIntro { get; set; }
+        //public string? missionIntro { get; set; }
         public string? Description { get; set; }
 
         public string? OrganizationDetail { get; set; }
         public string? DocumentPath { get; set; }
         public string? aboutOrganization { get; set; }
+        public bool checkFav { get; set; }
 
     }
 }
