@@ -149,18 +149,28 @@
                                 </div>
                             </div>
 
+
+                            @* @for (var j = 1; j <= (@ViewBag.getRating); j++)
+                                {
+                                    <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@j" onclick="giveRating(@ViewBag.cardData.MissionId,@j)">&#9733;</label>
+                                }
+                                @for (int j = (@ViewBag.getRating) + 1; j <= 5; j++)
+                                {
+                                    <label class="rtcolor text-black" id="rating_@j" onclick="giveRating(@ViewBag.cardData.MissionId,@j)">☆</label>
+                                }*@
+
                                               <hr style="opacity:1;"/>
                                               <div class="star">
                                              
                                            
                                                 
-                                                  @for (var i = 0; i < (@ViewBag.cardData.Rating); i++)
+                                                  @for (var i = 0; i < (@ViewBag.getRating); i++)
                                                    {
-                                                   <i class="bi bi-star-fill checked"></i>
+                                                   <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">&#9733;</label>
                                                    }  
-                                                   @for (var i = 0; i < 5 - (@ViewBag.cardData.Rating); i++)
+                                                   @for (int i = (@ViewBag.getRating) + 1; i <= 5; i++)
                                                     {
-                                                     <i class="bi bi-star"></i>
+                                                     <label class="rtcolor text-black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">☆</label>
                                                       }       
                                                    
                                                    
@@ -188,8 +198,15 @@
                                        </div>
                                       
                                      <div class="text-center py-1">
-                                        <button type="submit" class="btn btn-outline-warning border rounded-pill"  onclick="AddToRecent(@ViewBag.cardData.MissionId)">Apply Now &nbsp;<img src="/Images/CI Platform Assets/right-arrow.png"></button>
-                                   </div>
+                                     @if(@ViewBag.checkApplied == true)
+                                     {
+                                        <a class="btn btn-outline-warning border rounded-pill disabled"  onclick="AddToRecent(@ViewBag.cardData.MissionId, @ViewBag.userId)">Already applied!! &nbsp;<img src="/Images/CI Platform Assets/right-arrow.png"></a>
+                                        }
+                                        else
+                                        {
+                                            <a class = "btn btn-outline-warning border rounded-pill" id="apply" onclick="AddToRecent(@ViewBag.cardData.MissionId, @ViewBag.userId)"><span id="applied">Apply Now</span></a>
+                                        }
+                                    </div>
                                   
                                 <p id="volunteer-status" class="text-center"></p>
                             
@@ -294,19 +311,11 @@
                                 </div>                             
                             </div>
                        @*-----------------------------------------------Recent volunteer------------------------------------------*@     
-                        @* @Html.Partial("_RecentVolunteer") *@ 
+                       
                         <div class="container my-2 ">
                                 <div class="border border-secondary">
                                     <div class="mx-2 py-1">Recent Volunteeres</div>
-                                   @* <div class="container">
-                                     <div class="row border">
-                                       @foreach(var RecentVolu in @ViewBag.getVolunteer)
-                                       {
-                                         <div class="col-4 justify-content-center align-items-center"><img src="/Images/CI Platform Assets/@RecentVolu.Avatar" class="rounded-circle p-2"  style="height:70px;width:70px;"/>
-                                             <div class="p-1">@RecentVolu.UserName</div></div>
-                                         }
-                                     </div>
-                                 </div>*@
+                                   
                                  @Html.Partial("_RecentVolunteer")
                                      <div class="row p-0">
                                          
@@ -481,6 +490,7 @@
                         method : "POST",
 
                         data:{
+                           
                             "missionId" : missionId
                         },
                         success: function (missions){
@@ -531,7 +541,7 @@
                            })
                         }
                     }
-                      function sendInvitation()
+                      function sendInvitation(MissionId)
                         {
                             var VolunteerList = [];
 
@@ -543,11 +553,16 @@
                                  url:"/Mission/VolunteerList",
                                  method: "POST",
                                  data:{
-                                     "MissionId" : @ViewBag.cardData.MissionId,
+                                     "MissionId" : /*@ViewBag.cardData.*/MissionId,
                                      "Volunteers" : VolunteerList
                                  },
                                  success:function(data){
-                                    $("#mission").html(data);
+                                    if(data == true){
+                                        toastr.success('Mail sent successfully');
+                                    }
+                                    else{
+                                        toastr.error('Mail did not send successfully');
+                                    }
                                  },
                                  error: function(request,error){
                  
@@ -556,8 +571,34 @@
                              })
 
                         }
+                        function giveRating(missionId,rating){
+                            $(".rtcolor").removeClass("text-warning");
+                            PostRating(rating, missionId);
+                        }
+                        function PostRating(i,missionId){
+                            $.ajax({
+                                type : "POST",
+                                url : "/Mission/PostRating",
+                                data :{
+                                    'rate' : i,
+                                    'MissionId' : missionId
+                                },
+                                success:(data) => {
+                                    if(data == 1){
+                                        location.reload();
+                                        toastr.success('Your rating updated successfully');
+                                    }
+                                    else if(data == 0){
+                                        toastr.error('First apply for the mission');
+                                    }
+                                    else if(data == 2){
+                                        toastr.info('Please wait for application approve');
+                                    }
+                                }
+                            })
+                        }
 
-                    function AddToRecent(missionId)
+                    function AddToRecent(missionId, userId)
                                         {
                                 
                                         $.ajax({
@@ -565,21 +606,61 @@
                                         method: "POST",
                                         data:
                                             {
-                                            
+                                            userId : userId,
                                             missionId:missionId
                                             },
-                                            success:function(/*data*/ missions)
+                                            success:function(data)
                                             {
-
-                                            console.log(/*"success"*/ missions)
-                                            if(missions == true){
-                                                console.log('addofav output:'.missions);
-                                             $("#volunteer-status").html("Request sent for approvel");
+                                            console.log("success");
+                                            $("#volunteer-status").html("Request sent for approvel");
                                              $("#volunteer-status").css("color","green");
+                                             $("#applied").text("Applied!");
+                                             $("#apply").addClass("disabled!");
+                                            
                                             }
-                                            }
-                                            })
+                                            });
                                 }
+                                function VolunteersPaging(paging, mission_id, total){
+                                    if(paging == "prev"){
+                                        if(currnt_page > 0){
+                                            $.ajax({
+                                                url : "/Mission/VolunteerPaging",
+                                                method : "POST",
+                                                data : {
+                                                    "mission_id" : mission_id,
+                                                    "paging" : current_page - 1
+                                                },
+                                                success : function(data){
+                                                    $(".recent-volunteers").html(data);
+                                                },
+                                                error : function(request, error){
+                                                    consle.log(error);
+                                                }
+                                            })
+                                            current_page--;
+                                        }
+                                    }
+                                    else{
+                                        if(current_page+1 < total){
+                                            $.ajax({
+                                                url : "/Mission/VolunteerPaging",
+                                                method : "POST",
+                                                data :{
+                                                    "mission_id" : mission_id,
+                                                    "paging" : current_page + 1
+                                                },
+                                                success : function(data){
+                                                    $(".recent-volunteers").html(data);
+                                                },
+                                                error:function(request,error){
+                                                    console.log(error);
+                                                }
+                                            })
+                                            current_page++;
+                                        }
+                                    }
+                                }
+
                     </script>
                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>  
 

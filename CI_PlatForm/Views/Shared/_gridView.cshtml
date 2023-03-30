@@ -23,53 +23,9 @@
                                                             }
                                                         </div>
                                                          <div>
-                                                              <button type="submit" class="bg-dark text-white bg-opacity-bg-opacity-50" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-people"></i></button>
-                                                              </div>
-                                                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">Co-Worker List</h5>
-
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                                                                        </div>
-                                                                        <table class="table">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th>Select</th>
-                                                                                    <th>Name</th>
-                                                                                    <th>Email</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                @foreach (var worker in @ViewBag.userDetails)
-                                                                                {
-                                                                                    <tr>
-                                                                                        <td>
-                                                                                            <div class="form-check">
-                                                                                                <input class="form-check-input"  name="volunteers" type="checkbox" value="@worker.FirstName" id="@worker.UserId" />
-                                                                                                <input type="hidden" id="uid" value="@worker.UserId" />
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td>@worker.FirstName @worker.LastName</td>
-                                                                                        <td>@worker.Email</td>
-                                                                                    </tr>
-                                                                                }
-                                                                            </tbody>
-                                                                            <tfoot>
-                                                                                <tr>
-                                                                                    <td colspan="3">
-                                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                                                        <button type="submit" onclick="sendInvitation(@ViewBag.cardData.MissionId)" class="btn btn-success">Send Invitation</button>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tfoot>
-                                                                        </table>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                              <button type="submit" class="bg-dark text-white bg-opacity-bg-opacity-50"><i class="bi bi-people"></i></button>
+                                                         </div>
+                                          
                                                          
                                                     </div>
                                                     <div class="card img-overlay d-flex align-items-center justify-content-center" >
@@ -194,31 +150,7 @@
                                                 })
                                             }
 
-                                            function sendInvitation()
-                        {
-                            var VolunteerList = [];
-
-                             $('input[name="volunteers"]:checked').each(function(){
-                                 VolunteerList.push(this.id);
-                             });
-                            
-                             $.ajax({
-                                 url:"/Mission/VolunteerList",
-                                 method: "POST",
-                                 data:{
-                                     "MissionId" : @ViewBag.cardData.MissionId,
-                                     "Volunteers" : VolunteerList
-                                 },
-                                 success:function(data){
-                                    $("#mission").html(data);
-                                 },
-                                 error: function(request,error){
-                 
-                                     console.log(error);
-                                 }
-                             })
-
-                        }
+                                
                                             </script>
                                               
                                      }

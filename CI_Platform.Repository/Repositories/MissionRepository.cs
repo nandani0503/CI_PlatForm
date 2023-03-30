@@ -57,7 +57,7 @@ namespace CI_Platform.Repository.Repositories
         {
             var pageSize = 6;
 
-            /*List<Mission> mission = new List<Mission>();*/
+            
 
             List<Card> missions = GetMissionCard(user);
             if (search != "")
@@ -123,11 +123,7 @@ namespace CI_Platform.Repository.Repositories
             return missions;
         }
 
-       /* public long getTotalMission()
-        {
-            var total = _CiplatformDbContext.Missions.Count();
-            return total;
-        }*/
+      
 
 
         public string getThemeTitle(long themeID)
@@ -154,11 +150,16 @@ namespace CI_Platform.Repository.Repositories
             return null;
         }
 
-        public List<MissionRating> /*int*/ getMissionRating(long missionId)
+        public int getMissionRating(long missionId)
         {
-            /*List<MissionRating>*/
-            var rating = _CiplatformDbContext.MissionRatings.Where(u => u.MissionId == missionId).ToList();/*FirstOrDefault(u => u.MissionId == missionId);*/
-            return rating/*.Rating*/;
+
+            var rating = _CiplatformDbContext.MissionRatings.Where(a => a.MissionId == missionId).Average(a => a.Rating);
+            return (int)rating;
+        }
+        public long countVolunteers(long missionId)
+        {
+            long ratingVolunteers = _CiplatformDbContext.MissionRatings.Where(r => r.MissionId == missionId).Count();
+            return ratingVolunteers;
         }
         public List<Card> GetMissionCard(long user_id)
         {
@@ -187,13 +188,12 @@ namespace CI_Platform.Repository.Repositories
                 cardDetails.StartDate = allDetailsCard.StartDate;
                 cardDetails.EndDate = allDetailsCard.EndDate;
                 cardDetails.MediaName = getMediaName(allDetailsCard.MissionId);
-                cardDetails.Rating = (int)getMissionRating(allDetailsCard.MissionId).Average(a => a.Rating);
+                cardDetails.Rating = getMissionRating(allDetailsCard.MissionId);
                 cardDetails.CountryId = allDetailsCard.CountryId;
                 cardDetails.ThemeId = allDetailsCard.ThemeId;
                 cardDetails.Avaibility = allDetailsCard.Avaibility;
                 cardDetails.MissionType = allDetailsCard.MissionType;
                 cardDetails.Description = allDetailsCard.Description;
-                /*cardDetails.missionIntro = allDetailsCard.Description;*/
                 cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
 
@@ -252,6 +252,48 @@ namespace CI_Platform.Repository.Repositories
                 _CiplatformDbContext.FavoriteMissions.Remove(FavMission);
                 _CiplatformDbContext.SaveChanges();
                 return false;
+            }
+        }
+        /*---------------------------------Rating------------------------------------*/
+
+
+        public int getRating(long missionId, long userId)
+        {
+            if(_CiplatformDbContext.MissionRatings.FirstOrDefault(r => r.MissionId == missionId && r.UserId == userId) is not null)
+            {
+                int getRate = _CiplatformDbContext.MissionRatings.FirstOrDefault(r => r.MissionId == missionId && r.UserId == userId).Rating;
+                return getRate;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public bool PostRating(byte rate, long missionId, long userId)
+        {
+            var entry = _CiplatformDbContext.MissionRatings.Where(m => m.MissionId == missionId && m.UserId == userId);
+            if(entry.ToList().Count == 0)
+            {
+                var data = new MissionRating()
+                {
+                    UserId = userId,
+                    MissionId = missionId,
+                    Rating = rate
+                };
+                _CiplatformDbContext.MissionRatings.Add(data);
+                _CiplatformDbContext.SaveChanges();
+                return true;    
+            }
+            else
+            {
+                var data = new MissionRating()
+                {
+                    Rating = rate,
+                };
+                entry.First().Rating = rate;
+                entry.First().UpdatedAt = DateTime.Now;
+                _CiplatformDbContext.SaveChanges();
+                return true;
             }
         }
 
@@ -313,18 +355,7 @@ namespace CI_Platform.Repository.Repositories
             }
             return missionView;
         }
-        /*public bool checkFavourite(long missionId, long userId)
-        {
-            var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
-            if(fav != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
+       
 
         public void AddToRecent(long missionId, long userId)
         {
@@ -332,7 +363,7 @@ namespace CI_Platform.Repository.Repositories
             missionapplication.UserId = userId;
             missionapplication.MissionId = missionId;
             missionapplication.AppliedAt = DateTime.Now;
-            /*missionapplication.ApprovalStatus = "APPROVE";*/
+            missionapplication.ApprovalStatus = "APPROVE";
             _CiplatformDbContext.MissionApplications.Add(missionapplication);
             _CiplatformDbContext.SaveChanges();
         }

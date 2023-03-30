@@ -64,7 +64,7 @@ namespace CI_PlatForm.Controllers
 
         }
 
-        /*[HttpPost]*/
+        
         public JsonResult GetCity(List<string> countryId)
         {
             List<City> city = _MissionRepository.GetCityFromCountry(countryId);
@@ -93,7 +93,7 @@ namespace CI_PlatForm.Controllers
            
             return PartialView("_gridView");
         }
-        [HttpPost]
+        
         public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort, int paging)
         {
             long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
@@ -124,29 +124,28 @@ namespace CI_PlatForm.Controllers
             
             var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
+            ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, user);
             
             ViewBag.commentViewBag = _MissionRepository.getComment(missions.MissionId);
             
             ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
 
-
-
-            /*var user = Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            ViewBag.userId = user;*/
             ViewBag.userId = user;
             ViewBag.pg_no = 0;
             
             var userDetails = _UserRepository.UserList().Where(i => i.UserId != user);
             ViewBag.userDetails = userDetails;
 
-            ViewBag.getVolunteer = _MissionRepository.GetRecentUser(missions.MissionId).Take(3).ToList();
-            ViewBag.Totalpages = Math.Ceiling(_MissionRepository.getMissionApplicant().Count() / 3.0);
+            ViewBag.getVolunteer = _MissionRepository.GetRecentUser(missions.MissionId).Take(9).ToList();
+            ViewBag.Totalpages = Math.Ceiling(_MissionRepository.getMissionApplicant().Count() / 9.0);
             ViewBag.totalVol = _MissionRepository.GetRecentUser(missions.MissionId).Count();
             ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
 
             ViewBag.checkFav = _MissionRepository.checkFavourite(id, user);
             ViewBag.checkApplied = _MissionRepository.checkApplied(id, user);
+            
             var coWokerList = _MissionRepository.Recommend;
+            ViewBag.ratingVolunteers = _MissionRepository.countVolunteers(missions.MissionId);
 
             var RelatedMission = VolunteerCard.Where(a => a.MissionId != missions.MissionId && (a.CityId == missions.CityId || a.ThemeId == missions.ThemeId || a.MissionType == missions.MissionType)).Take(3).ToList();   
             ViewBag.relatedMission = RelatedMission;
@@ -171,6 +170,24 @@ namespace CI_PlatForm.Controllers
             var fav = _MissionRepository.addToFavourite(missionId, userId);
             return fav;
         }
+        public int PostRating(byte rate, long missionId)
+        {
+            long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            bool UserValid = _MissionRepository.checkApplied(missionId,userId);
+            if(UserValid == true)
+            {
+                bool result = _MissionRepository.PostRating(rate, missionId, userId);
+                return 1;
+            }
+            else if(UserValid == false)
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
+        }
         public void AddToRecentVolunteer(long missionId, long userId)
         {
             bool check = _MissionRepository.checkApplied(missionId, userId);
@@ -182,7 +199,8 @@ namespace CI_PlatForm.Controllers
         }
         public ActionResult VolunteerPaging(int paging, long mission_id)
         {
-            if(paging > 0)
+            double total_pages = Math.Ceiling(_MissionRepository.GetRecentUser(mission_id).Count() / 9.0);
+            if(paging > 0 && paging <= total_pages)
             {
                 ViewBag.getVolunteer = _MissionRepository.GetRecentUser(mission_id).Skip(9 * paging).Take(9).ToList();
                 ViewBag.totalVol = _MissionRepository.GetRecentUser(mission_id).Count();
@@ -204,14 +222,6 @@ namespace CI_PlatForm.Controllers
         public IActionResult VolunteeringStory()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-
-           
-
-            /*var MissionTheme = _MissionRepository.GetMissionTheme();
-            ViewBag.missionTheme = MissionTheme;
-
-            var SkillList = _MissionRepository.GetSkillsList();
-            ViewBag.skillList = SkillList;*/
 
             var storyInfo = _MissionRepository.GetStoryDetails();
             ViewBag.storyInfo = storyInfo;

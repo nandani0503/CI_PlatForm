@@ -32,7 +32,7 @@ namespace CI_Platform.Repository.Interface
         public string getMediaName(long missionID);
 
         
-       public /*int*/ List<MissionRating> getMissionRating(long missionId);
+       public int getMissionRating(long missionId);
 
         //-------------------------------------------Mission Volunteering-----------------------------------------------------------------------
         public bool addToFavourite(long missionId, long userId);
@@ -54,6 +54,9 @@ namespace CI_Platform.Repository.Interface
 
         /*--------------------------------------Volunteer Story-------------------------------------------------------------------------*/
 
+        public long countVolunteers(long missionId);
+        public int getRating(long missionId, long userd);
+        public bool PostRating(byte rate, long missionId, long userId);
         public List<StoryViewModel> GetStoryDetails();
         /*public List<StoryViewModel> GetStoryData(string? searchStory, /*string[] countries, string[] cities, string[] themes, string[] skills);*/
         public List<StoryViewModel> GetStoryData(string? searchStory);
