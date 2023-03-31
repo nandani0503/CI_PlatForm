@@ -145,9 +145,48 @@
   </div>
    </div>
   <div class="row p-3">
-  <div class="col-12">
+  <div class="col-3">
   <button type="button" class="btn btn-outline-secondary border rounded-pill">Add Skills</button>
   </div>
+  <div class = "col-9 text-end">
+   <button type="button" class="btn btn-outline-secondary border rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</button></div>
+   <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <div class="row p-3">
+             <div class="form-group">
+                
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter old Password">
+                </div>
+              </div>
+              <div class="row p-3">
+              <div class="form-group">
+                
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter new Password">
+                </div>
+              </div>
+              <div class="row p-3">
+              <div class="form-group">
+                
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter confirm Password">
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-warning">Change Password</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class ="row p-3">
   <div class="col-12 text-end">

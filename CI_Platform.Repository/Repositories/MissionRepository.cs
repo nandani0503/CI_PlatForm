@@ -379,7 +379,7 @@ namespace CI_Platform.Repository.Repositories
                 _CiplatformDbContext.MissionInvites.Add(new MissionInvite
                 {
                     FromUserId = user_id,
-                    ToUserId = user,
+                    ToUserId = Convert.ToInt64(user),
                     MissionId = mission_id
                 });
             }

@@ -148,32 +148,16 @@
                                 </div>
                                 </div>
                             </div>
-
-
-                            @* @for (var j = 1; j <= (@ViewBag.getRating); j++)
-                                {
-                                    <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@j" onclick="giveRating(@ViewBag.cardData.MissionId,@j)">&#9733;</label>
-                                }
-                                @for (int j = (@ViewBag.getRating) + 1; j <= 5; j++)
-                                {
-                                    <label class="rtcolor text-black" id="rating_@j" onclick="giveRating(@ViewBag.cardData.MissionId,@j)">☆</label>
-                                }*@
-
                                               <hr style="opacity:1;"/>
                                               <div class="star">
-                                             
-                                           
-                                                
-                                                  @for (var i = 0; i < (@ViewBag.getRating); i++)
-                                                   {
-                                                   <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">&#9733;</label>
-                                                   }  
-                                                   @for (int i = (@ViewBag.getRating) + 1; i <= 5; i++)
-                                                    {
-                                                     <label class="rtcolor text-black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">☆</label>
-                                                      }       
-                                                   
-                                                   
+                                               @for (var i = 0; i < (@ViewBag.getRating); i++)
+                                                 {
+                                                 <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">&#9733;</label>
+                                                 }  
+                                                 @for (int i = (@ViewBag.getRating) + 1; i <= 5; i++)
+                                                 {
+                                                 <label class="rtcolor text-black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">☆</label>
+                                                 }       
                                               </div>
                                        <div class="row py-2">
                                            <div class="col-lg-3 col-md-6 col-6 border">
@@ -295,14 +279,14 @@
                                             <div class="d-flex">
                                                
                                                  
-                                                      @for (var i = 0; i < (@ViewBag.cardData.Rating); i++)
-                                                            {
-                                                                <i class="bi bi-star-fill checked"></i>
-                                                            }  
-                                                       @for (var i = 0; i < 5 - (@ViewBag.cardData.Rating); i++)
-                                                             {
-                                                                <i class="bi bi-star"></i>
-                                                             }       
+                                                 @for (var i = 0; i < (@ViewBag.getRating); i++)
+                                                 {
+                                                 <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">&#9733;</label>
+                                                 }  
+                                                 @for (int i = (@ViewBag.getRating) + 1; i <= 5; i++)
+                                                 {
+                                                 <label class="rtcolor text-black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">☆</label>
+                                                 }      
                                                      
                                               </div>
                                               <span>(by 125 volunteers)</span>
@@ -378,14 +362,14 @@
                                                             <div class="col-lg-6 col-md-6 col-6 small"> @cards.OrganizationName</div>
                                                             <div class="col-lg-6 col-md-6 col-6 d-flex">
                                                                
-                                                                  @for (var i = 0; i < (@ViewBag.cardData.Rating); i++)
-                                                                        {
-                                                                            <label class="rtcolor checked" style="color:#F88634;text-shadow: 0 0 0 #F88634;" id="rating_@i">&#9733;</label>
-                                                                        }  
-                                                                   @for (var i = (@ViewBag.cardData.Rating) + 1; i <= 5 ; i++)
-                                                                         {
-                                                                            <label class="rtcolor text-black" id="rating_@i">&#9733;</label>
-                                                                         }       
+                                                                   @for (var i = 0; i < (@ViewBag.getRating); i++)
+                                                                     {
+                                                                     <label class="rtcolor checked" style="color: #F8D441; border-color: black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">&#9733;</label>
+                                                                     }  
+                                                                     @for (int i = (@ViewBag.getRating) + 1; i <= 5; i++)
+                                                                     {
+                                                                     <label class="rtcolor text-black" id="rating_@i" onclick="giveRating(@ViewBag.cardData.MissionId,@i)">☆</label>
+                                                                     }       
                                                                  
                                                                
                                                             </div>
@@ -548,12 +532,12 @@
                              $('input[name="volunteers"]:checked').each(function(){
                                  VolunteerList.push(this.id);
                              });
-                            
+                            debugger
                              $.ajax({
                                  url:"/Mission/VolunteerList",
                                  method: "POST",
                                  data:{
-                                     "MissionId" : /*@ViewBag.cardData.*/MissionId,
+                                     "MissionId" : MissionId,
                                      "Volunteers" : VolunteerList
                                  },
                                  success:function(data){
