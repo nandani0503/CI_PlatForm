@@ -299,7 +299,7 @@ namespace CI_Platform.Repository.Repositories
 
         public List<CommentViewModel> getComment(long missionId)
         {
-            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == /*"PUBLISHED"*/ "PENDING").ToList();
+            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == "PENDING").ToList();
             List<CommentViewModel> commentView = new List<CommentViewModel>();
 
             foreach (var comment in comments)
@@ -442,11 +442,18 @@ namespace CI_Platform.Repository.Repositories
 
             foreach (var story in PublishedStory)
             {
-
+                Mission mission = _CiplatformDbContext.Missions.FirstOrDefault(a => a.MissionId == story.MissionId);
                 StoryViewModel storyInfo = new StoryViewModel();
                 User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == story.UserId);
-                storyInfo.Type = GetType(story.StoryId);
+
+                
                 storyInfo.StoryId = story.StoryId;
+                storyInfo.MissionId = mission.MissionId;
+                storyInfo.CountryId = mission.CountryId;
+                storyInfo.ThemeId = mission.ThemeId;
+                var skillId = _CiplatformDbContext.MissionSkills.FirstOrDefault(a => a.MissionId == story.MissionId);
+                storyInfo.SkillId = skillId.SkillId;
+                storyInfo.Theme = _CiplatformDbContext.MissionThemes.FirstOrDefault(a => a.MissionThemeId == _CiplatformDbContext.Missions.FirstOrDefault(a => a.MissionId == story.MissionId).ThemeId).Title;
                 storyInfo.Title = story.Title;
                 storyInfo.Description = story.Description;
                 storyInfo.storyImage = getStoryImg(story.StoryId);
@@ -458,30 +465,109 @@ namespace CI_Platform.Repository.Repositories
             return stories;
         }
 
-        public List<StoryViewModel> GetStoryData(string? searchStory)
+        public List<StoryViewModel> GetStoryList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int paging)
         {
-            List<Story> story = new List<Story>();
+            var pageSize = 6;
+            
             List<StoryViewModel> stories = GetStoryDetails();
-            if(searchStory != "")
+            if(search != "")
             {
-                stories = stories.Where(a => a.Title.ToLower().Contains(searchStory)).ToList();
+                stories = stories.Where(a => a.Title.ToLower().Contains(search)).ToList();
+            }
+            if(countries.Length > 0)
+            {
+                stories = stories.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
+            }
+            if(cities.Length > 0)
+            {
+                stories = stories.Where(a => cities.Contains(a.CityId.ToString())).ToList();
+            }
+            if(themes.Length > 0)
+            {
+                stories = stories.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
+            }
+            if(skills.Length > 0)
+            {
+                stories = stories.Where(a => skills.Contains(a.SkillId.ToString())).ToList();
+            }
+            if(paging != null)
+            {
+                stories = stories.Skip((paging -1) * pageSize).Take(6).ToList();
             }
             return stories;
         }
 
-       
-        public List<Story> GetStoryData()
+        public List<Mission> getStoryMission(long userid)
         {
-            List<Story> storyDetail = _CiplatformDbContext.Stories.ToList();
-            return storyDetail;
+            var storymission = _CiplatformDbContext.MissionApplications.Where(i => i.UserId == userid && i.ApprovalStatus == "APPROVE").ToList();
+            var story = new List<long>();
+            foreach(var item in storymission)
+            {
+                story.Add(item.MissionId);
+            }
+            var storymissions = _CiplatformDbContext.Missions.Where(i => story.Contains(i.MissionId)).ToList();
+            return storymissions;
         }
-       public List<Mission> GetStoryList()
+        public void AddStory(StoryViewModel model, long UserId, string Submit)
         {
-            List<Mission> missionStory = _CiplatformDbContext.Missions.ToList();
-            return missionStory;
+            if(model.Description != null)
+            {
+                Story addData = new Story();
+                StoryMedium Url = new StoryMedium();
+                {
+                    addData.UserId = UserId;
+                    addData.MissionId = model.MissionId;
+                    addData.Description = model.Description;
+                    addData.Title = model.Title;
+                    addData.Status = "DRAFT";
+                    if(Submit == "Submit")
+                    {
+                        addData.Status = "PUBLISHED";
+                    }
+                    Url.Path = model.Url;
+                    addData.PublishedAt = model.PublishDate;
+                    _CiplatformDbContext.Add(addData);
+                    _CiplatformDbContext.SaveChanges();
+                    foreach(var i in model.Images)
+                    {
+                        StoryMedium storyMedium = new StoryMedium();
+                        storyMedium.StoryId = addData.StoryId;
+                        storyMedium.Type = "png";
+                        storyMedium.Path = i.FileName;
+                        _CiplatformDbContext.StoryMedia.Add(storyMedium);
+                        _CiplatformDbContext.SaveChanges();
+                        if(i.Length > 0)
+                        {
+                            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CI Platform Assets/StoryImages", i.FileName);
+                                using(var stream = new FileStream(path, FileMode.Create))
+                            {
+                                i.CopyTo(stream);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        
-        
+        public StoryViewModel getStory(long story_id)
+        {
+            List<StoryMedium> medias = _CiplatformDbContext.StoryMedia.ToList();
+            Story story = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == story_id);
+            if(story == null)
+            {
+                return null;
+            }
+            else
+            {
+                StoryViewModel mystory = new StoryViewModel()
+                {
+                    Title = story.Title,
+                    Description = story.Description,
+                    storymedia = story.StoryMedia.ToList(),
+                    users = _CiplatformDbContext.Users.ToList(),
+                };
+                return mystory;
+            }
+        }
     }
 
     }

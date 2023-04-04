@@ -22,7 +22,7 @@ namespace CI_Platform.Repository.Interface
         //------------------------------------Mission card---------------------------------------------------------------------------------------
         public List<Mission> GetMissionList();
         public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills,int sortBy, int paging, long user);
-        //public long getTotalMission();
+        
         public List<Card> GetMissionCard(long user_id);
    
         public string getThemeTitle(long themeID);
@@ -58,11 +58,10 @@ namespace CI_Platform.Repository.Interface
         public int getRating(long missionId, long userd);
         public bool PostRating(byte rate, long missionId, long userId);
         public List<StoryViewModel> GetStoryDetails();
-        /*public List<StoryViewModel> GetStoryData(string? searchStory, /*string[] countries, string[] cities, string[] themes, string[] skills);*/
-        public List<StoryViewModel> GetStoryData(string? searchStory);
-        /*public List<StoryViewModel> GetStoryData();*/
-        public string GetType(long storyId);
-        public List<Mission> GetStoryList();
+        public List<StoryViewModel> GetStoryList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int paging);
+        public List<Mission> getStoryMission(long userid);
+        public void AddStory(StoryViewModel model, long UserId, string Submit);
+        public StoryViewModel getStory(long story_id);
         
 
     }

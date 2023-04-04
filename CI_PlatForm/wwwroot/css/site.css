@@ -75,6 +75,15 @@ html {
     .button:is(:hover) {
         visibility: visible;
     }
+    .other-image{
+        cursor : pointer;
+    }
+    .left{
+        opacity : 50%;
+        cursor : pointer;
+
+    }
+    
 
 /*body {
   margin-bottom: 60px;

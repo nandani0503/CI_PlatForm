@@ -1,11 +1,13 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using Microsoft.AspNetCore.Http
+@model CI_PlatForm.Entities.ViewModel.StoryViewModel
 @{
     @Html.Partial("_TopNav")
     <div class = "container">
     <div class = "row">
-    <div class = "col-6">
+    <div class = "col-lg-6 col-md-6 col-12">
     <div class="w3-content" style="max-width:1200px">
                                       <img class="mySlides" src="/Images/CI Platform Assets/Grow-Trees-On-the-path-to-environment-sustainability-1.png" style="width:100%;display:none">
                                       <img class="mySlides" src="/Images/CI Platform Assets/Animal-welfare-&-save-birds-campaign-1.png" style="width:100%">
@@ -23,18 +25,92 @@
                                         </div>
                                       </div>
                                     </div>
-                            </div>
-                            <div class = "col-6">
+                                  @*<div class="carousel slide" data-bs-interval="false" id="sub-images">
+                                  <div class="carousel-inner">
+                        @{
+                            int count = 0;
+                            foreach(var item in Model.storymedia)
+                            {
+                                if(count == 0)
+                                {
+                                    <img class="w-100 carousel-item active main-image" src="~/Images/CI Platform Assets/@item.Path" alt="Story images">
+                                    count = count + 1;
+                                }
+                                else
+                                {
+                                    <img class="w-100 carousel-item main-image" src="~/Images/CI Platform Assets/@item.Path" alt="Story images">
+
+
+                                }
+
+                            }
+                        }</div>
+                    <div class="mt-1 w-100 position-relative">
+                        <div class="carousel slide" data-bs-interval="false" id="other-images">
+                            <div class="carousel-inner">
+                                @{
+                                    int sub_count = 4;
+                                    int check = 0;
+                                    int carousel_count = (int)Math.Ceiling((double)@Model.storymedia.Count / 4);
+                                    for(var i = 0; i < carousel_count; i ++){
+                                        if(check == 0)
+                                        {
+                                            <div class = "carousel-item active">
+                                                <div class="d-flex">
+                                                    @if (@Model.storymedia.Count >= sub_count)
+                                                    {
+                                                        @for(int j = 0; j < sub_count; j++)
+                                                        {
+                                                            <img src="/Images/CI Platform Assets/@Model?.storymedia.ElementAt(j).Path" data-bs-target="#sub-images" data-bs-slide-to=@j class="other-image" alt="">
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @for(int j = 0; j < @Model?.storymedia.Count; j++)
+                                                        {
+                                                           <img src="~/Images/CI Platform Assets/@Model?.storymedia.ElementAt(j).Path" data-bs-target="#sub-images" data-bs-slide-to=@j class="other-image" alt="">
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            check = check + 4;
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel-item">
+                                                <div class="d-flex">
+                                                    @if (@Model?.storymedia.Count - (4 * i) >= sub_count)
+                                                    {
+                                                        @for(int j = 0; j < sub_count + check; j++)
+                                                        {
+                                                            <img src="/@Model?.storymedia.ElementAt(j).Path" data-bs-target="#sub-images" data-bs-slide-to=@j class="other-image" alt="">
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @for(int j = check; j < @Model?.storymedia.Count; j++)
+                                                        {
+                                                            <img src="/@Model?.storymedia.ElementAt(j).Path" data-bs-target="#sub-images" data-bs-slide-to="other-image" alt="">
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            check = check + 4;
+                                        }
+                                    }
+                                }</div></div></div></div>*@
+            </div>
+                            <div class = "col-lg-6 col-md-6 col-12">
                             <div class = "row">
                             <div class="col-3">
-                            <img src="/Images/CI Platform Assets/volunteer1.png" class="rounded-circle text-center">
+                            <img src="/Images/CI Platform Assets/@Model.Avatar" class="rounded-circle text-center">
                          
 
                         </div>
                          </div>
                          <div class = "row">
                          <div class = "col-3">
-                            <div class="text-center">Charles Vigue
+                            <div class="text-center">@Model.UserName
                             </div>
                             </div>
                             <div class="col-9 text-end">
@@ -92,3 +168,4 @@
                                     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
                                     crossorigin="anonymous"></script>
 }
+

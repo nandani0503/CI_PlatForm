@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CI_Platform.Entities.Models;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +18,7 @@ namespace CI_PlatForm.Entities.ViewModel
 
         public string? storyImage { get; set; }
 
-        public string Theme { get; set; }
+        public string? Theme { get; set; }
 
         public string? Title { get; set; }
 
@@ -31,9 +33,15 @@ namespace CI_PlatForm.Entities.ViewModel
         public long SkillId { get; set; }
 
         public long ThemeId { get; set; }
+        public DateTime? PublishDate { get; set; }
+        
 
         public string Type { get; set; } = null!;
 
         public string Status { get; set; } = null!;
+        public string? Url { get; set; }
+        public List<IFormFile>? Images { get; set; }
+        public List<StoryMedium>? storymedia { get; set; }
+        public List<User>? users { get; set; }
     }
 }

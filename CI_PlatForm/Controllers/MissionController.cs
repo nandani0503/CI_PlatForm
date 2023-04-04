@@ -23,7 +23,7 @@ namespace CI_PlatForm.Controllers
         {
 
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
 
 
             var CountryList = _MissionRepository.GetCountryData();
@@ -45,8 +45,8 @@ namespace CI_PlatForm.Controllers
             //-------------------Mission card----------------------------------------------------------
 
 
-            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(user);
-            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId != user);
+            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(userId);
+            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId != userId);
             ViewBag.userDetails = DetailsOfWorker;
             var coWorkerList = _MissionRepository.Recommend;
 
@@ -76,12 +76,12 @@ namespace CI_PlatForm.Controllers
         [HttpPost]
         public ActionResult Search(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort, int paging)
         {
-            long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId == user);
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId == userId);
             ViewBag.userDetails = DetailsOfWorker;
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(user);
-            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort,paging, user);
+            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(userId);
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort,paging, userId);
             ViewBag.cardDetail = missions;
             ViewBag.pg_no = paging;
             ViewBag.TotalPages = Math.Ceiling(missionCardDetails.Count()/6.0);
@@ -96,12 +96,12 @@ namespace CI_PlatForm.Controllers
         
         public ActionResult SearchList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sort, int paging)
         {
-            long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId == user);
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var DetailsOfWorker = _UserRepository.UserList().Where(i => i.UserId == userId);
             ViewBag.userDetails = DetailsOfWorker;
             search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
-            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(user);
-            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort, paging, user);
+            List<Card> missionCardDetails = _MissionRepository.GetMissionCard(userId);
+            List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort, paging, userId);
             ViewBag.cardDetail = missions;
             ViewBag.pg_no = paging;
             ViewBag.TotalPages = Math.Ceiling(missionCardDetails.Count()/6.0);
@@ -119,21 +119,21 @@ namespace CI_PlatForm.Controllers
        public IActionResult MissionVolunteering(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            List<Card> VolunteerCard = _MissionRepository.GetMissionCard(user);
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
             
             var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
-            ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, user);
+            ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, userId);
             
             ViewBag.commentViewBag = _MissionRepository.getComment(missions.MissionId);
             
             ViewBag.getSkill = _MissionRepository.GetSkillName(missions.MissionId);
 
-            ViewBag.userId = user;
+            ViewBag.userId = userId;
             ViewBag.pg_no = 0;
             
-            var userDetails = _UserRepository.UserList().Where(i => i.UserId != user);
+            var userDetails = _UserRepository.UserList().Where(i => i.UserId != userId);
             ViewBag.userDetails = userDetails;
 
             ViewBag.getVolunteer = _MissionRepository.GetRecentUser(missions.MissionId).Take(9).ToList();
@@ -141,8 +141,8 @@ namespace CI_PlatForm.Controllers
             ViewBag.totalVol = _MissionRepository.GetRecentUser(missions.MissionId).Count();
             ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
 
-            ViewBag.checkFav = _MissionRepository.checkFavourite(id, user);
-            ViewBag.checkApplied = _MissionRepository.checkApplied(id, user);
+            ViewBag.checkFav = _MissionRepository.checkFavourite(id, userId);
+            ViewBag.checkApplied = _MissionRepository.checkApplied(id, userId);
             
             var coWokerList = _MissionRepository.Recommend;
             ViewBag.ratingVolunteers = _MissionRepository.countVolunteers(missions.MissionId);
@@ -222,24 +222,34 @@ namespace CI_PlatForm.Controllers
         public IActionResult VolunteeringStory()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            List<StoryViewModel> storyCardDetails = _MissionRepository.GetStoryDetails().ToList();
+            var CountryList = _MissionRepository.GetCountryData();
+            ViewBag.CountryList = CountryList;
+            var MissionTheme = _MissionRepository.GetMissionTheme();
+            ViewBag.missionTheme = MissionTheme;
 
-            var storyInfo = _MissionRepository.GetStoryDetails();
-            ViewBag.storyInfo = storyInfo;
+            var SkillList = _MissionRepository.GetSkillsList();
+            ViewBag.skillList = SkillList;
+
+            ViewBag.pg_no = 1;
+            ViewBag.Totalpages = Math.Ceiling(storyCardDetails.Count() / 6.0);
+            ViewBag.cardDetail = storyCardDetails.Take(6).ToList();
             
             return View();
         }
       
        [HttpPost]
-       public ActionResult SearchStory(string? searchStory)
+       public ActionResult SearchStory(string? search,string[] countries, string[] cities, string[] themes, string[] skills, int paging)
         {
-            searchStory = string.IsNullOrEmpty(searchStory) ? "" : searchStory.ToLower();
-            List<StoryViewModel> storyInfo = _MissionRepository.GetStoryData(searchStory);
-            ViewBag.storyInfo = storyInfo;
+            long user = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            search = string.IsNullOrEmpty(search) ? "" : search.ToLower();
+            List<StoryViewModel> storyCardDetails = _MissionRepository.GetStoryDetails();
+            List<StoryViewModel> storyCard = _MissionRepository.GetStoryList(search, countries, cities, themes, skills, paging);
+            ViewBag.cardDetail = storyCard;
+            ViewBag.pg_no = paging;
+            ViewBag.Totalpages = Math.Ceiling(storyCardDetails.Count() / 6.0);
             return View("_storyCard");
-            if(storyInfo == null)
-            {
-                return View("_MissionNotFound");
-            }
+            
         }
 
 
@@ -252,19 +262,24 @@ namespace CI_PlatForm.Controllers
         public IActionResult ShareStory()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            
-
-            var missionStory = _MissionRepository.GetStoryList();
-            ViewBag.missionStory = missionStory;
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
 
             return View();
+        }
+        [HttpPost]
+        public IActionResult ShareStory(StoryViewModel model, string submit)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            _MissionRepository.AddStory(model, userId, submit);
+            ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
+            return View("ShareStory");
         }
         public IActionResult StoryDetail(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-           
-
-            return View();
+            StoryViewModel model = _MissionRepository.getStory(id);
+            return View(model);
         }
         public IActionResult UserDetail()
         {
