@@ -5,97 +5,127 @@
 @model CI_PlatForm.Entities.ViewModel.StoryViewModel
 
 @{
+    <style>
+  
+    #image-preview .preview-container {
+    display: inline-block;
+    position: relative;
+    margin: 5px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+
+    #image-preview .preview-container img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+  @*  #image-preview .preview-container .remove-icon {
+        @*position: absolute;
+        top: 5px;
+        margin-left: 85px;
+        height:20px;
+        width:20px;
+        cursor: pointer;
+    }*@
+    
+    </style>
+<script src="https://cdn.tiny.cloud/1/your-tinymce-apikey/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
     @Html.Partial("_TopNav")
     <div class="container">
         <h1>Share Your Story</h1>
     </div>
 
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-12">
-                <label for="SelectMission">Select Mission</label>
-                <select class="dropdown-toggle w-100 mt-2" type="button" id="SelectMission" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;" required>
-                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <option class="dropdown-item" href="#" selected>Select your Mission</option>
-                    @foreach(var objMission in @ViewBag.missionStoryList)
-                     {
-                      <option class="dropdown-item" href="#"  id="@objMission.MissionId">@objMission.Title</option> 
-                      }
-                  </div>
-                  </select>
-               </div> 
-                <div class="col-lg-4 col-md-4 col-12">
-                <div class="mb-3">
-                <label for="StoryTitle" class="form-label">My Story Title</label>
-                <input type="text" class="form-control" id="StoryTitle" required>
-               </div>
-               </div>
-           <div class="col-lg-4 col-md-4 col-12">
-            <div class="mb-3">
-                <label for="StoryDate" class="form-label">Date</label>
-                <input type="date" class="form-control" id="StoryDate" required>
-               </div>
-           </div>
-            </div>
-          
-       </div>
     
-      <div class="container">
-        <div class="form-group">
-           <label for="storytext">My Story</label>
-             @*<div class="p-1 border">
-                <div class="d-flex">
-                    <i class="bi bi-type-bold p-1" id="bold"></i>
-                    <i class="bi bi-type-italic p-1"></i>
-                    <i class="bi bi-type-strikethrough"></i>
-                    <div class="vr"></div>
-                    <i class="bi bi-subscript p-1"></i>
-                    <i class="bi bi-superscript p-1"></i>
+        <form method="post" enctype="multipart/form-data">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-12">
+
+                    <label for="SelectMission">Select Mission</label>
+                    <select class="dropdown-toggle w-100 mt-2" asp-for="MissionId" id="SelectMission" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;" required>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                            <option class="dropdown-item" selected>Select your Mission</option>
+                            @foreach (var objMission in @ViewBag.missionStoryList)
+                            {
+                                <option class="dropdown-item" value="@objMission.MissionId">@objMission.Title</option>
+
+                            }
+                        </div>
+                    </select>
+                </div> 
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="mb-3">
+                        <label for="StoryTitle" class="form-label">My Story Title</label>
+                        <input asp-for="Title" type="text" class="form-control" id="StoryTitle" aria-describedby="addon-wrapping" required>
+                    </div>
                 </div>
-            </div>*@
-            <textarea class="form-control" id="editor" rows="3" placeholder="Sample Editor 1" required></textarea>
-         </div>
-       </div>
-     
-       <div class="container">
-       <div class="row">
-          <div class="mb-3 py-3">
-          <label for="VideoURL" class="form-label">Enter Video URL</label>
-          <input type="url" class="form-control" id="VideoURL" placeholder="Enter your url">
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="mb-3">
+                        <label for="StoryDate" class="form-label">Date</label>
+                        <input asp-for="PublishDate" type="date" class="form-control" id="StoryDate" required>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
+        <div class="container">
+            <div class="form-group">
+                <label for="storytext">My Story</label>
+                <textarea asp-for="Description" class="form-control" id="editor" rows="3" placeholder="Sample Editor 1" required></textarea>
+            </div>
         </div>
-       </div>
-       <div class="container">
-       <label for="dragDrop">Upload Your Photos</label>
-       <div class="border text-center p-3">
-       <img src="/Images/CI Platform Assets/drag-and-drop.png">
-       <input id="imageupload" type="file" class="file" multiple="multiple" accept="image/jpeg,imge/png,image/jpg">
-       <div class = "d-flex">
-       <output id="preview"></output>
-       </div>
-       </div>
-       </div>
- 
-       <div class="container">
-       <div class="row p-3">
-       <div class="col-3">
-       <button type="button" class="btn btn-outline-secondary border rounded-pill">Cancel</button>
-       </div>
-       <div class="col-9 justify-content-end d-flex">
-       <button type="button" class="btn btn-outline-warning border rounded-pill mx-2">Save</button>
-       <button type="button" class="btn btn-outline-warning border rounded-pill mx-2">Submit</button>
-       </div>
-       </div>
-       </div>
-       <div class="container">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-                                                        <ul class="col-lg-6 col-md-6 list-unstyled d-flex nav">
-                                                            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Privacy Policy</a></li>
-                                                            </ul>
-                                                   </footer>
-                                                   </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="mb-3 py-3">
+                    <label for="VideoURL" class="form-label">Enter Video URL</label>
+                    <input type="url" asp-for="Url" class="form-control" id="VideoURL" placeholder="Enter your url">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <label for="dragDrop">Upload Your Photos</label>
+            <div class="border text-center p-3">
+                
+                <input id="images" asp-for="Images" type="file" class="position-relative originalFileSelect" multiple="multiple" accept="image/jpeg,image/png,image/jpg" required>
+                <div class = "d-flex">
+                
+                    <output id="image-preview" class="h-100 w-100"></output>
+               
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row p-3">
+                <div class="col-3">
+                    <a asp-action="VolunteeringStory" asp-controller="Mission" class="btn btn-outline-secondary border rounded-pill">Cancel</a>
+                </div>
+                <div class="col-9 justify-content-end d-flex">
+                   
+                    <button value="Save" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Save</button>
+                    <button value="Submit" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <ul class="col-lg-6 col-md-6 list-unstyled d-flex nav">
+                    <li class="nav-item"><a class="nav-link px-2 text-muted">Privacy Policy</a></li>
+                </ul>
+            </footer>
+        </div>
+    
+    </form>
          <script>
          tinymce.init({
          selector: '#editor',
@@ -121,7 +151,7 @@
              });
          }
          })
-         $(function () {
+         @*$(function () {
              var selectedCount = 0;
              var selectedCountElement = $('#selected-count');
              $('#images').on('change', function (){
@@ -146,9 +176,46 @@
                      selectedCountElement.html(selectedCount + 'images selected');
                  });
              });
-         });
+         });*@
+         
+$(function () {
+    var selectedCount = 0;
+    var selectedCountElement = $('#selected-count');
+    @* Listen for changes to the file input element*@
+    $('#images').on('change', function () {
+        @* Clear any previous preview images*@
+       @* $('#image-preview').empty();*@
+        selectedCount = 0;
+        selectedCountElement.html('0 images selected');
+        @* Loop through the selected files*@
+        $.each(this.files, function (i, file) {
+            @* Create a container for the preview image and remove button*@
+            var container = $('<div />', { class: 'preview-container' });
+            @* Create an image element to show the preview*@
+            var img = $('<img  />');
+            img.attr('src', URL.createObjectURL(file));
+            img.attr('alt', file.name);
+            @* Create a remove button to remove the image from the preview*@
+            var removeBtn = $('<i />', { class: 'remove-icon' });
+            removeBtn.attr('class', "d-flex bi bi-x-square-fill remove-icon  justify-content-end align-items-lg-start");
+            removeBtn.attr('alt', file.name);
+            @*removeBtn.html('&#x2715;');*@
+            removeBtn.on('click', function () {
+                container.remove();
+                selectedCount--;
+                selectedCountElement.html(selectedCount + ' images selected');
+            });
+            @* Add the image and remove button to the container*@
+            container.append(img, removeBtn);
+            @*Add the container to the preview container*@
+            $('#image-preview').append(container);
+            selectedCount++;
+            selectedCountElement.html(selectedCount + ' images selected');
+        });
+    });
+});
                     </script>
-           <script src="https://cdn.tiny.cloud/1/your-tinymce-apikey/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
                                     integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
                                     crossorigin="anonymous"></script>

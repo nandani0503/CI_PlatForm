@@ -508,7 +508,7 @@ namespace CI_Platform.Repository.Repositories
             var storymissions = _CiplatformDbContext.Missions.Where(i => story.Contains(i.MissionId)).ToList();
             return storymissions;
         }
-        public void AddStory(StoryViewModel model, long UserId, string Submit)
+        public void AddStory(StoryViewModel model, long UserId, string submit)
         {
             if(model.Description != null)
             {
@@ -520,7 +520,7 @@ namespace CI_Platform.Repository.Repositories
                     addData.Description = model.Description;
                     addData.Title = model.Title;
                     addData.Status = "DRAFT";
-                    if(Submit == "Submit")
+                    if(submit == "Submit")
                     {
                         addData.Status = "PUBLISHED";
                     }
@@ -551,7 +551,12 @@ namespace CI_Platform.Repository.Repositories
         public StoryViewModel getStory(long story_id)
         {
             List<StoryMedium> medias = _CiplatformDbContext.StoryMedia.ToList();
+            
             Story story = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == story_id);
+            var whyIVolunteer = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == story.UserId).WhyIVolunteer;
+            User user = _CiplatformDbContext.Users.FirstOrDefault(s => s.UserId == story.UserId);
+            
+            
             if(story == null)
             {
                 return null;
@@ -560,6 +565,8 @@ namespace CI_Platform.Repository.Repositories
             {
                 StoryViewModel mystory = new StoryViewModel()
                 {
+                    UserName = user.FirstName + " " + " " + user.LastName,
+                    Avatar = user.Avatar,
                     Title = story.Title,
                     Description = story.Description,
                     storymedia = story.StoryMedia.ToList(),

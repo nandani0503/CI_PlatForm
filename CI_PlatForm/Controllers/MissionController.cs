@@ -268,10 +268,12 @@ namespace CI_PlatForm.Controllers
             return View();
         }
         [HttpPost]
+        
         public IActionResult ShareStory(StoryViewModel model, string submit)
         {
+            
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            _MissionRepository.AddStory(model, userId, submit);
+           _MissionRepository.AddStory(model, userId, submit);
             ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
             return View("ShareStory");
         }
@@ -279,6 +281,13 @@ namespace CI_PlatForm.Controllers
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
             StoryViewModel model = _MissionRepository.getStory(id);
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var userDetails = _UserRepository.UserList().Where(i => i.UserId != userId);
+            ViewBag.userDetails = userDetails;
+            List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
+            var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
+            ViewBag.cardData = missions;
+            
             return View(model);
         }
         public IActionResult UserDetail()
