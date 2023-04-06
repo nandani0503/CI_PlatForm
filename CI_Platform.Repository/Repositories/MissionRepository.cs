@@ -1,8 +1,7 @@
-﻿using CI_Platform.Entities.Data;
-using CI_Platform.Entities.Models;
-using CI_Platform.Entities.ViewModel;
-using CI_Platform.Repository.Interface;
+﻿using CI_PlatForm.Entities.Data;
+using CI_PlatForm.Entities.Models;
 using CI_PlatForm.Entities.ViewModel;
+using CI_PlatForm.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CI_Platform.Repository.Repositories
+namespace CI_PlatForm.Repository.Repositories
 {
     public class MissionRepository : IMissionRepository
     {
@@ -57,7 +56,7 @@ namespace CI_Platform.Repository.Repositories
         {
             var pageSize = 6;
 
-            
+
 
             List<Card> missions = GetMissionCard(user);
             if (search != "")
@@ -89,7 +88,7 @@ namespace CI_Platform.Repository.Repositories
                 missions = missions.Where(a => skills.Contains(a.skillId.ToString())).ToList();
 
             }
-            
+
             switch (sortBy)
             {
                 case 1:
@@ -123,7 +122,7 @@ namespace CI_Platform.Repository.Repositories
             return missions;
         }
 
-      
+
 
 
         public string getThemeTitle(long themeID)
@@ -169,7 +168,7 @@ namespace CI_Platform.Repository.Repositories
             {
                 Card cardDetails = new Card();
                 var fav = _CiplatformDbContext.FavoriteMissions.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId && u.UserId == user_id);
-                if(fav != null)
+                if (fav != null)
                 {
                     cardDetails.checkFav = true;
                 }
@@ -225,7 +224,7 @@ namespace CI_Platform.Repository.Repositories
         public bool checkApplied(long missionId, long userId)
         {
             var apply = _CiplatformDbContext.MissionApplications.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
-            if(apply != null)
+            if (apply != null)
             {
                 return true;
             }
@@ -259,7 +258,7 @@ namespace CI_Platform.Repository.Repositories
 
         public int getRating(long missionId, long userId)
         {
-            if(_CiplatformDbContext.MissionRatings.FirstOrDefault(r => r.MissionId == missionId && r.UserId == userId) is not null)
+            if (_CiplatformDbContext.MissionRatings.FirstOrDefault(r => r.MissionId == missionId && r.UserId == userId) is not null)
             {
                 int getRate = _CiplatformDbContext.MissionRatings.FirstOrDefault(r => r.MissionId == missionId && r.UserId == userId).Rating;
                 return getRate;
@@ -272,7 +271,7 @@ namespace CI_Platform.Repository.Repositories
         public bool PostRating(byte rate, long missionId, long userId)
         {
             var entry = _CiplatformDbContext.MissionRatings.Where(m => m.MissionId == missionId && m.UserId == userId);
-            if(entry.ToList().Count == 0)
+            if (entry.ToList().Count == 0)
             {
                 var data = new MissionRating()
                 {
@@ -282,7 +281,7 @@ namespace CI_Platform.Repository.Repositories
                 };
                 _CiplatformDbContext.MissionRatings.Add(data);
                 _CiplatformDbContext.SaveChanges();
-                return true;    
+                return true;
             }
             else
             {
@@ -355,7 +354,7 @@ namespace CI_Platform.Repository.Repositories
             }
             return missionView;
         }
-       
+
 
         public void AddToRecent(long missionId, long userId)
         {
@@ -446,7 +445,7 @@ namespace CI_Platform.Repository.Repositories
                 StoryViewModel storyInfo = new StoryViewModel();
                 User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == story.UserId);
 
-                
+
                 storyInfo.StoryId = story.StoryId;
                 storyInfo.MissionId = mission.MissionId;
                 storyInfo.CountryId = mission.CountryId;
@@ -468,31 +467,31 @@ namespace CI_Platform.Repository.Repositories
         public List<StoryViewModel> GetStoryList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int paging)
         {
             var pageSize = 6;
-            
+
             List<StoryViewModel> stories = GetStoryDetails();
-            if(search != "")
+            if (search != "")
             {
                 stories = stories.Where(a => a.Title.ToLower().Contains(search)).ToList();
             }
-            if(countries.Length > 0)
+            if (countries.Length > 0)
             {
                 stories = stories.Where(a => countries.Contains(a.CountryId.ToString())).ToList();
             }
-            if(cities.Length > 0)
+            if (cities.Length > 0)
             {
                 stories = stories.Where(a => cities.Contains(a.CityId.ToString())).ToList();
             }
-            if(themes.Length > 0)
+            if (themes.Length > 0)
             {
                 stories = stories.Where(a => themes.Contains(a.ThemeId.ToString())).ToList();
             }
-            if(skills.Length > 0)
+            if (skills.Length > 0)
             {
                 stories = stories.Where(a => skills.Contains(a.SkillId.ToString())).ToList();
             }
-            if(paging != null)
+            if (paging != null)
             {
-                stories = stories.Skip((paging -1) * pageSize).Take(6).ToList();
+                stories = stories.Skip((paging - 1) * pageSize).Take(6).ToList();
             }
             return stories;
         }
@@ -501,7 +500,7 @@ namespace CI_Platform.Repository.Repositories
         {
             var storymission = _CiplatformDbContext.MissionApplications.Where(i => i.UserId == userid && i.ApprovalStatus == "APPROVE").ToList();
             var story = new List<long>();
-            foreach(var item in storymission)
+            foreach (var item in storymission)
             {
                 story.Add(item.MissionId);
             }
@@ -510,7 +509,7 @@ namespace CI_Platform.Repository.Repositories
         }
         public void AddStory(StoryViewModel model, long UserId, string submit)
         {
-            if(model.Description != null)
+            if (model.Description != null)
             {
                 Story addData = new Story();
                 StoryMedium Url = new StoryMedium();
@@ -520,7 +519,7 @@ namespace CI_Platform.Repository.Repositories
                     addData.Description = model.Description;
                     addData.Title = model.Title;
                     addData.Status = "DRAFT";
-                    if(submit == "Submit")
+                    if (submit == "Submit")
                     {
                         addData.Status = "PUBLISHED";
                     }
@@ -528,7 +527,7 @@ namespace CI_Platform.Repository.Repositories
                     addData.PublishedAt = model.PublishDate;
                     _CiplatformDbContext.Add(addData);
                     _CiplatformDbContext.SaveChanges();
-                    foreach(var i in model.Images)
+                    foreach (var i in model.Images)
                     {
                         StoryMedium storyMedium = new StoryMedium();
                         storyMedium.StoryId = addData.StoryId;
@@ -536,10 +535,10 @@ namespace CI_Platform.Repository.Repositories
                         storyMedium.Path = i.FileName;
                         _CiplatformDbContext.StoryMedia.Add(storyMedium);
                         _CiplatformDbContext.SaveChanges();
-                        if(i.Length > 0)
+                        if (i.Length > 0)
                         {
                             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CI Platform Assets/StoryImages", i.FileName);
-                                using(var stream = new FileStream(path, FileMode.Create))
+                            using (var stream = new FileStream(path, FileMode.Create))
                             {
                                 i.CopyTo(stream);
                             }
@@ -548,16 +547,26 @@ namespace CI_Platform.Repository.Repositories
                 }
             }
         }
-        public StoryViewModel getStory(long story_id)
+        public StoryViewModel getStory(long story_id, long user_id)
         {
             List<StoryMedium> medias = _CiplatformDbContext.StoryMedia.ToList();
-            
+            List<StoryView> views = _CiplatformDbContext.StoryViews.ToList();
+            if(_CiplatformDbContext.StoryViews.FirstOrDefault(c => c.StoryId == story_id && c.UserId == user_id) is null)
+            {
+                _CiplatformDbContext.StoryViews.Add(new StoryView
+                {
+                    UserId = user_id,
+                    StoryId = story_id,
+                });
+                _CiplatformDbContext.SaveChanges();
+            }
+
             Story story = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == story_id);
             var whyIVolunteer = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == story.UserId).WhyIVolunteer;
             User user = _CiplatformDbContext.Users.FirstOrDefault(s => s.UserId == story.UserId);
-            
-            
-            if(story == null)
+
+
+            if (story == null)
             {
                 return null;
             }
@@ -571,10 +580,12 @@ namespace CI_Platform.Repository.Repositories
                     Description = story.Description,
                     storymedia = story.StoryMedia.ToList(),
                     users = _CiplatformDbContext.Users.ToList(),
+                    StoryId = story_id,
+                    MissionId = story.MissionId,
+                    WhyIVolunteer = whyIVolunteer
                 };
                 return mystory;
             }
         }
     }
-
-    }
+}

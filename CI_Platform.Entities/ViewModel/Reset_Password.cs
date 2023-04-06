@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CI_Platform.Entities.ViewModel
+namespace CI_PlatForm.Entities.ViewModel
 {
     public class Reset_Password
     {

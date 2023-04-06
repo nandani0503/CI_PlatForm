@@ -1,13 +1,12 @@
-﻿
-using CI_Platform.Entities.Models;
-using CI_Platform.Entities.ViewModel;
+﻿using CI_PlatForm.Entities.Models;
+using CI_PlatForm.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CI_Platform.Repository.Interface
+namespace CI_PlatForm.Repository.Interface
 {
     public interface IUserRepository
     {
@@ -20,17 +19,16 @@ namespace CI_Platform.Repository.Interface
 
         public long GetUserID(string Email);
 
-       /* public List<Country> CountryList();
-        public List<City> CityList();
-        public List<MissionTheme> MissionThemeList();
+        /* public List<Country> CountryList();
+         public List<City> CityList();
+         public List<MissionTheme> MissionThemeList();
 
-        public List<Skill> SkillList();*/
-       
+         public List<Skill> SkillList();*/
+
 
         public bool ResetPassword(long userId, string OldPassword, string NewPassword);
 
         public Boolean ChangePassword(long UserId, Reset_Password model);
 
     }
-
 }

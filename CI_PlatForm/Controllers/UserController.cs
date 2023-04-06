@@ -1,8 +1,10 @@
 ﻿
-using CI_Platform.Entities.Data;
-using CI_Platform.Entities.Models;
-using CI_Platform.Entities.ViewModel;
-using CI_Platform.Repository.Interface;
+
+
+using CI_PlatForm.Entities.Data;
+using CI_PlatForm.Entities.Models;
+using CI_PlatForm.Entities.ViewModel;
+using CI_PlatForm.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CI_Platform.Entities.ViewModel
+namespace CI_PlatForm.Entities.ViewModel
 {
     public class Card
     {
@@ -32,7 +32,7 @@ namespace CI_Platform.Entities.ViewModel
       
         public long FavouriteMissionId { get; set; }
 
-        //public string? missionIntro { get; set; }
+        
         public string? Description { get; set; }
 
         public string? OrganizationDetail { get; set; }

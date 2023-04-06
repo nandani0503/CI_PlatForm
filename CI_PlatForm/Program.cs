@@ -1,10 +1,12 @@
 
 
-using CI_Platform.Entities.Data;
-using CI_Platform.Repository.Interface;
-using CI_Platform.Repository.Repositories;
+
+using CI_PlatForm.Repository.Interface;
+using CI_PlatForm.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Session;
+using CI_PlatForm.Entities.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 /*builder.Services.AddDbContext<CiplatformContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));*/

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CI_Platform.Entities.Models;
+namespace CI_PlatForm.Entities.Models;
 
 public partial class User
 {
@@ -39,9 +39,9 @@ public partial class User
     public long? CityId { get; set; }
 
     public long? CountryId { get; set; }
-   
+
     public string? ProfileText { get; set; }
-    
+
     public string? LinkedInUrl { get; set; }
 
     public string? Title { get; set; }
@@ -69,6 +69,8 @@ public partial class User
     public virtual ICollection<MissionRating> MissionRatings { get; } = new List<MissionRating>();
 
     public virtual ICollection<Story> Stories { get; } = new List<Story>();
+
+    public virtual ICollection<StoryView> StoryViews { get; } = new List<StoryView>();
 
     public virtual ICollection<Timesheet> Timesheets { get; } = new List<Timesheet>();
 

@@ -1,9 +1,8 @@
-﻿using CI_Platform.Entities.Models;
-using CI_Platform.Entities.ViewModel;
-using CI_Platform.Repository.Interface;
+﻿using CI_PlatForm.Entities.Models;
 using CI_PlatForm.Entities.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using CI_PlatForm.Repository.Interface;
 
 namespace CI_PlatForm.Controllers
 {
@@ -273,23 +272,37 @@ namespace CI_PlatForm.Controllers
         {
             
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-           _MissionRepository.AddStory(model, userId, submit);
-            ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
-            return View("ShareStory");
+            if (ModelState.IsValid)
+            {
+                _MissionRepository.AddStory(model, userId, submit);
+                ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
+                return View("ShareStory");
+            }
+            else
+            {
+                ViewBag.sessionValue = HttpContext.Session.GetString("username");
+                ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
+                return View();
+            }
+           
         }
         public IActionResult StoryDetail(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            StoryViewModel model = _MissionRepository.getStory(id);
+            
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            
+            StoryViewModel model = _MissionRepository.getStory(id, userId);
             var userDetails = _UserRepository.UserList().Where(i => i.UserId != userId);
             ViewBag.userDetails = userDetails;
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
             var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
+           
             
             return View(model);
         }
+       
         public IActionResult UserDetail()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");

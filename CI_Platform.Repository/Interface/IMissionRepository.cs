@@ -1,5 +1,4 @@
-﻿using CI_Platform.Entities.Models;
-using CI_Platform.Entities.ViewModel;
+﻿using CI_PlatForm.Entities.Models;
 using CI_PlatForm.Entities.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -7,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CI_Platform.Repository.Interface
+namespace CI_PlatForm.Repository.Interface
 {
     public interface IMissionRepository
     {
 
         //-----------------------------second navbar---------------------------------------------------------------------------------------------
-       
+
 
         public List<Country> GetCountryData();
         public List<City> GetCityFromCountry(List<string> countryId);
@@ -21,18 +20,18 @@ namespace CI_Platform.Repository.Interface
         public List<Skill> GetSkillsList();
         //------------------------------------Mission card---------------------------------------------------------------------------------------
         public List<Mission> GetMissionList();
-        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills,int sortBy, int paging, long user);
-        
+        public List<Card> GetMissionList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int sortBy, int paging, long user);
+
         public List<Card> GetMissionCard(long user_id);
-   
+
         public string getThemeTitle(long themeID);
         public string getCity(long CityID);
         public string getGoalObject(long missionID);
 
         public string getMediaName(long missionID);
 
-        
-       public int getMissionRating(long missionId);
+
+        public int getMissionRating(long missionId);
 
         //-------------------------------------------Mission Volunteering-----------------------------------------------------------------------
         public bool addToFavourite(long missionId, long userId);
@@ -61,8 +60,8 @@ namespace CI_Platform.Repository.Interface
         public List<StoryViewModel> GetStoryList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int paging);
         public List<Mission> getStoryMission(long userid);
         public void AddStory(StoryViewModel model, long UserId, string Submit);
-        public StoryViewModel getStory(long story_id);
-        
+        public StoryViewModel getStory(long story_id, long user_id);
+
 
     }
 }
