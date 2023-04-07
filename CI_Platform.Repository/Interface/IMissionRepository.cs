@@ -54,7 +54,7 @@ namespace CI_PlatForm.Repository.Interface
         /*--------------------------------------Volunteer Story-------------------------------------------------------------------------*/
 
         public long countVolunteers(long missionId);
-        public int getRating(long missionId, long userd);
+        public int getRating(long missionId, long userId);
         public bool PostRating(byte rate, long missionId, long userId);
         public List<StoryViewModel> GetStoryDetails();
         public List<StoryViewModel> GetStoryList(string? search, string[] countries, string[] cities, string[] themes, string[] skills, int paging);

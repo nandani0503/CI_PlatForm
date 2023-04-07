@@ -303,7 +303,7 @@ namespace CI_PlatForm.Controllers
             return View(model);
         }
        
-        public IActionResult UserDetail()
+       /* public IActionResult UserDetail()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
 
@@ -311,7 +311,7 @@ namespace CI_PlatForm.Controllers
             var CountryList = _MissionRepository.GetCountryData();
             ViewBag.countryList = CountryList;
             return View();
-        }
+        }*/
     }
 }        
    

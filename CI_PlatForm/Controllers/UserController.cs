@@ -19,12 +19,14 @@ namespace CI_PlatForm.Controllers
 
 
         private readonly IUserRepository _UserRepository;
-        public UserController(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IConfiguration _configuration,CiplatformContext db)
+        private readonly IMissionRepository _MissonRepository;
+        public UserController(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IConfiguration _configuration,CiplatformContext db,IMissionRepository MissionRepository)
         {
             _UserRepository = userRepository;
             _httpContextAccessor = httpContextAccessor;
             configuration = _configuration;
             _db = db;
+            _MissonRepository = MissionRepository;
         }
 
         public IActionResult UserList()
@@ -157,8 +159,17 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }
+
        
-   
+        public IActionResult UserDetail()
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            ProfileViewModel model = _UserRepository.getProfile(userId);
+            model.countries = _MissonRepository.GetCountryData();
+            model.skill = _MissonRepository.GetSkillsList();
+            return View(model);
+        }
         
     }
 }

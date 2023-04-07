@@ -31,27 +31,7 @@ namespace CI_PlatForm.Repository.Repositories
             List<User> objUserList = _CiplatformDbContext.Users.ToList();
             return objUserList;
         }
-      /*  public List<Country> CountryList()
-        {
-            List<Country> objCountryList = _CiplatformDbContext.Countries.ToList();
-            return objCountryList;
-        }
-        public List<City> CityList()
-        {
-            List<City> objCityList = _CiplatformDbContext.Cities.ToList();
-            return objCityList;
-        }
-        public List<MissionTheme> MissionThemeList()
-        {
-            List<MissionTheme> objMissionThemeList = _CiplatformDbContext.MissionThemes.ToList();
-            return objMissionThemeList;
-        }
-        public List<Skill> SkillList()
-        {
-            List<Skill> objSkillList = _CiplatformDbContext.Skills.ToList();
-            return objSkillList;
-        }
-       */
+ 
         public Boolean IsEmailAvailable(string email)
         {
             return _CiplatformDbContext.Users.Any(x => x.Email == email);
@@ -147,7 +127,20 @@ namespace CI_PlatForm.Repository.Repositories
             }
         }
         
-
+        public ProfileViewModel getProfile(long userId)
+        {
+            User user = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == userId);
+            ProfileViewModel model = new ProfileViewModel();
+            {
+                model.CountryId = user.CountryId;
+                model.CityId = user.CityId;
+                model.Avatar = user.Avatar;
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.WhyIVolunteer = user.WhyIVolunteer;   
+            }
+            return model;
+        }
 
 
     }
