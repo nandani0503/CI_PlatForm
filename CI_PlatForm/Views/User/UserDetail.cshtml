@@ -3,32 +3,29 @@
 *@
 @{
 
-    @using Microsoft.AspNetCore.Http
-    @inject IHttpContextAccessor Accesor
-    @model CI_PlatForm.Entities.ViewModel.ProfileViewModel
-    @Html.Partial("_TopNav")
-    <div class="container">
-    
-    <form method="post" id="form" asp-action="UserDetail" asp-controller="User" enctype="multipart/form-data">
-    <div class = "row">
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accesor
+@model CI_PlatForm.Entities.ViewModel.ProfileViewModel
+@Html.Partial("_TopNav")
+ <div class="container">
+  <form method="post" id="form" asp-action="UserDetail" asp-controller="User" enctype="multipart/form-data">
+   <div class = "row">
     <div class = "col-lg-3 col-md-3 col-12 text-center">
-    <div class="border h-25 w-100 p-5" style="position:relative;">
-    @{
-                            @if(@Model.Avatar is not null)
-                            {
-                                <img id="old-profile-image" style = "cursor:pointer;" class="w-100 h-100 rounded-circle" id="old-profile-image" src="~/Images/CI Platform Assets/@Model.Avatar" alt="profile picture">
-                            }
-                            else
-                            {
-                                <img id="old-profile-image" style="cursor:pointer;" class="w-100 h-100 rounded-circle" id="old-profile-image" src="~/Images/CI Platform Assets/user1.png" alt="profile picture">
-
-                            }
-                        }
-     <input id="profile-image" type="file" asp-for="profile" value="@Model.Avatar" onchange="upload_profile_image()" accept="/images/*" id="profile-image" style="opacity:0;position:absolute;top:0;left:0;height:100%;width:100%;cursor:pointer; " />
-    
-    </div>
-   <h5>@Accesor?.HttpContext?.Session.GetString("username")</h5>
-    <span style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</span>
+     <div class="border h-25 w-100 p-5" style="position:relative;">
+      @{
+        @if(@Model.Avatar is not null)
+         {
+          <img id="old-profile-image" style = "cursor:pointer;" class="w-100 h-100 rounded-circle" id="old-profile-image" src="~/Images/CI Platform Assets/@Model.Avatar" alt="profile picture">
+         }
+        else
+         {
+          <img id="old-profile-image" style="cursor:pointer;" class="w-100 h-100 rounded-circle" id="old-profile-image" src="~/Images/CI Platform Assets/user1.png" alt="profile picture">
+         }
+        }
+        <input id="profile-image" type="file" asp-for="profile" value="@Model.Avatar" onchange="upload_profile_image()" accept="/images/*" id="profile-image" style="opacity:0;position:absolute;top:0;left:0;height:100%;width:100%;cursor:pointer; " />
+       </div>
+      <h5>@Accesor?.HttpContext?.Session.GetString("username")</h5>
+     <span style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#changePassword">Change Password</span>
      <!-- Change password Modal -->
     <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -78,323 +75,339 @@
         </div>
       </div>
     </div>
-    
-    </div>
-    <div class = "col-lg-9 col-md-9 col-12">
+   </div>
+   <div class = "col-lg-9 col-md-9 col-12">
     <div class = "row p-3">
-    <h2><bold>Basic Information</bold></h2>
-    <hr>
-    </div>
-    
-    <div class="row p-3">
-    <div class="col-lg-6 col-md-6 col-12">
-     <div class="form-group">
-    <label for="first-name">Name</label>
-    <input type="text" asp-for="FirstName" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="Enter your name">
-    </div>
-    </div>
-    <div class = "col-lg-6 col-md-6 col-12">
-     <div class="form-group">
-    <label for="last-name">Surname</label>
-    <input type="text" asp-for="LastName" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Enter your surname">
-    </div>
-    </div>
-    </div>
-    <div class = "row p-3">
-    <div class = "col-lg-6 col-md-6 col-12">
-    <div class="form-group">
-    <label for="e_id">EmployeeId</label>
-    <input type="text" asp-for="EmployeeId" class="form-control" id="e_id" aria-describedby="emailHelp" placeholder="Enter your employee id">
-    </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-12">
-    <div class="form-group">
-    <label for="m_details">Manager</label>
-    <input type="text" id="m_details" class="form-control" aria-describedby="emailHelp" placeholder="Enter your manager detail">
-    </div>
-    </div>
-    </div>
-    <div class = "row p-3">
-    <div class="col-lg-6 col-md-6 col-12">
-    <div class="form-group">
-    <label for="title">Title</label>
-    <input type="text" asp-for="Title" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter your employee id">
-    </div>
-    </div>
-    <div class = "col-lg-6 col-md-6 col-12">
-    <div class="form-group">
-    <label for="department">Department</label>
-    <input type="text" class="form-control" asp-for="Department" value="@Model.Department" id="department" aria-describedby="emailHelp" placeholder="Enter your department name">
-    </div>
-    </div>
+     <h2><bold>Basic Information</bold></h2>
+      <hr>
     </div>
     <div class="row p-3">
-    <div class = "col-12">
-     <div class="form-group">
-    <label for="exampleFormControlTextarea1">My Profile</label>
-    <textarea class="form-control" asp-for="ProfileText" id="exampleFormControlTextarea1" rows="3" placeholder="Enter your comments...">@Model.ProfileText</textarea>
-  </div>
-  </div>
-    </div>
-    <div class="row p-3">
-    <div class="form-group">
-    <label for="reason_volunteering">Why I Volunteer?</label>
-    <textarea class="form-control" id="reason_volunteering" asp-for="WhyIVolunteer" rows="3" placeholder="Enter your comments...">@Model.WhyIVolunteer</textarea>
-  </div>
-  </div>
-  <div class="row p-3">
-   <h2><bold>Address Information</bold></h2>
-   <hr>
-  </div>
-  <div class="row">
-  <div class = "col-lg-6 col-md-6 col-12">
-   <div class="form-group">
-    <label for="city">City</label>
-    
-     <label class="form-label">City</label>
-     <select id='city' asp-for=CityId class="form-select city me-3" aria-label="Select Mission">
-     <option disabled selected>Select Your City</option>
-     </select>
-     <span asp-validation-for=CityId class="text-danger d-block"></span>
-    </div>
-    </div>
-   <div class = "col-lg-6 col-md-6 col-12">
-    <label for="dropdownMenuButton">Country</label>
-    <div class="dropdown" >
-      <select class="dropdown-toggle w-100" type="button" asp-for="CountryId" onchange="getcities()" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;">
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <option class="dropdown-item" disabled selected>Select your country</option>
-        @foreach(var objCountry in @Model.countries)
-         {
-          <option class="dropdown-item" id="@objCountry.CountryId">@objCountry.CountryName</option> 
-          }
-          <span asp-validation-for="CountryId" class="bg-danger d-block"></span>
+     <div class="col-lg-6 col-md-6 col-12">
+      <div class="form-group">
+       <label for="first-name" class="form-label">Name</label>
+        <input type="text" asp-for="FirstName" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="Enter your name">
+        <span asp-validation-for = "FirstName" class="text-danger d-block"></span>
       </div>
-    </select>
-    
-    </div>
      </div>
+     <div class = "col-lg-6 col-md-6 col-12">
+      <div class="form-group">
+       <label for="last-name">Surname</label>
+        <input type="text" asp-for="LastName" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Enter your surname">
+        <span asp-validation-for="LastName" class="text-danger d-block"></span>
+       </div>
       </div>
+     </div>
+     <div class = "row p-3">
+      <div class = "col-lg-6 col-md-6 col-12">
+       <div class="form-group">
+        <label for="e_id">EmployeeId</label>
+         <input type="text" asp-for="EmployeeId" class="form-control" id="e_id" aria-describedby="emailHelp" placeholder="Enter your employee id">
+       </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-12">
+       <div class="form-group">
+        <label for="m_details">Manager</label>
+         <input type="text" id="m_details" class="form-control" aria-describedby="emailHelp" placeholder="Enter your manager detail">
+       </div>
+      </div>
+     </div>
+     <div class = "row p-3">
+      <div class="col-lg-6 col-md-6 col-12">
+       <div class="form-group">
+        <label for="title">Title</label>
+         <input type="text" asp-for="Title" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter your employee id">
+       </div>
+      </div>
+      <div class = "col-lg-6 col-md-6 col-12">
+       <div class="form-group">
+        <label for="department">Department</label>
+         <input type="text" class="form-control" asp-for="Department" value="@Model.Department" id="department" aria-describedby="emailHelp" placeholder="Enter your department name">
+       </div>
+      </div>
+     </div>
      <div class="row p-3">
-   <h2><bold>Professional Information</bold></h2>
-   <hr>
-  
-    </div>
-    <div class="row p-3">
-    <div class="col-lg-6 col-md-6 col-12">
-    <label for="dropdownMenuButton">Availability</label>
-    <div class="dropdown" >
-      <select class="dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:2px;border-color:lightgray;">
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <option class="dropdown-item" href="#" selected>Select your availability</option>
-          <option class="dropdown-item" href="#">Monthly</option> 
-          <option class="dropdown-item" href="#">Weekly</option>
-          <option class="dropdown-item" href="#">Daily</option>
-          
+      <div class = "col-12">
+       <div class="form-group">
+        <label for="exampleFormControlTextarea1">My Profile</label>
+         <textarea class="form-control" asp-for="ProfileText" id="exampleFormControlTextarea1" rows="3" placeholder="Enter your comments...">@Model.ProfileText</textarea>
+         <span asp-validation-for="ProfileText" class="text-danger d-block"></span>
+       </div>
       </div>
-    </select>
-    </div>
-    </div>
-    <div class="col-lg-6 col-md-6 col-12">
-     <div class="form-group">
-    <label for="linked_in">LinkedIn</label>
-    <input type="url" class="form-control" id="linked_in" aria-describedby="emailHelp" placeholder="Enter linkedIn URL" asp-for="LinkedInUrl">
-    </div>
-    </div>
-    </div>
-    <div class="row p-3">
-     <h2><bold>My Skills</bold></h2>
-   <hr>
-   </div>
-   <div class="row p-3">
-   <div class=" col-12">
-    <div class="form-group">
-    
-    <select multiple class="form-control" id="exampleFormControlSelect2">
-      <option>Botany</option>
-      <option>Archeology</option>
-      <option>Anthropolgy</option>
-      <option>Computer Science</option>
-      <option>Enviornmental Science</option>
-    </select>
-  </div>
-  
-  </div>
-   </div>
-  
-  <div class="row p-3">
-  <div class="col-3">
-  <button type="button" class="btn btn-outline-secondary border rounded-pill" data-bs-toggle="modal" data-bs-target="#addskills">Add Skills</button>
-  <input asp-for="selected_skills" value="@Model.skill" type="hidden" id="selected_skills">
-  @*---------Add skill modal------------------------------*@
-  @*modal of skills*@
-  <div class="modal fade" id="addskills" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Add Your Skills</h5>
+     </div>
+     <div class="row p-3">
+      <div class="form-group">
+       <label for="reason_volunteering">Why I Volunteer?</label>
+        <textarea class="form-control" id="reason_volunteering" asp-for="WhyIVolunteer" rows="3" placeholder="Enter your comments...">@Model.WhyIVolunteer</textarea>
+      </div>
+     </div>
+     <div class="row p-3">
+      <h2><bold>Address Information</bold></h2>
+       <hr>
+     </div>
+     <div class="row">
+      <div class = "col-lg-6 col-md-6 col-12">
+       <div class="form-group">
+        <label for="city">City</label>
+          <select id='city' asp-for="CityId" class="form-select city me-3" aria-label="Select Mission" name="city">
+           <option disabled selected>Select Your City</option>
+          </select>
+          <span asp-validation-for="CityId" class="text-danger d-block"></span>
+       </div>
+      </div>
+      <div class = "col-lg-6 col-md-6 col-12">
+       <label for="country">Country</label>
+        <div class="dropdown" >
+         <select class="dropdown-toggle w-100" type="button" asp-for="CountryId" id="country" onchange="getcities()" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;">
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+           <option class="dropdown-item" disabled selected>Select your country</option>
+            @foreach(var objCountry in @Model.countries)
+             {
+              <option class="dropdown-item" value="@objCountry.CountryId">@objCountry.CountryName</option> 
+             }
+             <span asp-validation-for="CountryId" class="bg-danger d-block"></span>
             </div>
-            <div class="modal-body d-flex justufy-content-center">
-                <div class="all-skills d-flex flex-column text-muted border border-1">
-                    @{
-                        foreach (var item in Model?.skill)
-                        {
-                            <span onclick="addskill('skill-@item.SkillId','@item.SkillName')" class="mt-1" style="cursor:pointer;" id="skill-@item.SkillId">@item.SkillName</span>
-                        }
+           </select>
+          </div>
+         </div>
+        </div>
+       <div class="row p-3">
+        <h2><bold>Professional Information</bold></h2>
+         <hr>
+       </div>
+       <div class="row p-3">
+        <div class="col-lg-6 col-md-6 col-12">
+         <label for="avaibility">Availability</label>
+          <div class="dropdown" >
+           <select class="dropdown-toggle w-100" type="button" id="avaibility" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:2px;border-color:lightgray;">
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+             <option class="dropdown-item" href="#" selected>Select your availability</option>
+             <option class="dropdown-item" href="#">Monthly</option> 
+             <option class="dropdown-item" href="#">Weekly</option>
+             <option class="dropdown-item" href="#">Daily</option>
+            </div>
+           </select>
+          </div>
+         </div>
+         <div class="col-lg-6 col-md-6 col-12">
+          <div class="form-group">
+           <label for="linked_in">LinkedIn</label>
+            <input type="url" class="form-control" id="linked_in" aria-describedby="emailHelp" placeholder="Enter linkedIn URL" asp-for="LinkedInUrl">
+          </div>
+         </div>
+        </div>
+        <div class="row p-3">
+         <h2><bold>My Skills</bold></h2>
+          <hr>
+        </div>
+        <div class="row p-3">
+         <div class=" col-12">
+          <div class="form-group">
+         
+           <select multiple class = "form-control" id="userSkill">
+           @{
+           foreach(var skill in @Model.userSkills)
+           {
+              <option id="@skill.SkillId">@skill.Skill.SkillName</option> 
+           }
+           }
+           </select>
+          </div>
+         </div>
+        </div>
+        <div class="row p-3">
+         <div class="col-3">
+          <button type="button" class="btn btn-outline-secondary border rounded-pill" data-bs-toggle="modal" data-bs-target="#addskills">Add Skills</button>
+           <input asp-for="selected_skills" value="@Model.skill" type="hidden" id="selected_skills">
+           @*---------Add skill modal------------------------------*@
+           @*modal of skills*@
+           <div class="modal fade" id="addskills" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+             <div class="modal-content">
+              <div class="modal-header">
+               <h5 class="modal-title" id="staticBackdropLabel">Add Your Skills</h5>
+              </div>
+              <div class="modal-body d-flex justufy-content-center">
+               <div class="all-skills d-flex flex-column text-muted border border-1">
+                @{
+                  foreach (var item in Model?.skill)
+                   {
+                    <span onclick="addskill('skill-@item.SkillId','@item.SkillName')" class="mt-1" style="cursor:pointer;" id="skill-@item.SkillId">@item.SkillName</span>
+                   }
+                  }
+                 </div>
+                 <div class="d-flex flex-column justify-content-center align-items-center buttons">
+                  <img style="cursor:pointer;" onclick="addallskill()" src="/Images/CI Platform Assets/right-arrow1.png" />
+                   <img class="mt-3" src="/Images/CI Platform Assets/left.png" />
+                 </div>
+                 <div class="selected-skills d-flex flex-column text-muted border border-1">
+                 </div>
+                </div>
+                <div class="modal-footer">
+                 <div data-bs-dismiss="modal" style="cursor:pointer;" class="col-lg-2 col-md-3 col-sm-2 col-3 d-flex justify-content-center align-items-center border border-dark rounded-pill mt-2">
+                  <span class="p-1 text-muted" style="white-space:nowrap;">Cancle</span>
+                 </div>
+                 <button style="border: 2px solid #F88634;border-radius: 100px;color: #F88634;padding-left: 20px; padding-right: 20px;" type="button" onclick="saveskills()" class="btn applyButton" data-bs-dismiss="modal">Save</button>
+                </div>
+               </div>
+              </div>
+             </div>
+            </div>
+           </div>
+           <div class ="row p-3">
+            <div class="col-12 text-end">
+             <button type="submit" class="btn btn-outline-warning border rounded-pill">Save</button></div>
+            </div>
+           </div>
+          </div>
+         </form>
+        </div>
+        <div class="container">
+         <footer class="text-lg-start">
+          <div class="p-3">
+           <a asp-action="Privacy" asp-controller="Home" class="text-decoration-none">Privacy Policy</a>
+          </div>
+         </footer>
+        </div>
+        <script>
+                    var skills = []
+                    var skills_name = []
+                    var first_name
+                    var last_name
+                    var e_id
+                    var m_details
+                    var title
+                    var department
+                    var bio
+                    var reason_volunteering
+                    var country
+                    var city
+                    var avaibility
+                    var linkedin
+     
+
+
+        function getcities()
+         {
+          var selectedCountryId = document.getElementById("country").value;
+        
+          
+          var countryId= [];
+      
+
+
+        countryId.push(selectedCountryId); 
+
+
+
+          
+          $.ajax
+           ({
+            url: "/Mission/GetCity",
+            method: "Post",
+            data: { "countryId": countryId },
+            success: function(data) 
+             {
+              console.log(data)
+              data = JSON.parse(data);
+              $("#city").empty();
+              data.forEach((name) => 
+               {
+                document.getElementById("city").innerHTML += `<option class="form-check" name="city" id="${name.CityId}">${name.Name}</option>`;
+               })
+              },
+              error: function (request, error)
+               {
+                console.log(error);
+               }
+              })
+             };
+        const addskill = (skill_id, skill_name) => 
+         {
+          var id = parseInt(skill_id.slice(6))
+          if (!skills.includes(id)) 
+           {
+            $(`#${skill_id}`).css("background-color", "#0000000D")
+            $('.selected-skills').append(`<span class="mt-1" id=${id}>` + skill_name + '</span>')
+            skills.push(id)
+            skills_name.push(skill_name)
+           }
+          else 
+           {
+            $(`#${skill_id}`).css("background-color", "white")
+            $('.selected-skills').find(`#${id}`).remove()
+            skills.splice(skills.indexOf(id), 1)
+            skills_name.splice(skills_name.indexOf(skill_name), 1)
+           }
+           document.getElementById('selected_skills').value = skills
+          }
+
+                    const saveskills = () => {
+                        $('.saved-skills').empty()
+                        skills_name.forEach((item, i) => {
+                            $('.saved-skills').append(`<span class="mt-1 ms-3">` + item + '</span>')
+                        })
                     }
 
-                </div>
-                <div class="d-flex flex-column justify-content-center align-items-center buttons">
-                    <img style="cursor:pointer;" onclick="addallskill()" src="/Images/CI Platform Assets/right-arrow1.png" />
-                    <img class="mt-3" src="/Images/CI Platform Assets/left.png" />
-                </div>
-                <div class="selected-skills d-flex flex-column text-muted border border-1">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div data-bs-dismiss="modal" style="cursor:pointer;" class="col-lg-2 col-md-3 col-sm-2 col-3 d-flex justify-content-center align-items-center border border-dark rounded-pill mt-2">
-                    <span class="p-1 text-muted" style="white-space:nowrap;">Cancle</span>
-                </div>
-                <button style="border: 2px solid #F88634;border-radius: 100px;color: #F88634;padding-left: 20px; padding-right: 20px;" type="button" onclick="saveskills()" class="btn applyButton" data-bs-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    const upload_profile_image = () => {
+                        var image = document.getElementById('profile-image').files[0]
+                        var fr = new FileReader()
+                        fr.onload = () => {
+                            $('#old-profile-image').attr('src', fr.result)
+                        }
+                        fr.readAsDataURL(image)
+                    }
 
-  </div>
- 
-  
-  </div>
-  <div class ="row p-3">
-  <div class="col-12 text-end">
-  <button type="button" class="btn btn-outline-warning border rounded-pill">Save</button></div>
-  </div>
-   </div>
-
-   </div>
-    </form>
-    </div>
- <div class="container">
-    <footer class="text-lg-start">
-       <div class="p-3">
-         <a asp-action="Privacy" asp-controller="Home" class="text-decoration-none">Privacy Policy</a>
-            </div>
-         </footer>
-     </div>
-    
-   <script>
-  var skills = []
-var skills_name = []
-var first_name
-var last_name
-var e_id
-var m_details
-var title
-var department
-var bio
-var reason_volunteering
-var country
-var city
-var availablity
-var linkedin
-const getcities = () => {
-    var country = $('.country').find(":selected").val()
-    if (parseInt(country) != 0) {
-        debugger
-        $.ajax({
-            url: '/User/UserDetail',
-            type: 'POST',
-            data: { country: country },
-            success: function (result) {
-                $('.city').empty().append(result.cities.result)
-            },
-            error: function () {
-                console.log("Error updating variable");
-            }
-        })
-    }
-}
-
-const addskill = (skill_id, skill_name) => {
-    var id = parseInt(skill_id.slice(6))
-    if (!skills.includes(id)) {
-        $(`#${skill_id}`).css("background-color", "#0000000D")
-        $('.selected-skills').append(`<span class="mt-1" id=${id}>` + skill_name + '</span>')
-        skills.push(id)
-        skills_name.push(skill_name)
-    }
-    else {
-        $(`#${skill_id}`).css("background-color", "white")
-        $('.selected-skills').find(`#${id}`).remove()
-        skills.splice(skills.indexOf(id), 1)
-        skills_name.splice(skills_name.indexOf(skill_name), 1)
-    }
-    document.getElementById('selected_skills').value = skills
-}
-
-const saveskills = () => {
-    $('.saved-skills').empty()
-    skills_name.forEach((item, i) => {
-        $('.saved-skills').append(`<span class="mt-1 ms-3">` + item + '</span>')
-    })
-}
-
-const upload_profile_image = () => {
-    var image = document.getElementById('profile-image').files[0]
-    var fr = new FileReader()
-    fr.onload = () => {
-        $('#old-profile-image').attr('src', fr.result)
-    }
-    fr.readAsDataURL(image)
-}
-
-const change_password = () => {
-    var oldpassword = document.getElementById("oldpassword").value
-    var newpassword = document.getElementById("newpassword").value
-    var confirmpassword = document.getElementById("confirmpassword").value
-    @*if (oldpassword.length < 8) {
-        $('.oldpassword').addClass('d-block').removeClass('d-none')
-    }
-    else {
-        $('.oldpassword').addClass('d-none').removeClass('d-block')
-    }*@
-    if (newpassword.length < 8) {
-        $('.newpassword').addClass('d-block').removeClass('d-none')
-    }
-    else {
-        $('.newpassword').addClass('d-none').removeClass('d-block')
-    }
-    if (confirmpassword != newpassword) {
-        $('.confirmpassword').addClass('d-block').removeClass('d-none')
-    }
-    else {
-        $('.confirmpassword').addClass('d-none').removeClass('d-block')
-    }
-    if (@*oldpassword.length >= 8 && *@ newpassword.length >= 8 && confirmpassword.length >= 8 && confirmpassword == newpassword) {
-        debugger
-        $.ajax({
-            url: '/User/UserDetail',
-            type: 'POST',
-            data: { oldpassword: oldpassword, newpassword: newpassword },
-            success: function (result) {
-                if (result.success) {
-                    $("#changepassword").modal('hide')
-                    document.getElementById("oldpassword").value = ""
-                    document.getElementById("newpassword").value = ""
-                    document.getElementById("confirmpassword").value = ""
-                    $('.wrong-oldpassword').addClass('d-none').removeClass('d-block')
-                }
-                else {
-                    $('.wrong-oldpassword').addClass('d-block').removeClass('d-none')
-                }
-            },
-            error: function () {
-                console.log("Error updating variable");
-            }
-        })
-    }
-}
-</script>
+                    const change_password = () => {
+                        var oldpassword = document.getElementById("oldpassword").value
+                        var newpassword = document.getElementById("newpassword").value
+                        var confirmpassword = document.getElementById("confirmpassword").value
+                        @*if (oldpassword.length < 8) {
+                            $('.oldpassword').addClass('d-block').removeClass('d-none')
+                        }
+                        else {
+                            $('.oldpassword').addClass('d-none').removeClass('d-block')
+                        }*@
+                        if (newpassword.length < 8) {
+                            $('.newpassword').addClass('d-block').removeClass('d-none')
+                        }
+                        else {
+                            $('.newpassword').addClass('d-none').removeClass('d-block')
+                        }
+                        if (confirmpassword != newpassword) {
+                            $('.confirmpassword').addClass('d-block').removeClass('d-none')
+                        }
+                        else {
+                            $('.confirmpassword').addClass('d-none').removeClass('d-block')
+                        }
+                        if (@*oldpassword.length >= 8 && *@ newpassword.length >= 8 && confirmpassword.length >= 8 && confirmpassword == newpassword) {
+                            
+                            $.ajax({
+                                url: '/User/changePassword',
+                                type: 'POST',
+                                data: { oldpassword: oldpassword, newpassword: newpassword },
+                                success: function (result) {
+                                    console.log(result)
+                                    if (result.success) {
+                                        $("#changepassword").modal('hide')
+                                        document.getElementById("oldpassword").value = ""
+                                        document.getElementById("newpassword").value = ""
+                                        document.getElementById("confirmpassword").value = ""
+                                        $('.wrong-oldpassword').addClass('d-none').removeClass('d-block')
+                                        toastr.success('Password updated successfully');
+                                    }
+                                    else {
+                                        $('.wrong-oldpassword').addClass('d-block').removeClass('d-none')
+                                        toastr.error('Password not updated')
+                                    }
+                                },
+                                error: function () {
+                                    console.log("Error updating variable");
+                                }
+                            })
+                        }
+                    }
+                         
+                 </script>
   
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"

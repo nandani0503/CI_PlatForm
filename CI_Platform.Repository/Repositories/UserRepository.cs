@@ -137,9 +137,57 @@ namespace CI_PlatForm.Repository.Repositories
                 model.Avatar = user.Avatar;
                 model.FirstName = user.FirstName;
                 model.LastName = user.LastName;
-                model.WhyIVolunteer = user.WhyIVolunteer;   
+                model.WhyIVolunteer = user.WhyIVolunteer; 
+                model.EmployeeId = user.EmployeeId;
+                model.Title = user.Title;
+                model.Department = user.Department;
+                model.ProfileText = user.ProfileText;
+                model.userSkills = _CiplatformDbContext.UserSkills.Where(a => a.UserId == userId).ToList();
+                
             }
             return model;
+        }
+        public bool addProfile(ProfileViewModel ViewModel, long userId)
+        {
+            User model = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == userId);
+            model.Avatar = ViewModel.profile.FileName;
+            model.FirstName = ViewModel.FirstName;
+            model.LastName= ViewModel.LastName;
+            model.EmployeeId= ViewModel.EmployeeId;
+            model.Title= ViewModel.Title;
+            model.Department = ViewModel.Department;
+            model.ProfileText= ViewModel.ProfileText;
+            model.WhyIVolunteer = ViewModel.WhyIVolunteer;
+            model.CountryId = ViewModel.CountryId;
+            model.CityId = ViewModel.CityId;
+            model.LinkedInUrl = ViewModel.LinkedInUrl;
+            string[] skills = ViewModel.selected_skills.ToString().Split(',');
+            foreach (string skill in skills)
+            {
+                _CiplatformDbContext.UserSkills.Add(new UserSkill
+                {
+                    SkillId = int.Parse(skill),
+                    UserId = userId
+                });
+            }
+            _CiplatformDbContext.Users.Update(model);
+            _CiplatformDbContext.SaveChanges();
+            return true;
+        }
+        public bool changePassword(string oldPass, string newPass, long userId)
+        {
+            User userList = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == userId);
+            if(oldPass == userList.Password)
+            {
+                userList.Password = newPass;
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
 

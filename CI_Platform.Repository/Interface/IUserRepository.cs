@@ -30,6 +30,9 @@ namespace CI_PlatForm.Repository.Interface
 
         public Boolean ChangePassword(long UserId, Reset_Password model);
         public ProfileViewModel getProfile(long UserId);
+        public bool changePassword(string oldPass, string newPass, long userId);
+        public bool addProfile(ProfileViewModel ViewModel, long userId);
+
 
     }
 }

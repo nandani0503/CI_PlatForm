@@ -32,7 +32,7 @@ namespace CI_PlatForm.Entities.ViewModel
         public string? Description { get; set; }
 
         public string? Avatar { get; set; }
-        public string? WhyIVolunteer { get; set; }
+       public string? WhyIVolunteer { get; set; }
 
         public string? UserName { get; set; }
         public long CountryId { get; set; }
@@ -43,12 +43,12 @@ namespace CI_PlatForm.Entities.ViewModel
         public long ThemeId { get; set; }
         [Required(ErrorMessage ="Please choose date")]
         public DateTime? PublishDate { get; set; }
-        
-
-        public string Type { get; set; } = null!;
-
         public string Status { get; set; } = null!;
         public string? Url { get; set; }
+       /* public string Type { get; set; } = null!;*/
+
+       
+   
         [Required]
         [MaxLength(20, ErrorMessage = "You can upload maximum 20 images")]
 

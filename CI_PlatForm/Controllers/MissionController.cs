@@ -302,16 +302,12 @@ namespace CI_PlatForm.Controllers
             
             return View(model);
         }
-       
-       /* public IActionResult UserDetail()
+        public IActionResult GetDraftDetails(long mission_id)
         {
-            ViewBag.sessionValue = HttpContext.Session.GetString("username");
-
-
-            var CountryList = _MissionRepository.GetCountryData();
-            ViewBag.countryList = CountryList;
-            return View();
-        }*/
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            StoryViewModel draft = _MissionRepository.GetDraftDetails(mission_id, userId);
+            return Json(draft);
+        }
        public IActionResult VolunteeringTimesheet()
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");

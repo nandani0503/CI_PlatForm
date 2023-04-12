@@ -7,6 +7,7 @@ using CI_PlatForm.Entities.ViewModel;
 using CI_PlatForm.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace CI_PlatForm.Controllers
 {
@@ -171,5 +172,21 @@ namespace CI_PlatForm.Controllers
             return View(model);
         }
         
+       [HttpPost]
+       public IActionResult UserDetail(ProfileViewModel model)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            bool addUser = _UserRepository.addProfile(model, userId);
+            return RedirectToAction("UserDetail");
+
+        }
+        public IActionResult changePassword(String oldpassword, String newpassword)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            var updatePass = _UserRepository.changePassword(oldpassword, newpassword, userId);
+            return Json(updatePass);
+        }
     }
 }

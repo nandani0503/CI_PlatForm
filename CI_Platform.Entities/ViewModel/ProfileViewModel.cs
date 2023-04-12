@@ -13,8 +13,9 @@ namespace CI_PlatForm.Entities.ViewModel
     {
         public List<Country>? countries { get; set; }
         public List<City>? cities { get; set; }
-        public List<Skill> skill { get; set; }
+        public List<Skill>? skill { get; set; }
         public IFormFile? profile { get; set; }
+        public List<UserSkill>? userSkills { get; set; }      
         public string? selected_skills { get; set; }
         [Required(ErrorMessage ="Please enter your first name")]
         public string? FirstName { get; set; }

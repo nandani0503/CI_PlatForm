@@ -61,6 +61,7 @@ namespace CI_PlatForm.Repository.Interface
         public List<Mission> getStoryMission(long userid);
         public void AddStory(StoryViewModel model, long UserId, string Submit);
         public StoryViewModel getStory(long story_id, long user_id);
+        public StoryViewModel GetDraftDetails(long mission_id, long userId);
 
 
     }

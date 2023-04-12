@@ -34,6 +34,8 @@ namespace CI_PlatForm.Repository.Repositories
             List<City> city = _CiplatformDbContext.Cities.Where(i => countryId.Contains(i.CountryId.ToString())).ToList();
             return city;
         }
+ 
+
         public List<MissionTheme> GetMissionTheme()
         {
             List<MissionTheme> missionTitle = _CiplatformDbContext.MissionThemes.ToList();
@@ -563,7 +565,7 @@ namespace CI_PlatForm.Repository.Repositories
 
             Story story = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == story_id);
             var whyIVolunteer = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == story.UserId).WhyIVolunteer;
-            User user = _CiplatformDbContext.Users.FirstOrDefault(s => s.UserId == story.UserId);
+            /*User user = _CiplatformDbContext.Users.FirstOrDefault(s => s.UserId == story.UserId);*/
 
 
             if (story == null)
@@ -574,18 +576,44 @@ namespace CI_PlatForm.Repository.Repositories
             {
                 StoryViewModel mystory = new StoryViewModel()
                 {
-                    UserName = user.FirstName + " " + " " + user.LastName,
-                    Avatar = user.Avatar,
+                    
+                    UserName = story.User.FirstName + " " + story.User.LastName,
+                    Avatar = story.User.Avatar,
                     Title = story.Title,
                     Description = story.Description,
                     storymedia = story.StoryMedia.ToList(),
                     users = _CiplatformDbContext.Users.ToList(),
                     StoryId = story_id,
                     MissionId = story.MissionId,
+                    Views = story.StoryViews.Count(),
                     WhyIVolunteer = whyIVolunteer
                 };
                 return mystory;
             }
+        }
+        public StoryViewModel GetDraftDetails(long mission_id, long userId)
+        {
+            Story get_draft = _CiplatformDbContext.Stories.FirstOrDefault(m => m.MissionId == mission_id && m.Status == "DRAFT" && m.UserId == userId);
+            if(get_draft != null)
+            {
+                List<StoryMedium> mediaImages = new List<StoryMedium>();
+                var imageList = _CiplatformDbContext.StoryMedia.Where(m => m.StoryId == get_draft.StoryId && m.Type == "png").ToList();
+                foreach (var image in imageList)
+                {
+                    StoryMedium items = new StoryMedium();
+                    items.Path = image.Path;
+                    mediaImages.Add(items);
+                }
+                StoryViewModel draft_model = new StoryViewModel();
+                {
+                    draft_model.Title = get_draft.Title;
+                    draft_model.PublishDate = get_draft.PublishedAt;
+                    draft_model.Description = get_draft.Description;
+                    draft_model.storymedia = mediaImages;
+                }
+                return draft_model;
+            }
+            return null;
         }
     }
 }
