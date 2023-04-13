@@ -147,10 +147,14 @@ namespace CI_PlatForm.Repository.Repositories
             }
             return model;
         }
-        public bool addProfile(ProfileViewModel ViewModel, long userId)
+        public bool addProfile(ProfileViewModel ViewModel, long userId,int cityId)
         {
             User model = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == userId);
-            model.Avatar = ViewModel.profile.FileName;
+            if(ViewModel.profile != null && !string.IsNullOrEmpty(ViewModel.profile.FileName))
+            {
+                model.Avatar = ViewModel.profile.FileName;
+            }
+          
             model.FirstName = ViewModel.FirstName;
             model.LastName= ViewModel.LastName;
             model.EmployeeId= ViewModel.EmployeeId;
@@ -161,15 +165,25 @@ namespace CI_PlatForm.Repository.Repositories
             model.CountryId = ViewModel.CountryId;
             model.CityId = ViewModel.CityId;
             model.LinkedInUrl = ViewModel.LinkedInUrl;
-            string[] skills = ViewModel.selected_skills.ToString().Split(',');
-            foreach (string skill in skills)
+         
+            if(!string.IsNullOrEmpty(ViewModel.selected_skills) && ViewModel.selected_skills.Contains(","))
             {
-                _CiplatformDbContext.UserSkills.Add(new UserSkill
+               string[] skills = ViewModel.selected_skills.Split(',');
+                foreach (string skill in skills)
                 {
-                    SkillId = int.Parse(skill),
-                    UserId = userId
-                });
+                   
+                    if (!_CiplatformDbContext.UserSkills.Any(us => us.UserId == userId && us.SkillId == int.Parse(skill))){
+                        _CiplatformDbContext.UserSkills.Add(new UserSkill
+                        {
+                            SkillId = int.Parse(skill),
+                            UserId = userId
+                        });
+                    
+                    }
+                
+                }
             }
+         
             _CiplatformDbContext.Users.Update(model);
             _CiplatformDbContext.SaveChanges();
             return true;

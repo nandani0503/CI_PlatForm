@@ -171,13 +171,13 @@ namespace CI_PlatForm.Controllers
             model.skill = _MissonRepository.GetSkillsList();
             return View(model);
         }
-        
+       
        [HttpPost]
-       public IActionResult UserDetail(ProfileViewModel model)
+       public IActionResult UserDetail(ProfileViewModel model, int cityId)
         {
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            bool addUser = _UserRepository.addProfile(model, userId);
+            bool addUser = _UserRepository.addProfile(model, userId,cityId);
             return RedirectToAction("UserDetail");
 
         }

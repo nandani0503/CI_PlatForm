@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+@model CI_PlatForm.Entities.Models.Timesheet
      @Html.Partial("_TopNav")
      <div class="container">
       <div class="row">
@@ -30,17 +31,17 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form>
+                    <form method="post" id="form">
                     <div class="row py-3">
                       
                         <label for="Mission" class="text-start">Mission</label>
-                        <input type="text" class="form-control" id="Mission" aria-describedby="emailHelp" placeholder="Enter Mission">
+                        <input type="text" asp-for="@Model.Notes" class="form-control" id="Mission" aria-describedby="emailHelp" placeholder="Enter Mission">
                       
                       </div>
                       <div class="row py-3">
                       
                       <label for="datepicker1" class="text-start">Date Volunteered</label>
-                      <input type="text" id="datepicker1" placeholder="Select Date">
+                      <input type="text" id="datepicker1" asp-for="@Model.DateVolunteered" placeholder="Select Date">
                       </div>
                       <div class="row py-3">
                       <div class="col-lg-6 col-md-6 col-12 text-start" >
@@ -62,7 +63,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary border rounded-pill" data-bs-dismiss="modal">Cancle</button>
-                    <button type="button" class="btn btn-outline-warning border rounded-pill">Submit</button>
+                    <button type="submit" class="btn btn-outline-warning border rounded-pill" asp-action="VolunteeringTimesheet" asp-controller="Mission">Submit</button>
                   </div>
                 </div>
               </div>
@@ -115,15 +116,15 @@
                     <form>
                     <div class="row py-3">
                     <label for="Mission" class="text-start">Mission</label>
-                    <input type="text" class="form-control" id="Mission" aria-describedby="emailHelp" placeholder="Enter Mission">
+                    <input type="text" asp-for="@Model.Notes" class="form-control" id="Mission" aria-describedby="emailHelp" placeholder="Enter Mission">
                     </div>
                     <div class="row py-3">
                     <label for="Action" class="text-start">Actions</label>
-                    <input type="text" class="form-control" id="Action" aria-describedby="emailHelp" placeholder="Enter Actions">
+                    <input type="text" asp-for="@Model.Action" class="form-control" id="Action" aria-describedby="emailHelp" placeholder="Enter Actions">
                     </div>
                     <div class="row py-3">
                     <label for="datepicker2" class="text-start">Date Volunteered</label>
-                      <input type="text" id="datepicker2" placeholder="Select Date">
+                      <input type="text" id="datepicker2" asp-for="DateVolunteered" placeholder="Select Date">
                       </div>
                           <div class="row py-3">
                         <div class="col-12 text-start">
@@ -135,7 +136,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-warning">Submit</button>
+                    <button type="button" class="btn btn-outline-warning" >Submit</button>
                   </div>
                 </div>
               </div>

@@ -34,9 +34,7 @@ namespace CI_PlatForm.Controllers
             var SkillList = _MissionRepository.GetSkillsList();
             ViewBag.skillList = SkillList;
 
-            /*var missions = _MissionRepository.GetMissionList();
-            ViewBag.missions = missions;*/
-
+        
             
 
 
@@ -251,11 +249,7 @@ namespace CI_PlatForm.Controllers
             
         }
 
-
-        
-
-
-        //---------------------Mission not found --------------------------------------------------------------------------------
+         //---------------------Mission not found --------------------------------------------------------------------------------
 
        
         public IActionResult ShareStory()
@@ -313,6 +307,7 @@ namespace CI_PlatForm.Controllers
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
             return View();
         }
+        
     }
 }        
    

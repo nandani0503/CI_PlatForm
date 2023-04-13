@@ -52,25 +52,25 @@
          <div class="navbar">
           <ul class="navbar-nav">
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-person-fill"></i>&nbsp;User</a>
+            <a class="nav-link" href="#" data-target="user"><i class="bi bi-person-fill"></i>&nbsp;User</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i>&nbsp; CMS Page</a>
+            <a class="nav-link" href="#" data-target="cms-page"><i class="bi bi-file-earmark-text"></i>&nbsp; CMS Page</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><img src="/Images/CI Platform Assets/achieved.png" style="color:white;height:15px;width:15px;">&nbsp;Mission</a>
+            <a class="nav-link" href="#" data-target="mission"><img src="/Images/CI Platform Assets/achieved.png" style="color:white;height:15px;width:15px;">&nbsp;Mission</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-columns"></i>&nbsp; Mission Theme</a>
+            <a class="nav-link" href="#" data-target="mission-theme"><i class="bi bi-columns"></i>&nbsp; Mission Theme</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-wrench"></i>&nbsp;  Mission Skill</a>
+            <a class="nav-link" href="#" data-target="mission-skill"><i class="bi bi-wrench"></i>&nbsp;  Mission Skill</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-folder"></i>&nbsp;  Mission Application</a>
+            <a class="nav-link" href="#" data-target="mission-application"><i class="bi bi-folder"></i>&nbsp;  Mission Application</a>
            </li>
            <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-bookmark-star-fill"></i>&nbsp; Story</a>
+            <a class="nav-link" href="#" data-target="story"><i class="bi bi-bookmark-star-fill"></i>&nbsp; Story</a>
            </li>
           </ul>
          </div>
@@ -94,98 +94,37 @@
            </div>
           </nav>
          </div>
-         <div class="container">
-          <div class="row py-5">
-           <h1>User</h1>
+        
+         <div id="user-content" class="content">
+         @Html.Partial("_UserCRUD")
           </div>
+         <div id="cms-page-content" class="content">
+         @Html.Partial("_CMSPage")
          </div>
-         <div class="container">
-          <div class="row">
-           <div class="col-6">
-            <div class="form-group has-search">
-             <span class="bi bi-search form-control-feedback"></span>
-             <input type="text" class="form-control" placeholder="Search">
-            </div>
-           </div>
-           <div class="col-6 text-end">
-            <button type="button" class="btn btn-outline-warning border rounded-pill"><i class="bi bi-plus"></i>&nbsp;Add</button>
-           </div>
-          </div>
+   
+         <div id="mission-content" class="content">
+         @Html.Partial("_Mission")
          </div>
-         <div class="container">
-          <table class="w-100 py-3 table">
-          <thead>
-           <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Employee Id</th>
-            <th scope="col">Department</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-           </tr>
-           </thead>
-           <tbody>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           <tr>
-            <td scope="col">Adam</td>
-            <td scope="col">Baldwin</td>
-            <td scope="col">Adam12546@yahs.com</td>
-            <td scope="col">1364978456</td>
-            <td scope="col">HR</td>
-            <td class="text-success" scope="col">Active</td>
-            <td scope="col"><i class="bi bi-pencil-square"></i>&nbsp;<i class="bi bi-trash3"></i></td>
-           </tr>
-           </tbody>
-          </table>
-         </div>
+         <div id="mission-theme-content" class="content"></div>
+         <div id="mission-skill-content" class="content"></div>
+         <div id="mission-application-content" class="content">@Html.Partial("_MissionApplication")</div>
+         <div id="story-content" class="content">@Html.Partial("_Story")</div>
+        
+        
         </div>
        </div>
       </div>
-    
+      <script>
+     function showContent(target){
+         $('.content').hide();
+         $('#' + target + '-content').show();
+     }
+     $('.nav-link').on('click', function(e){
+         e.preventDefault();
+         var target = $(this).data('target');
+         showContent(target);
+     });
+     showContent('user');
+      </script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 }

@@ -8,5 +8,9 @@ namespace CI_PlatForm.Controllers
         {
             return View();
         }
+        public IActionResult CMSPage()
+        {
+            return PartialView("_CMSPage");
+        }
     }
 }
