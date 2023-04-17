@@ -2,6 +2,7 @@
 using CI_PlatForm.Entities.Models;
 using CI_PlatForm.Entities.ViewModel;
 using CI_PlatForm.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -565,7 +566,7 @@ namespace CI_PlatForm.Repository.Repositories
 
             Story story = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == story_id);
             var whyIVolunteer = _CiplatformDbContext.Users.FirstOrDefault(u => u.UserId == story.UserId).WhyIVolunteer;
-            /*User user = _CiplatformDbContext.Users.FirstOrDefault(s => s.UserId == story.UserId);*/
+           
 
 
             if (story == null)
@@ -615,5 +616,108 @@ namespace CI_PlatForm.Repository.Repositories
             }
             return null;
         }
+        /*-----------------------Volunteering Timesheet------------------------------------------------------------*/
+        public TimesheetViewModel GetSheetDetails(long userId)
+        {
+            var getSheetDetails = _CiplatformDbContext.Timesheets.Where(u => u.UserId == userId && u.DeletedAt == null).Include(x => x.Mission).ToList();
+            var getMission = _CiplatformDbContext.MissionApplications.Where(m => m.UserId == userId && m.ApprovalStatus == "APPROVE").Include(x => x.Mission).ToList();
+            var model = new TimesheetViewModel();
+            {
+                model.TimeMission = getMission.Where(x => x.Mission.MissionType == true).ToList();
+                model.GoalMission = getMission.Where(x => x.Mission.MissionType == false).ToList();
+
+                model.TimeSheets = getSheetDetails.Where(m => m.Mission?.MissionType == true).ToList();
+                model.GoalSheets = getSheetDetails.Where(m => m.Mission?.MissionType == false).ToList();
+            }
+
+            return model;
+        }
+
+        public bool addTimeSheet(long mission_id, long user_id, DateTime date, int hour, int minutes, string message, long timeSheetId)
+        {
+            if (timeSheetId == 0)
+            {
+                var addTime = _CiplatformDbContext.Timesheets.Add(new Timesheet
+                {
+                    Time = new TimeSpan(hour, minutes, 0),
+                    UserId = user_id,
+                    MissionId = mission_id,
+                    Status = "SUBMIT_FOR_APPROVAL",
+                    //"PENDING"
+                    DateVolunteered = date,
+                    Notes = message,
+                    CreatedAt = DateTime.Now,
+                });
+
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                var update = _CiplatformDbContext.Timesheets.FirstOrDefault(m => m.TimesheetId == timeSheetId);
+                update.MissionId = mission_id;
+                update.UserId = user_id;
+                update.DateVolunteered = date;
+                update.Time = new TimeSpan(hour, minutes, 0);
+                update.Notes = message;
+                update.UpdatedAt = DateTime.Now;
+
+                _CiplatformDbContext.Timesheets.Update(update);
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+
+        }
+
+        public bool addGoalSheet(long mission_id, long user_id, DateTime date, int action, string message, long timeSheetId)
+        {
+            if (timeSheetId == 0)
+            {
+                var addTime = _CiplatformDbContext.Timesheets.Add(new Timesheet
+                {
+                    //Time = new TimeSpan(hour, minutes, 0),
+                    UserId = user_id,
+                    MissionId = mission_id,
+                    Status = "PENDING",
+                    Action = action,
+                    DateVolunteered = date,
+                    Notes = message,
+                    CreatedAt = DateTime.Now,
+                });
+
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                var update = _CiplatformDbContext.Timesheets.FirstOrDefault(m => m.TimesheetId == timeSheetId);
+                update.UserId = user_id;
+                update.MissionId = mission_id;
+                update.Action = action;
+                update.DateVolunteered = date;
+                update.Notes = message;
+                update.UpdatedAt = DateTime.Now;
+
+                _CiplatformDbContext.Timesheets.Update(update);
+                _CiplatformDbContext.SaveChanges();
+                return true;
+            }
+
+        }
+
+        public Timesheet getTimeSheet(long timeSheetId)
+        {
+            var timesheet = _CiplatformDbContext.Timesheets.FirstOrDefault(t => t.TimesheetId == timeSheetId);
+            return timesheet;
+        }
+        public bool deleteTimeSheet(long timeSheetId)
+        {
+            var delete = _CiplatformDbContext.Timesheets.FirstOrDefault(u => u.TimesheetId == timeSheetId);
+            delete.DeletedAt = DateTime.Now;
+            _CiplatformDbContext.SaveChanges();
+            return true;
+        }
+
+
     }
 }

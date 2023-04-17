@@ -34,7 +34,11 @@ namespace CI_PlatForm.Controllers
             var SkillList = _MissionRepository.GetSkillsList();
             ViewBag.skillList = SkillList;
 
-        
+            List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
+
+            var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
+            ViewBag.cardData = missions;
+
             
 
 
@@ -101,6 +105,7 @@ namespace CI_PlatForm.Controllers
             List<Card> missions = _MissionRepository.GetMissionList(search, countries, cities, themes, skills, sort, paging, userId);
             ViewBag.cardDetail = missions;
             ViewBag.pg_no = paging;
+
             ViewBag.TotalPages = Math.Ceiling(missionCardDetails.Count()/6.0);
 
             if (missions == null)
@@ -302,12 +307,44 @@ namespace CI_PlatForm.Controllers
             StoryViewModel draft = _MissionRepository.GetDraftDetails(mission_id, userId);
             return Json(draft);
         }
-       public IActionResult VolunteeringTimesheet()
+
+        /*-----------------Volunteering Timesheet---------------------------*/
+        public IActionResult VolunteeringTimeSheet()
         {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
-            return View();
+            var getSeetDetails = _MissionRepository.GetSheetDetails(userId);
+            return View(getSeetDetails);
         }
-        
+        [HttpPost]
+        public IActionResult addtimeSheet(long id, DateTime date, int hours, int minutes, string message, long timeSheetId)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var addTimeData = _MissionRepository.addTimeSheet(id, userId, date, hours, minutes, message, timeSheetId);
+            return Json(addTimeData);
+        }
+
+        public IActionResult addGoalSheet(long id, DateTime date, int action, string message, long timeSheetId)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var addGoalData = _MissionRepository.addGoalSheet(id, userId, date, action, message, timeSheetId);
+            return Json(addGoalData);
+        }
+
+        public IActionResult getTimeSheet(long timeSheetId)
+        {
+            var getData = _MissionRepository.getTimeSheet(timeSheetId);
+            return Json(getData);
+        }
+
+        public IActionResult deleteSheet(long timeSheetId)
+        {
+            bool delete = _MissionRepository.deleteTimeSheet(timeSheetId);
+            return Json(delete);
+        }
+
+
+
     }
 }        
    

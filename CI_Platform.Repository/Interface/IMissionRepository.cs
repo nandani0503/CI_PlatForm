@@ -64,5 +64,14 @@ namespace CI_PlatForm.Repository.Interface
         public StoryViewModel GetDraftDetails(long mission_id, long userId);
 
 
+        /*-----------------------------Volunteering Timesheet---------------------------------------------------------------------------------*/
+
+
+        public TimesheetViewModel GetSheetDetails(long userId);
+        public bool addTimeSheet(long mission_id, long user_id, DateTime date, int hour, int minutes, string message, long timeSheetId);
+        public bool addGoalSheet(long mission_id, long user_id, DateTime date, int action, string message, long timeSheetId);
+        public Timesheet getTimeSheet(long timeSheetId);
+        public bool deleteTimeSheet(long timeSheetId);
+
     }
 }
