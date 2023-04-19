@@ -308,16 +308,24 @@
                                      <nav aria-label="Page navigation example border-black">
                                       <ul class="pagination">
                                         <li class="page-item col-lg-1 col-md-1 col-1">
-                                          <a class="page-link text-black" href="#" aria-label="Previous">
+                                          <button class="page-link text-black" aria-label="Previous" onclick="VolunteersPaging('prev', @ViewBag.cardData.MissionId)">
                                             <span aria-hidden="true">&laquo;</span>
-                                              </a>
+                                              </button>
                                         </li>
-                                        <li class="page-item col-lg-10 col-md-10 col-10"><a class="page-link text-black text-center" href="#"><span class="small">1-8 of 25 Recent Volunteers</span></a></li>
+                                    @if(@ViewBag.totalVol == 0)
+                                    {
+                                        <li class="page-item col-lg-10 col-md-10 col-10"><a class="page-link text-black text-center"><span class="small">Volunteers Not found</span></a></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item col-lg-10 col-md-10 col-10"><a class="page-link text-black text-center"><span class="small"> @ViewBag.totalVol out of @ViewBag.totalApplicant Volunteers</span></a></li>
+                                    }
+                                    
                                        
                                         <li class="page-item col-lg-1 col-md-1 col-1">
-                                          <a class="page-link text-black" href="#" aria-label="Next">
+                                          <button class="page-link text-black" href="#" aria-label="Next" onclick="VolunteersPaging('next', @ViewBag.cardData.MissionId, @ViewBag.Totalpages)">
                                             <span aria-hidden="true">&raquo;</span>
-                                            </a>
+                                            </button>
                                         </li>
                                       </ul>
                                     </nav>
@@ -646,6 +654,48 @@
                                         }
                                     }
                                 }
+                                function VolunteersPaging(paging, mission_id, total) {
+    if (paging == "prev") {
+        if (current_page > 0) {
+            $.ajax({
+                url: `/Mission/VolunteerMission/${mission_id}`,
+                method: "POST",
+                data: {
+                    "mission_id": mission_id,
+                    "paging": current_page - 1
+                },
+                success: function (data) {
+                    $(".recent-volunteers").html(data);
+                },
+                error: function (request, error) {
+                    console.log(error);
+                }
+            })
+            current_page--;
+        }
+      
+    }
+    else {
+        if (current_page+1 < total) {
+            $.ajax({
+                url: `/Mission/VolunteerMission/${mission_id}`,
+                method: "POST",
+                data: {
+                    "mission_id": mission_id,
+                    "paging": current_page + 1
+                },
+                success: function (data) {
+                    $(".recent-volunteers").html(data);
+                },
+                error: function (request, error) {
+                    console.log(error);
+                }
+            })
+            current_page++;
+        }
+       
+    }
+}
                             
 
                     </script>

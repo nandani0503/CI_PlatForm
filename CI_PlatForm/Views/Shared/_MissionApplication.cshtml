@@ -14,7 +14,7 @@
             </div>
            </div>
            <div class="col-6 text-end">
-            <a type="button" class="btn btn-outline-warning border rounded-pill"><i class="bi bi-plus"></i>&nbsp;Add</a>
+            <a class="btn btn-outline-warning border rounded-pill"><i class="bi bi-plus"></i>&nbsp;Add</a>
            </div>
           </div>
           <div class="container" style="height:568px;">
@@ -30,58 +30,88 @@
             <th scope="col">Action</th>
            </tr>
            </thead>
+           @foreach(var item in @Model.MissionApplicationList){
            <tbody>
            <tr class="mb-3">
-            <td scope="col">Desktop publishing software</td>
-            <td scope="col">123</td>
-            <td scope="col">456</td>
-            <td scope="col">Nandani Patel</td>
-            <td scope="col">15/02/2019</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
-           </tr>
-           <tr class="mb-3">
-            <td scope="col">Various versions have evolved over</td>
-            <td scope="col">789</td>
-            <td scope="col">753</td>
-            <td scope="col">Simran Pandita</td>
-            <td scope="col">30/05/2019</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
-           </tr>
-           <tr class="mb-3">
-            <td scope="col">A Latin professor at Hampden-Sydney</td>
-            <td scope="col">951</td>
-            <td scope="col">456</td>
-            <td scope="col">Sunaina Atri</td>
-            <td scope="col">20/06/2020</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
-           </tr>
-           <tr class="mb-3">
-            <td scope="col">Suffered alteration in some form</td>
-            <td scope="col">159</td>
-            <td scope="col">123</td>
-            <td scope="col">Kajal Katariya</td>
-            <td scope="col">24/07/2020</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
-           </tr>
-           <tr class="mb-3">
-            <td scope="col">Et harum quidem rerum faciilis est</td>
-            <td scope="col">486</td>
-            <td scope="col">359</td>
-            <td scope="col">Neha Vaghela</td>
-            <td scope="col">06/06/2021</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
-           </tr>
-           <tr class="mb-3">
-            <td scope="col">Et harum quidem rerum faciilis est</td>
-            <td scope="col">134</td>
-            <td scope="col">963</td>
-            <td scope="col">Vidhi Macwan</td>
-            <td scope="col">14/06/2021</td>
-            <td scope="col"><i class="bi bi-check-circle text-success"></i>&nbsp;<i class="bi bi-x-circle text-danger"></i></td>
+            <td scope="col"> @item.Mission.Title</td>
+            <td scope="col"> @item.MissionId</td>
+            <td scope="col"> @item.UserId</td>
+            <td scope="col"> @item.User.FirstName  @item.User.LastName</td>
+            <td scope="col"> @item.AppliedAt</td>
+            <td scope="col">
+            <button type="button" class="btn-light p-0 bg-light border-light" data-bs-toggle="modal" data-bs-target="#exampleModalG-">
+            <i class="bi bi-check-circle text-success"></i></button> &nbsp;
+            <button type="button" class="btn-light p-0" data-bs-toggle="modal" data-bs-target="#exampleModalDelete-">
+            <i class="bi bi-x-circle text-danger"></i></button>
+            </td>
            </tr>
            </tbody>
+           }
           </table>
           </div>
 
     </div>
+    <div class="container">
+    <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end" onchange="searchOnAdmin(1,'application')">
+        <li class="page-item">
+            <button class="page-link btn pageBtn" aria-label="Previous" onclick="searchMission(1,'application')">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        <li class="page-item">
+            @if (@ViewBag.pg_no != 1)
+            {
+                <button class="page-link btn pageBtn" aria-label="Previous" onclick="searchMission(((@ViewBag.pg_no) - 1),'application')">
+                    <span aria-hidden="true">&lt;</span>
+                </button>
+            }
+            else
+            {
+                <button class="page-link btn pageBtn" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </button>
+            }
+        </li>
+        @{
+            double totalpages = ViewBag.TpApplication;
+
+            for (int i = 1; i <= totalpages; i++)
+            {
+                @if (i == ViewBag.pg_no)
+                {
+                    <li class="page-item">
+                        <button class="page-link active btn pageBtn" onclick="searchMission(@i,'application')">@i</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="page-link btn pageBtn" onclick="searchMission(@i,'application')">@i</button>
+                    </li>
+                }
+            }
+        }
+        <li class="page-item">
+            @if (@ViewBag.pg_no != @ViewBag.TpApplication)
+            {
+                <button class="page-link btn pageBtn" aria-label="Next" onclick="searchMission(((@ViewBag.pg_no) + 1),'application')">
+                    <span aria-hidden="true">&gt;</span>
+                </button>
+            }
+            else
+            {
+                <button class="page-link btn pageBtn" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </button>
+            }
+        </li>
+        <li class="page-item">
+            <button class="page-link btn pageBtn" aria-label="Next" onclick="searchMission(@ViewBag.TpApplication,'application')">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>
+</div>
 }

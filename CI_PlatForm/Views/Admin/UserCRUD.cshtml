@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
 @model CI_PlatForm.Entities.ViewModel.AdminViewModel
 @{
    
@@ -84,12 +85,12 @@
            <div class="nav-item dropdown text-end">
             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              <img src="/Images/CI Platform Assets/user-img.png" alt="Error" height="25" width="25" style="border-radius: 15px;">
-              <span id="profile">@*@ViewBag.sessionValue*@ John Donohue</span>
+              <span id="profile"> John Donohue</span>
                <img src="/Images/CI Platform Assets/drop-down.png" alt="Profile-dropdown" id="Profile-dropdown" />
             </a>
             <ul class="dropdown-menu">
-             <li><a class="dropdown-item" @*asp-action="UserDetail" asp-controller="User"*@>Add Profile</a></li>
-             <li><a class="dropdown-item" @*asp-action="VolunteeringTimesheet" asp-controller="Mission"*@>Volunteering Timesheet</a></li>
+             <li><a class="dropdown-item" href="#">Add Profile</a></li>
+             <li><a class="dropdown-item" href="#">Volunteering Timesheet</a></li>
              <li><a class="dropdown-item" href="#">Logout</a></li>
             </ul>
            </div>
@@ -97,19 +98,40 @@
          </div>
         
          <div id="user-content" class="content">
+         <div id="users">
          @Html.Partial("_UserCRUD")
+         </div>
           </div>
          <div id="cms-page-content" class="content">
+         <div id="cms">
          @Html.Partial("_CMSPage")
          </div>
-   
+         </div>
          <div id="mission-content" class="content">
+         <div id="missions">
          @Html.Partial("_Mission")
          </div>
-         <div id="mission-theme-content" class="content"></div>
-         <div id="mission-skill-content" class="content"></div>
-         <div id="mission-application-content" class="content">@Html.Partial("_MissionApplication")</div>
-         <div id="story-content" class="content">@Html.Partial("_Story")</div>
+         </div>
+         <div id="mission-theme-content" class="content">
+         <div id="themes">
+         @Html.Partial("_MissionTheme")
+         </div>
+         </div>
+         <div id="mission-skill-content" class="content">
+         <div id="skills">
+         @Html.Partial("_MissionSkill")
+         </div>
+         </div>
+         <div id="mission-application-content" class="content">
+         <div id="applications">
+         @Html.Partial("_MissionApplication")
+         </div>
+         </div>
+         <div id="story-content" class="content">
+         <div id="stories">
+         @Html.Partial("_Story")
+         </div>
+         </div>
         
         
         </div>
@@ -126,6 +148,79 @@
          showContent(target);
      });
      showContent('user');
-      </script>
+
+     
+ function searchMission(pg, who) {
+    
+    var search = $('input[name="search"]').val();
+    if (search == "") {
+        search = $('input[name="searchMission"]').val();
+    }
+    if (search == "") {
+        search = $('input[name="searchTheme"]').val();
+    }
+    if (search == "") {
+        search = $('input[name="searchCms"]').val();
+    }
+    if (search == "") {
+        search = $('input[name="searchStory"]').val();
+    }
+    if (search == "") {
+        search = $('input[name="searchApplication"]').val();
+    }
+    if (search == "") {
+        search = $('input[name="searchSkill"]').val();
+    }
+
+    if (pg == undefined) {
+        pg = 1;
+    }
+
+    if (who == undefined) {
+        who = 'user';
+    };
+   
+    $.ajax({
+        url: "/Admin/Search",
+        method: "POST",
+        data: {
+            "search": search,
+            "pg": pg,
+            "who": who
+        },
+        success: function (data) {
+            if (who == 'user') {
+                $('#users').html(data);
+            }
+            else if (who == 'mission') {
+                $('#missions').html(data);
+            }
+            else if (who == 'theme') {
+                $('#themes').html(data);
+            }
+            else if (who == 'cmsPages') {
+                $('#cms').html(data);
+            }
+            else if (who == 'story') {
+                $('#stories').html(data);
+            }
+            else if (who == 'application') {
+                $('#applications').html(data);
+            }
+            else if (who == 'skill') {
+                $('#skills').html(data);
+            }
+           
+        },
+        error: function (request, error) {
+            console.log(error);
+        }
+    })
+
+}
+     
+   
+</script>
+      
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 }

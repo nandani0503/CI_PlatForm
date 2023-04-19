@@ -1,0 +1,122 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+      <div class="container">
+          <div class="row py-5">
+           <h1>Theme</h1>
+          </div>
+         </div>
+         <div class="container">
+          <div class="row">
+           <div class="col-6">
+            <div class="form-group has-search">
+             <span class="bi bi-search form-control-feedback"></span>
+             <input type="text" class="form-control" placeholder="Search">
+            </div>
+           </div>
+           <div class="col-6 text-end">
+            <button type="button" class="btn btn-outline-warning border rounded-pill"><i class="bi bi-plus"></i>&nbsp;Add</button>
+           </div>
+          </div>
+         </div>
+         <div class="container" style="height:568px;">
+
+          <table class="w-100 py-3 table h-100 mt-5">
+          <thead>
+           <tr class="mb-3">
+            <th scope="col">Theme Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+           </tr>
+           </thead>
+           
+           @foreach(var item in @Model.ThemeList)
+            {
+                <tbody>
+            
+            <tr class="mb-3">
+            <td scope="col">@item.Title</td>
+                        @if (item.Status == 1)
+                        {
+                            <td scope="col" class="text-success">Active</td>
+                        }
+                        else
+                        {
+                             <td scope="col"></td>
+                        }
+                        <td scope="col">
+            <button type="button" class="btn-light p-0 bg-light border-light" data-bs-toggle="modal" data-bs-target="#exampleModalG-">
+            <i class="bi bi-pencil-square" style="color:coral;"></i>&nbsp;</button>
+            <button type="button" class="btn-light p-0 bg-light border-light" data-bs-toggle="modal" data-bs-target="#exampleModalDelete-"><i class="bi bi-trash3"></i>
+            </button>
+            </td>
+           </tr>
+            </tbody>
+           }
+          </table>
+          </div>
+          <div class="container">
+       <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end" onchange="searchOnAdmin(1,'theme')">
+        <li class="page-item">
+            <button class="page-link btn pageBtn" aria-label="Previous" onclick="searchMission(1,'theme')">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        <li class="page-item">
+            @if (@ViewBag.pg_no != 1)
+            {
+                <button class="page-link btn pageBtn" aria-label="Previous" onclick="searchMission(((@ViewBag.pg_no) - 1),'theme')">
+                    <span aria-hidden="true">&lt;</span>
+                </button>
+            }
+            else
+            {
+                <button class="page-link btn pageBtn" aria-label="Previous">
+                    <span aria-hidden="true">&lt;</span>
+                </button>
+            }
+        </li>
+        @{
+            double totalpages = ViewBag.Totalpages;
+
+            for (int i = 1; i <= totalpages; i++)
+            {
+                @if (i == ViewBag.pg_no)
+                {
+                    <li class="page-item">
+                        <button class="page-link active btn pageBtn" onclick="searchMission(@i,'theme')">@i</button>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <button class="page-link btn pageBtn" onclick="searchMission(@i,'theme')">@i</button>
+                    </li>
+                }
+            }
+        }
+        <li class="page-item">
+            @if (@ViewBag.pg_no != @ViewBag.Totalpages)
+            {
+                <button class="page-link btn pageBtn" aria-label="Next" onclick="searchMission(((@ViewBag.pg_no) + 1),'theme')">
+                    <span aria-hidden="true">&gt;</span>
+                </button>
+            }
+            else
+            {
+                <button class="page-link btn pageBtn" aria-label="Next">
+                    <span aria-hidden="true">&gt;</span>
+                </button>
+            }
+        </li>
+        <li class="page-item">
+            <button class="page-link btn pageBtn" aria-label="Next" onclick="searchMission(@ViewBag.Totalpages,'theme')">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>
+    </div>
+}

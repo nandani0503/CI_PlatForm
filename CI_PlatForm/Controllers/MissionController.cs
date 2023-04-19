@@ -118,8 +118,14 @@ namespace CI_PlatForm.Controllers
 
         
     /*----------------------------------Volunteer mission-----------------------------------------------------------------------------*/
+
+        [Route("Mission/MissionVolunteering/{id}")]
        public IActionResult MissionVolunteering(long id)
         {
+            if(HttpContext.Session.GetString("userId") == null)
+            {
+                return RedirectToAction("Index", "User");
+            }
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
