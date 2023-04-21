@@ -1,7 +1,10 @@
-﻿@using CI_PlatForm.Entities.Models
+﻿@model CI_PlatForm.Entities.Models.User
+@{
+    ViewData["Title"] = "Login";
 
-@model User
-
+}
+@Html.Partial("_ToasterMessage")
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -68,10 +71,12 @@
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
                 <input asp-for="Email"  type="email" class="form-control"  id="exampleFormControlInput1" placeholder="name@example.com">
+                <span asp-validation-for=Email class="text-danger">@ViewBag.Email</span>
               </div>
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Password</label>
                 <input asp-for="Password"  type="password" class="form-control" id="exampleFormControlInput1" placeholder="***************">
+                <span asp-validation-for=Password class="text-danger">@ViewBag.Password</span>
               </div>
               <br>
               <button type="submit" class="btn btn-outline-warning"
@@ -81,11 +86,11 @@
             </div>
             <br>
             <div class="text-center col-lg-12 w-100">
-            <a asp-action="ForgotPassword">Lost your Password?</a></div>
+            <a asp-action="ForgotPassword" asp-controller="User">Lost your Password?</a></div>
             <br>
 
             <div class="text-center col-lg-12 w-100">Don't have an account?
-            <a asp-action="Registration">Create an account</a></div>
+            <a asp-action="Registration" asp-controller="User">Create an account</a></div>
           </div>
         </div>
       </div>

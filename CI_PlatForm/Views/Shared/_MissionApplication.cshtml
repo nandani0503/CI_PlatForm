@@ -10,7 +10,7 @@
            <div class="col-6">
             <div class="form-group has-search">
              <span class="bi bi-search form-control-feedback"></span>
-             <input type="text" class="form-control" placeholder="Search">
+             <input class="form-control" placeholder="Search" id="name" name="searchApplication" type="search" oninput="searchMission(1,'application')">
             </div>
            </div>
            <div class="col-6 text-end">
@@ -53,7 +53,7 @@
     </div>
     <div class="container">
     <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end" onchange="searchOnAdmin(1,'application')">
+    <ul class="pagination justify-content-end" oninput="searchMission(1,'application')">
         <li class="page-item">
             <button class="page-link btn pageBtn" aria-label="Previous" onclick="searchMission(1,'application')">
                 <span aria-hidden="true">&laquo;</span>

@@ -114,9 +114,9 @@ namespace CI_PlatForm.Repository.Repositories
                     missions = missions.OrderByDescending(i => i.Avaibility).ToList();
                     break;
 
-                case 6:
+               /* case 6:
                     missions = missions.OrderBy(i => i.FavouriteMissionId).ToList();
-                    break;
+                    break;*/
             }
             if (paging != null)
             {
@@ -167,6 +167,7 @@ namespace CI_PlatForm.Repository.Repositories
         {
             List<Card> missionAllDetails = new List<Card>();
             var missions = _CiplatformDbContext.Missions.ToList();
+            var missionGoalList = _CiplatformDbContext.GoalMissions.ToList();
             foreach (var allDetailsCard in missions)
             {
                 Card cardDetails = new Card();
@@ -194,11 +195,22 @@ namespace CI_PlatForm.Repository.Repositories
                 cardDetails.CountryId = allDetailsCard.CountryId;
                 cardDetails.ThemeId = allDetailsCard.ThemeId;
                 cardDetails.Avaibility = allDetailsCard.Avaibility;
+                cardDetails.SeatLeft = allDetailsCard.SeatLeft;
                 cardDetails.MissionType = allDetailsCard.MissionType;
                 cardDetails.Description = allDetailsCard.Description;
                 cardDetails.aboutOrganization = allDetailsCard.OrganizationDetail;
                 cardDetails.GoalObjectiveText = getGoalObject(allDetailsCard.MissionId);
+                cardDetails.Deadline = allDetailsCard.Deadline;
+                if(allDetailsCard.MissionType == false)
+                {
+                    cardDetails.GoalValue = missionGoalList.FirstOrDefault(x => x.MissionId == allDetailsCard.MissionId).GoalValue;
+                    cardDetails.Achieved = missionGoalList.FirstOrDefault(x => x.MissionId == allDetailsCard.MissionId).Achieved;
+                    cardDetails.Progress = cardDetails.Achieved * 100 / cardDetails.GoalValue;
+                }
+                else
+                {
 
+                }
                 var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
                 cardDetails.skillId = missionSkill.MissionSkillId;
                 missionAllDetails.Add(cardDetails);
@@ -301,14 +313,14 @@ namespace CI_PlatForm.Repository.Repositories
 
         public List<CommentViewModel> getComment(long missionId)
         {
-            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == "PENDING").ToList();
+            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId /*&& c.ApprovalStatus == "PENDING"*/).ToList();
             List<CommentViewModel> commentView = new List<CommentViewModel>();
 
             foreach (var comment in comments)
             {
                 CommentViewModel commentList = new CommentViewModel();
                 User user = _CiplatformDbContext.Users.FirstOrDefault(a => a.UserId == comment.UserId);
-                commentList.Comment = comment.Comments;
+                commentList.Comment1 = comment.Comment1;
                 commentList.Month = comment.CreatedAt.ToString("MMMM");
                 commentList.Time = comment.CreatedAt.ToString("h:mm tt");
                 commentList.Day = comment.CreatedAt.Day.ToString();
@@ -326,7 +338,7 @@ namespace CI_PlatForm.Repository.Repositories
         public void PostComment(string comment, long userId, long missionId)
         {
             Comment newComment = new Comment();
-            newComment.Comments = comment;
+            newComment.Comment1 = comment;
             newComment.UserId = userId;
             newComment.MissionId = missionId;
 
@@ -643,7 +655,6 @@ namespace CI_PlatForm.Repository.Repositories
                     UserId = user_id,
                     MissionId = mission_id,
                     Status = "SUBMIT_FOR_APPROVAL",
-                    //"PENDING"
                     DateVolunteered = date,
                     Notes = message,
                     CreatedAt = DateTime.Now,
@@ -717,7 +728,19 @@ namespace CI_PlatForm.Repository.Repositories
             _CiplatformDbContext.SaveChanges();
             return true;
         }
-
+        public bool CheckSameDate(long userId, long missionId, DateTime newDate)
+        {
+            var sameDate = _CiplatformDbContext.Timesheets.Where(date => date.UserId == userId && date.MissionId == missionId && date.DateVolunteered == newDate).ToList();
+            if (sameDate.Count != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        
 
     }
 }

@@ -11,7 +11,7 @@ public partial class Comment
 
     public long MissionId { get; set; }
 
-    public string? ApprovalStatus { get; set; }
+    public bool ApprovalStatus { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -19,9 +19,5 @@ public partial class Comment
 
     public DateTime? DeletedAt { get; set; }
 
-    public string? Comments { get; set; }
-
-    public virtual Mission Mission { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public string? Comment1 { get; set; }
 }

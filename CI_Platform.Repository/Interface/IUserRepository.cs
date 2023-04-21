@@ -26,7 +26,7 @@ namespace CI_PlatForm.Repository.Interface
         public ProfileViewModel getProfile(long UserId);
         public bool changePassword(string oldPass, string newPass, long userId);
         public bool addProfile(ProfileViewModel ViewModel, long userId, int cityId);
-  
+        public bool contactUs(string name, string email, string subject, string message, long userId);
 
 
     }

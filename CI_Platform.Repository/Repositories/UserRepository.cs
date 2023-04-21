@@ -203,6 +203,19 @@ namespace CI_PlatForm.Repository.Repositories
             }
 
         }
+        public bool contactUs(string name, string email, string subject, string message, long userId)
+        {
+            var contact = _CiplatformDbContext.ContactUs.Add(new ContactU
+            {
+                Name = name,
+                Email = email,
+                Subject = subject,
+                Message = message,
+                UserId = userId
+            });
+            _CiplatformDbContext.SaveChanges();
+            return true;
+        }
 
 
     }

@@ -28,9 +28,9 @@
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Please input below Volunteering Hours</h5>
-                    @*<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
-                    </button>*@
+                    </button>
                   </div>
                   <div class="modal-body">
                    
@@ -49,7 +49,7 @@
                       <div class="row py-3">
                     
                       <label for="tDate" class="text-start">Date Volunteered</label>
-                      <input type="date" id="tDate" placeholder="Select Date" class="form-control">
+                      <input type="date" id="tDate" placeholder="Select Date" class="form-control" onchange="checkDate('time')">
                       <span class="text-danger" id="dateAlert"></span>
                       </div>
                       
@@ -87,7 +87,7 @@
             </div>
          </div>
          <div class="container p-3">
-          <table class="w-100">
+          <table class="w-100 table">
            <tr>
             
               <th scope="col">Mission</th>
@@ -106,11 +106,11 @@
             <td scope="col">@obj.Time.ToString().Substring(0,2)h</td>
             <td scope="col">@obj.Time.ToString().Substring(3,2)</td>
             <td scope="col">
-            <button type="button" class="btn-primary p-0" data-bs-toggle="modal" data-bs-target="#VolunteerHours">
-            <i class="bi bi-pencil-square text-warning" style="color: coral;" onclick="editTimeSheet(@obj.TimesheetId)"></i>
+            <button type="button" class="btn-primary p-0" data-bs-toggle="modal" data-bs-target="#VolunteerHours" onclick="editTimeSheet(@obj.TimesheetId)">
+            <i class="bi bi-pencil-square text-warning" style="color: coral;"></i>
             </button></td>
             <td>
-            <button type="button" class="btn p-0"><i class="bi bi-trash3" onclick="deleteSheet(@obj.TimesheetId)"></i></button></td>
+            <button type="button" class="btn p-0" data-bs-toggle="modal" onclick="deleteSheet(@obj.TimesheetId)"><i class="bi bi-trash3"></i></button></td>
             </tr>
              }
           </table>
@@ -156,7 +156,7 @@
                     <div class="row py-3">
                    
                     <label for="gDate" class="text-start">Date Volunteered</label>
-                      <input type="date" id="gDate" placeholder="Select Date">
+                      <input type="date" id="gDate" onchange="checkDate('goal')" placeholder="Select Date">
                       <span class="text-danger" id="gDateAlert"></span>
                       </div>
                       
@@ -198,7 +198,7 @@
            </button>
            </td>
            <td scope="col">
-           <button type="button"><i class="bi bi-trash3" onclick="deleteSheet(@obj.TimesheetId)"></i>
+           <button type="button" onclick="deleteSheet(@obj.TimesheetId)"><i class="bi bi-trash3" ></i>
            </button>
            </td>
           </tr>

@@ -72,6 +72,7 @@ namespace CI_PlatForm.Repository.Interface
         public bool addGoalSheet(long mission_id, long user_id, DateTime date, int action, string message, long timeSheetId);
         public Timesheet getTimeSheet(long timeSheetId);
         public bool deleteTimeSheet(long timeSheetId);
+        public bool CheckSameDate(long userId, long missionId, DateTime newDate);
 
     }
 }

@@ -17,7 +17,7 @@
                                                           </div>
                                                           <div>
                                                             
-                                                             @if (@objcard.checkFav == true)
+                                                            @if (@objcard.checkFav == true)
                                                             {
                                                                 <button type="submit" class="bg-dark text-white bg-opacity-50" onclick="AddMissionToFav(@objcard.MissionId)"><i style="color:red" class="bi bi-heart-fill" id="addtofavList_@objcard.MissionId"></i></button>
                                                             }
@@ -53,7 +53,7 @@
                                                                         <i class="bi bi-star"></i>
                                                                      }       
                                                              
-                                                               <div class="container">
+                                                              @* <div class="container">
                                                                   <span id="rateMe2"  class="empty-stars"></span>
                                                                 </div>
 
@@ -61,7 +61,7 @@
                                                                 <script>$(document).ready(function() {
                                                                   $('#rateMe2').mdbRate();
                                                                 });
-                                                                </script>
+                                                                </script>*@
                                                                 </div>
                                                                     <div>
                                                                     <div class="mt-3">
@@ -72,26 +72,49 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-6">
-                                                        <div class="border rounded-pill text-center px-4">
-                                                        From @objcard.StartDate.ToString("dd/MM/yyyy") until @objcard.EndDate.ToString("dd/MM/yyyy")</div>
+                                @if (objcard.MissionType == false)
+                                {
+                                    <div class="border rounded-pill text-center px-4">
+
+                                                        From @objcard.GoalObjectiveText
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="border rounded-pill text-center px-4">From @objcard.StartDate.ToString("dd/MM/yyyy") to @objcard.EndDate.ToString("dd/MM/yyyy")</div>
+                                    
+                                }
+
                                                         <div class="row">
-                                                        <div class="cols-lg-6 col-md-6 col-6">
+                                                        <div class="col-lg-6 col-md-6 col-6">
                                                         <div class="d-flex">
                                                                         <div class="py-1"><i class="bi bi-person-check py-1"></i>&nbsp;&nbsp;
                                                                         </div>
-                                                                        <div>@objcard.Avaibility
+                                                                        <div>@objcard.SeatLeft
                                                                             <div>Seats left</div>
                                                                         </div>
                                                                     </div>
                                                                     </div>
-                                                        <div class="col-lg-6 col-md-6 col-12">
-                                                                     <div class="d-flex">
-                                                                        <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
+                                                        <div class="col-lg-6 col-md-6 col-12 mt-2">
+                                        @if (@objcard.MissionType == false)
+                                        {
+                                        <div class="d-flex">
+                                        <div class="col-3"><img src="/Images/CI Platform Assets/achieved.png" /></div>
+                                        <div class="col-9"> <div class="progress missionSeat w-75 h-25" role="progressbar" aria-label="Animated striped example">
+                                                        <div class="progress-bar progress-bar-striped progress-bar-animated originalProgress" style="width:@objcard.Progress%"></div>
+                                                    </div>
+                                                    <div class="small">@objcard.Achieved achieved</div></div></div>
+                                        }
+                                        else
+                                        {
+                                              <div class="d-flex">
+                                                <div class="py-1"><i class="bi bi-clock py-1"></i>&nbsp;&nbsp;</div>
                                                                         <div>@objcard.EndDate.ToString("dd/MM/yyyy")
                                                                             <div>Deadline</div>
                                                                         </div>
-                                                                    </div>
-                                                                    </div>
+                                            </div> 
+                                        }
+                                    </div>
                                                                    </div>
                                                                 </div>
                                                                </div>

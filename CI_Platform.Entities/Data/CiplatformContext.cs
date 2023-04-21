@@ -26,6 +26,8 @@ public partial class CiplatformContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
+    public virtual DbSet<ContactU> ContactUs { get; set; }
+
     public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<FavoriteMission> FavoriteMissions { get; set; }
@@ -68,7 +70,7 @@ public partial class CiplatformContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=PCA83\\SQL2017;DataBase=CIPlatform;User ID=sa;Password=tatva123;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=PCA83\\SQL2017;DataBase=CIPlatform;User ID=sa;Password=tatva123;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -205,13 +207,11 @@ public partial class CiplatformContext : DbContext
 
             entity.Property(e => e.CommentId).HasColumnName("comment_id");
             entity.Property(e => e.ApprovalStatus)
-                .HasMaxLength(10)
-                .IsUnicode(false)
                 .HasDefaultValueSql("('PENDING')")
                 .HasColumnName("approval_status");
-            entity.Property(e => e.Comments)
+            entity.Property(e => e.Comment1)
                 .HasMaxLength(50)
-                .HasColumnName("comments");
+                .HasColumnName("comment1");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -224,16 +224,39 @@ public partial class CiplatformContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated_at");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+        });
 
-            entity.HasOne(d => d.Mission).WithMany(p => p.Comments)
-                .HasForeignKey(d => d.MissionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__comment__mission__71D1E811");
+        modelBuilder.Entity<ContactU>(entity =>
+        {
+            entity.HasKey(e => e.ContactUsId);
 
-            entity.HasOne(d => d.User).WithMany(p => p.Comments)
+            entity.ToTable("contact_us");
+
+            entity.Property(e => e.ContactUsId)
+                .ValueGeneratedNever()
+                .HasColumnName("contact_us_id");
+            entity.Property(e => e.Email)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("email");
+            entity.Property(e => e.Message)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("message");
+            entity.Property(e => e.Name)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("name");
+            entity.Property(e => e.Subject)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("subject");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.ContactUs)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__comment__user_id__70DDC3D8");
+                .HasConstraintName("FK_contact_us_user");
         });
 
         modelBuilder.Entity<Country>(entity =>
@@ -301,6 +324,7 @@ public partial class CiplatformContext : DbContext
             entity.ToTable("goal_mission");
 
             entity.Property(e => e.GoalMissionId).HasColumnName("goal_mission_id");
+            entity.Property(e => e.Achieved).HasColumnName("achieved");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -331,13 +355,19 @@ public partial class CiplatformContext : DbContext
             entity.ToTable("mission");
 
             entity.Property(e => e.MissionId).HasColumnName("mission_id");
-            entity.Property(e => e.Avaibility).HasColumnName("avaibility");
+            entity.Property(e => e.Avaibility)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("avaibility");
             entity.Property(e => e.CityId).HasColumnName("city_id");
             entity.Property(e => e.CountryId).HasColumnName("country_id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
+            entity.Property(e => e.Deadline)
+                .HasColumnType("datetime")
+                .HasColumnName("deadline");
             entity.Property(e => e.DeletedAt)
                 .HasColumnType("datetime")
                 .HasColumnName("deleted_at");
@@ -355,6 +385,7 @@ public partial class CiplatformContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("organization_name");
+            entity.Property(e => e.SeatLeft).HasColumnName("seat_left");
             entity.Property(e => e.ShortDescription)
                 .HasColumnType("text")
                 .HasColumnName("short_description");
@@ -770,10 +801,12 @@ public partial class CiplatformContext : DbContext
 
             entity.HasOne(d => d.Story).WithMany(p => p.StoryViews)
                 .HasForeignKey(d => d.StoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_story_view_story");
 
             entity.HasOne(d => d.User).WithMany(p => p.StoryViews)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_story_view_user");
         });
 
@@ -800,7 +833,7 @@ public partial class CiplatformContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("notes");
             entity.Property(e => e.Status)
-                .HasMaxLength(1)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasDefaultValueSql("('PENDING')")
                 .HasColumnName("status");
@@ -826,6 +859,10 @@ public partial class CiplatformContext : DbContext
             entity.ToTable("user");
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Availability)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("availability");
             entity.Property(e => e.Avatar)
                 .HasMaxLength(2048)
                 .IsUnicode(false)
@@ -863,6 +900,10 @@ public partial class CiplatformContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("linked_in_url");
+            entity.Property(e => e.Manager)
+                .HasMaxLength(10)
+                .IsFixedLength()
+                .HasColumnName("manager");
             entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .IsUnicode(false)

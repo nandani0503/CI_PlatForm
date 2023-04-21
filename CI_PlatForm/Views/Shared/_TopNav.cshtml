@@ -2,7 +2,8 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-   
+   @using Microsoft.AspNetCore.Http
+   @inject IHttpContextAccessor Accesor
      <div class="container d-flex">
           <nav class="navbar navbar-expand-lg py-1">
               <div class="container">
@@ -27,7 +28,7 @@
                                                 Policy <span><img src="/Images/CI Platform Assets/drop-down.png" alt="Profile-dropdown" /></span>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" asp-action="Privacy" asp-controller="Home">Privacy Policy</a></li>
                                                 <li><a class="dropdown-item" href="#">Another action</a></li>
                                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                                             </ul>
@@ -59,8 +60,18 @@
                                 </div>
                                 <div class="nav-item dropdown">
                                     <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    @{
+                                        @if(Accesor?.HttpContext.Session.GetString("Avatar") is not null)
+                                        {
+                                        <img src="/Images/CI Platform Assets/@Accesor?.HttpContext.Session.GetString("Avatar")"
+                                            alt="Error" height="25" width="25" style="border-radius: 15px;">
+                                        }
+                                        else
+                                        {
                                         <img src="/Images/CI Platform Assets/user-img.png"
                                             alt="Error" height="25" width="25" style="border-radius: 15px;">
+                                        }
+                                    }
                                         <span id="profile">@ViewBag.sessionValue</span>
                                         <img src="/Images/CI Platform Assets/drop-down.png"
                                             alt="Profile-dropdown" id="Profile-dropdown" />

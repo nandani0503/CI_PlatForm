@@ -4,7 +4,9 @@
 
 @model CI_PlatForm.Entities.ViewModel.AdminViewModel
 @{
-   
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>  
     <style>
     .navbar .navbar-nav .nav-link:hover {
     background-color: #fff;
@@ -151,7 +153,7 @@
 
      
  function searchMission(pg, who) {
-    
+    debugger
     var search = $('input[name="search"]').val();
     if (search == "") {
         search = $('input[name="searchMission"]').val();
@@ -179,7 +181,7 @@
     if (who == undefined) {
         who = 'user';
     };
-   
+   debugger
     $.ajax({
         url: "/Admin/Search",
         method: "POST",

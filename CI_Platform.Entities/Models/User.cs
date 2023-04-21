@@ -9,23 +9,18 @@ public partial class User
 {
     public long UserId { get; set; }
     [Required(ErrorMessage = "First name is required!")]
-
     public string? FirstName { get; set; }
     [Required(ErrorMessage = "Last name is required!")]
-
     public string? LastName { get; set; }
     [Required(ErrorMessage = "Email is required!")]
-
     public string Email { get; set; } = null!;
     [Required(ErrorMessage = "Password is required!")]
-
     public string Password { get; set; } = null!;
     [NotMapped]
     [Compare("Password")]
     [Required(ErrorMessage = "Confirm Password is required!")]
     public string ConfirmPassword { get; set; } = null!;
     [Required(ErrorMessage = "Phone number is required!")]
-
     public int PhoneNumber { get; set; }
 
     public string? Avatar { get; set; }
@@ -54,7 +49,11 @@ public partial class User
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
+    public string? Manager { get; set; }
+
+    public string? Availability { get; set; }
+
+    public virtual ICollection<ContactU> ContactUs { get; } = new List<ContactU>();
 
     public virtual Country? Country { get; set; }
 

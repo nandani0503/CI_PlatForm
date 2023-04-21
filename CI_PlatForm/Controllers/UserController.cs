@@ -52,8 +52,15 @@ namespace CI_PlatForm.Controllers
             if (objUser != null)
             {
 
-                HttpContext.Session.SetString("username", objUser.FirstName + " " + objUser.LastName);
+              
+               var username = objUser.FirstName + " " + objUser.LastName;
+                HttpContext.Session.SetString("username", username);
                 HttpContext.Session.SetString("userId", objUser.UserId.ToString());
+                if(objUser.Avatar is not null)
+                {
+                    HttpContext.Session.SetString("Avatar", objUser.Avatar);
+                }
+                TempData["success"] = "Login successfully";
                 return RedirectToAction("PlatformLanding", "Mission");
             }
            else {
@@ -83,7 +90,7 @@ namespace CI_PlatForm.Controllers
             if (objUser.Password == objUser.ConfirmPassword)
             {
                 _UserRepository.Registration(objUser);
-               /* return (RedirectToAction("Index", "User"));*/
+               
             }
             return RedirectToAction("Index", "User");
         }
@@ -176,17 +183,33 @@ namespace CI_PlatForm.Controllers
        public IActionResult UserDetail(ProfileViewModel model, int cityId)
         {
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            
             bool addUser = _UserRepository.addProfile(model, userId,cityId);
+            if(model.profile != null)
+            {
+                HttpContext.Session.SetString("Avatar", model.profile.FileName);
+            }
+            if(model.FirstName != null || model.LastName != null)
+            {
+                HttpContext.Session.SetString("username", model.FirstName + "" + model.LastName);
+            }
             return RedirectToAction("UserDetail");
 
         }
         public IActionResult changePassword(String oldpassword, String newpassword)
         {
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            /*ViewBag.sessionValue = HttpContext.Session.GetString("username");*/
             var updatePass = _UserRepository.changePassword(oldpassword, newpassword, userId);
             return Json(updatePass);
+        }
+        [HttpPost]
+        [Route("User/contactUs")]
+        public IActionResult contactUs(string name, string email, string subject, string message)
+        {
+            long userId = (long)HttpContext.Session.GetInt32("userId");
+            bool contact = _UserRepository.contactUs(name, email, subject, message, userId);
+            return Json(contact);
         }
     }
 }

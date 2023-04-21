@@ -12,7 +12,8 @@ namespace CI_PlatForm.Entities.ViewModel
 
         public string UserName { get; set; }
 
-        public string Comment { get; set; }
+        /*public string Comment { get; set; }*/
+        public string? Comment1 { get; set; }
 
         public string Time { get; set; }
 

@@ -127,6 +127,7 @@ namespace CI_PlatForm.Controllers
                 return RedirectToAction("Index", "User");
             }
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
+            ViewBag.Avatar = HttpContext.Session.GetString("Avatar");
             long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
             
@@ -169,7 +170,6 @@ namespace CI_PlatForm.Controllers
         public void PostCommentInMission(string comment, long missionId)
         {
             long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
-
             _MissionRepository.PostComment(comment, userId, missionId);
         }
         public bool AddMissionToFav(int missionId)
@@ -321,6 +321,12 @@ namespace CI_PlatForm.Controllers
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
             var getSeetDetails = _MissionRepository.GetSheetDetails(userId);
             return View(getSeetDetails);
+        }
+        public IActionResult checkDate(long mission_id, DateTime newDate)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            var check = _MissionRepository.CheckSameDate(userId, mission_id, newDate);
+            return Json(check);
         }
         [HttpPost]
         public IActionResult addtimeSheet(long id, DateTime date, int hours, int minutes, string message, long timeSheetId)

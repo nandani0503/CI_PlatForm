@@ -26,17 +26,20 @@ namespace CI_PlatForm.Entities.ViewModel
         public int Rating { get; set; }
         public string? GoalObjectiveText { get; set; }
         public int GoalValue { get; set; }
-        public int? Avaibility { get; set; }
+        public float? Progress { get; set; }
+        public int? SeatLeft { get; set; }
+
+        public string? Avaibility { get; set; }
         
         public DateTime? Deadline { get; set; }
-      
-        public long FavouriteMissionId { get; set; }
 
-        
+       /* public long FavouriteMissionId { get; set; }*/
+        public long? Achieved { get; set; }
+
         public string? Description { get; set; }
 
         public string? OrganizationDetail { get; set; }
-        public string? DocumentPath { get; set; }
+        /*public string? DocumentPath { get; set; }*/
         public string? aboutOrganization { get; set; }
         public bool checkFav { get; set; }
 

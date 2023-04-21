@@ -31,7 +31,7 @@ public partial class Mission
 
     public string? OrganizationDetail { get; set; }
 
-    public int? Avaibility { get; set; }
+    public int? SeatLeft { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -39,7 +39,9 @@ public partial class Mission
 
     public DateTime? DeletedAt { get; set; }
 
-    public virtual ICollection<Comment> Comments { get; } = new List<Comment>();
+    public string? Avaibility { get; set; }
+
+    public DateTime? Deadline { get; set; }
 
     public virtual ICollection<FavoriteMission> FavoriteMissions { get; } = new List<FavoriteMission>();
 
