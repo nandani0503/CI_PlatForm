@@ -154,8 +154,13 @@ namespace CI_PlatForm.Repository.Repositories
 
         public int getMissionRating(long missionId)
         {
-
-            var rating = _CiplatformDbContext.MissionRatings.Where(a => a.MissionId == missionId).Average(a => a.Rating);
+            var a = _CiplatformDbContext.MissionRatings.Where(a => a.MissionId == missionId).ToList();
+            int rating = 0;
+            if(a.Count > 0)
+            {
+                rating = (int)_CiplatformDbContext.MissionRatings.Where(a => a.MissionId == missionId).Average(a => a.Rating);
+            }
+            /*var rating = _CiplatformDbContext.MissionRatings.Where(a => a.MissionId == missionId).Average(a => a.Rating);*/
             return (int)rating;
         }
         public long countVolunteers(long missionId)
@@ -207,12 +212,17 @@ namespace CI_PlatForm.Repository.Repositories
                     cardDetails.Achieved = missionGoalList.FirstOrDefault(x => x.MissionId == allDetailsCard.MissionId).Achieved;
                     cardDetails.Progress = cardDetails.Achieved * 100 / cardDetails.GoalValue;
                 }
-                else
-                {
-
-                }
                 var missionSkill = _CiplatformDbContext.MissionSkills.FirstOrDefault(u => u.MissionId == allDetailsCard.MissionId);
-                cardDetails.skillId = missionSkill.MissionSkillId;
+                cardDetails.skillId = missionSkill.SkillId;
+                var allUser = _CiplatformDbContext.Users.Where(x => x.DeletedAt == null).ToList();
+                var AlreadyInvite = _CiplatformDbContext.MissionInvites.Where(i => i.FromUserId == user_id).Include(y => y.ToUser).ToList();
+                foreach(var item in AlreadyInvite)
+                {
+                    allUser = allUser.Where(x => x.UserId != item.ToUserId).ToList();
+                }
+                cardDetails.allUser = allUser;
+                cardDetails.AlreadyInvite = AlreadyInvite;
+
                 missionAllDetails.Add(cardDetails);
             }
 
@@ -238,8 +248,8 @@ namespace CI_PlatForm.Repository.Repositories
         }
         public bool checkApplied(long missionId, long userId)
         {
-            var apply = _CiplatformDbContext.MissionApplications.FirstOrDefault(a => a.MissionId == missionId && a.UserId == userId);
-            if (apply != null)
+            var apply = _CiplatformDbContext.MissionApplications.Where(a => a.MissionId == missionId && a.UserId == userId).ToList().Count;
+            if (apply != 0)
             {
                 return true;
             }
@@ -313,7 +323,7 @@ namespace CI_PlatForm.Repository.Repositories
 
         public List<CommentViewModel> getComment(long missionId)
         {
-            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId /*&& c.ApprovalStatus == "PENDING"*/).ToList();
+            List<Comment> comments = _CiplatformDbContext.Comments.Where(c => c.MissionId == missionId && c.ApprovalStatus == true).ToList();
             List<CommentViewModel> commentView = new List<CommentViewModel>();
 
             foreach (var comment in comments)
@@ -381,9 +391,9 @@ namespace CI_PlatForm.Repository.Repositories
             _CiplatformDbContext.MissionApplications.Add(missionapplication);
             _CiplatformDbContext.SaveChanges();
         }
-        public List<MissionApplication> getMissionApplicant()
+        public List<MissionApplication> getMissionApplicant(long mission_id)
         {
-            List<MissionApplication> missionapplications = _CiplatformDbContext.MissionApplications.ToList();
+            List<MissionApplication> missionapplications = _CiplatformDbContext.MissionApplications.Where(c => c.MissionId == mission_id && c.ApprovalStatus == "APPROVE").ToList();
             return missionapplications;
         }
         public bool Recommend(long user_id, long mission_id, List<long> co_workers)
@@ -433,17 +443,17 @@ namespace CI_PlatForm.Repository.Repositories
 
         public string getStoryImg(long storyId)
         {
-            var imagePath = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
+            var imagePath = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId && u.Type == "png");
             return imagePath.Path;
         }
 
 
 
-        public string GetType(long storyId)
+        /*public string GetType(long storyId)
         {
             var type = _CiplatformDbContext.StoryMedia.FirstOrDefault(u => u.StoryId == storyId);
             return type.Type;
-        }
+        }*/
 
 
 
@@ -524,44 +534,135 @@ namespace CI_PlatForm.Repository.Repositories
         }
         public void AddStory(StoryViewModel model, long UserId, string submit)
         {
-            if (model.Description != null)
+            //model.UserId = UserId;
+            if (model.StoryId != null)
             {
-                Story addData = new Story();
-                StoryMedium Url = new StoryMedium();
+                var updateStory = _CiplatformDbContext.Stories.FirstOrDefault(s => s.StoryId == model.StoryId);
+                updateStory.UserId = UserId;
+                updateStory.MissionId = model.MissionId;
+                updateStory.Description = model.Description;
+                updateStory.Title = model.Title;
+                updateStory.Status = "DRAFT";
+                if (submit == "Submit")
                 {
-                    addData.UserId = UserId;
-                    addData.MissionId = model.MissionId;
-                    addData.Description = model.Description;
-                    addData.Title = model.Title;
-                    addData.Status = "DRAFT";
-                    if (submit == "Submit")
-                    {
-                        addData.Status = "PUBLISHED";
-                    }
-                    Url.Path = model.Url;
-                    addData.PublishedAt = model.PublishDate;
-                    _CiplatformDbContext.Add(addData);
-                    _CiplatformDbContext.SaveChanges();
-                    foreach (var i in model.Images)
+                    updateStory.Status = "PUBLISHED";
+                }
+                updateStory.PublishedAt = model.PublishDate;
+                updateStory.UpdatedAt = DateTime.Now;
+                _CiplatformDbContext.Update(updateStory);
+                _CiplatformDbContext.SaveChanges();
+
+                if (model.Url[0] != null)
+                {
+
+                    List<string> url = model.Url;
+                    foreach (var i in url)
                     {
                         StoryMedium storyMedium = new StoryMedium();
-                        storyMedium.StoryId = addData.StoryId;
+                        storyMedium.StoryId = updateStory.StoryId;
+                        storyMedium.Type = "mp4";
+                        storyMedium.Path = i;
+                        _CiplatformDbContext.StoryMedia.Update(storyMedium);
+
+                    }
+                    _CiplatformDbContext.SaveChanges();
+                }
+                string[] imgs = model.imgs.Split(",");
+                int count = 1;
+                foreach (var i in imgs)
+                {
+                    if (i.Length < 300)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        StoryMedium storyMedium = new StoryMedium();
+                        storyMedium.StoryId = _CiplatformDbContext.Stories.FirstOrDefault(u => u.UserId == UserId && u.MissionId == model.MissionId).StoryId;
                         storyMedium.Type = "png";
-                        storyMedium.Path = i.FileName;
+                        string filename = $"story-{updateStory.StoryId}-image-{count}.png";
+                        storyMedium.Path = filename;
                         _CiplatformDbContext.StoryMedia.Add(storyMedium);
                         _CiplatformDbContext.SaveChanges();
                         if (i.Length > 0)
                         {
-                            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CI Platform Assets/StoryImages", i.FileName);
-                            using (var stream = new FileStream(path, FileMode.Create))
-                            {
-                                i.CopyTo(stream);
-                            }
+                            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CI Platform Assets/StoryImages", filename);
+                            // filePath.Add(path);
+                            byte[] bytes = Convert.FromBase64String(i);
+                            File.WriteAllBytes(path, bytes);
                         }
+                        count++;
                     }
+                }
+
+            }
+            else
+            {
+                if (model.Description != null)
+                {
+                    Story addData = new Story();
+
+                    {
+                        addData.UserId = UserId;
+                        addData.MissionId = model.MissionId;
+                        addData.Description = model.Description;
+                        addData.Title = model.Title;
+                        addData.Status = "DRAFT";
+                        if (submit == "Submit")
+                        {
+                            addData.Status = "PUBLISHED";
+                        }
+
+                        addData.PublishedAt = model.PublishDate;
+
+                        _CiplatformDbContext.Add(addData);
+                        _CiplatformDbContext.SaveChanges();
+
+                        if (model.Url[0] != null)
+                        {
+
+                            List<string> url = model.Url;
+                            foreach (var i in url)
+                            {
+                                StoryMedium storyMedium = new StoryMedium();
+                                storyMedium.StoryId = addData.StoryId;
+                                storyMedium.Type = "mp4";
+                                storyMedium.Path = i;
+                                _CiplatformDbContext.StoryMedia.Add(storyMedium);
+
+                            }
+                            _CiplatformDbContext.SaveChanges();
+                        }
+
+                        string[] imgs = model.imgs.Split(",");
+                        int count = 1;
+                        foreach (var i in imgs)
+                        {
+                            StoryMedium storyMedium = new StoryMedium();
+                            storyMedium.StoryId = _CiplatformDbContext.Stories.FirstOrDefault(u => u.UserId == UserId && u.MissionId == model.MissionId).StoryId;
+                            storyMedium.Type = "png";
+                            string filename = $"story-{addData.StoryId}-image-{count}.png";
+                            storyMedium.Path = filename;
+                            _CiplatformDbContext.StoryMedia.Add(storyMedium);
+                            _CiplatformDbContext.SaveChanges();
+                            if (i.Length > 0)
+                            {
+                                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/CI Platform Assets/StoryImages", filename);
+                                
+                                byte[] bytes = Convert.FromBase64String(i);
+                                File.WriteAllBytes(path, bytes);
+                            }
+                            count++;
+                        }
+
+                    }
+
+
                 }
             }
         }
+      
+
         public StoryViewModel getStory(long story_id, long user_id)
         {
             List<StoryMedium> medias = _CiplatformDbContext.StoryMedia.ToList();
@@ -589,15 +690,14 @@ namespace CI_PlatForm.Repository.Repositories
             {
                 StoryViewModel mystory = new StoryViewModel()
                 {
-                    
-                    UserName = story.User.FirstName + " " + story.User.LastName,
-                    Avatar = story.User.Avatar,
+                    MissionId = story.MissionId,
+                    StoryId = story_id,
                     Title = story.Title,
                     Description = story.Description,
                     storymedia = story.StoryMedia.ToList(),
                     users = _CiplatformDbContext.Users.ToList(),
-                    StoryId = story_id,
-                    MissionId = story.MissionId,
+                    Avatar = story.User.Avatar,
+                    UserName = story.User.FirstName + " " + story.User.LastName,
                     Views = story.StoryViews.Count(),
                     WhyIVolunteer = whyIVolunteer
                 };
@@ -623,6 +723,7 @@ namespace CI_PlatForm.Repository.Repositories
                     draft_model.PublishDate = get_draft.PublishedAt;
                     draft_model.Description = get_draft.Description;
                     draft_model.storymedia = mediaImages;
+                    draft_model.StoryId = get_draft.StoryId;
                 }
                 return draft_model;
             }
@@ -689,7 +790,7 @@ namespace CI_PlatForm.Repository.Repositories
                     //Time = new TimeSpan(hour, minutes, 0),
                     UserId = user_id,
                     MissionId = mission_id,
-                    Status = "PENDING",
+                    Status = "SUBMIT_FOR_APPROVAL",
                     Action = action,
                     DateVolunteered = date,
                     Notes = message,

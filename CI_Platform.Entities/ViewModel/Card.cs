@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CI_PlatForm.Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,11 @@ namespace CI_PlatForm.Entities.ViewModel
         /*public string? DocumentPath { get; set; }*/
         public string? aboutOrganization { get; set; }
         public bool checkFav { get; set; }
+        public List<User>? allUser { get; set; }
+        public List<MissionInvite>? AlreadyInvite { get; set; }
+        public string? whoType { get; set; }
+        public long? crudId { get; set; }
+        public int status { get; set; }
 
     }
 }

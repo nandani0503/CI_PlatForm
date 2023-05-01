@@ -1,6 +1,7 @@
 ﻿@using CI_PlatForm
 
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -111,7 +112,7 @@
                        </tr>
                       </thead>
                       <tbody>
-                       @foreach (var worker in @ViewBag.userDetails)
+                      @* @foreach (var worker in @ViewBag.userDetails)
                         {
                          <tr>
                           <td>
@@ -123,13 +124,39 @@
                           <td>@worker.FirstName @worker.LastName</td>
                           <td>@worker.Email</td>
                          </tr>
-                        }
-                       </tbody>
+                        }*@
+                                                @foreach(var obj in @ViewBag.cardData.AlreadyInvite)
+                                                {
+                                                    <tr>
+                                                    <td>
+                                                    <img src="/Images/CI Platform Assets/checked.png">
+                                                    </td>
+                                                    <td>
+                                                    <label class="form-check-label  ps-2" for="@obj.ToUser.UserId">
+                                                    @obj.ToUser.FirstName &nbsp; @obj.ToUser.LastName
+                                                    </label>
+                                                    </td>
+                                                    </tr>
+                                                }
+                                                @foreach(var obj in @ViewBag.cardData.allUser)
+                                                {
+                                                    <tr>
+                                                    <td>
+                                                    <input class="form-check-input mx-auto" name="volunteers" type="checkbox" value="@obj.FirstName" id="@obj.UserId" onchange="check_inviteVolunteer()">
+                                                    </td>
+                                                    <td>
+                                                    <label class="form-check-label ps-2" for="@obj.UserId">
+                                                    @obj.FirstName &nbsp; @obj.LastName
+                                                    </label>
+                                                    </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
                        <tfoot>
                         <tr>
                          <td colspan="3">
                           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" onclick="sendInvitation(@ViewBag.cardData.MissionId)" class="btn btn-success">Send Invitation</button>
+                          <button type="submit" data-bs-dismiss="modal" onclick="sendInvitation(@ViewBag.cardData.MissionId)" class="btn btn-success">Send Invitation</button>
                          </td>
                         </tr>
                        </tfoot>
@@ -409,7 +436,7 @@
                      </footer>
                     </div>
                     <script>
-                     var current_page = 0
+                     
 
                      function currentDiv(n) {
                       showDivs(slideIndex = n);
@@ -432,6 +459,7 @@
                     }
 
                     function AddMissionToFav(missionId){
+                        
                         $.ajax({
                         url: "/Mission/AddMissionToFav",
                         method : "POST",
@@ -493,7 +521,7 @@
                              $('input[name="volunteers"]:checked').each(function(){
                                  VolunteerList.push(this.id);
                              });
-                            debugger
+                            
                              $.ajax({
                                  url:"/Mission/VolunteerList",
                                  method: "POST",
@@ -517,10 +545,12 @@
 
                         }
                         function giveRating(missionId,rating){
+                            debugger
                             $(".rtcolor").removeClass("text-warning");
                             PostRating(rating, missionId);
                         }
                         function PostRating(i,missionId){
+                          
                             $.ajax({
                                 type : "POST",
                                 url : "/Mission/PostRating",
@@ -565,14 +595,15 @@
                                             }
                                             });
                                 }
-                                
+                                var current_page = 0
                                 function VolunteersPaging(paging, mission_id, total){
-                                       debugger
+                                     
                                     if(paging == "prev"){
-                                       
-                                        if(currnt_page > 0){
+                                         
+                                        if(current_page > 0){
                                          
                                             $.ajax({
+
                                                 url : `/Mission/VolunteerPaging/${mission_id}`,
                                                 method : "POST",
                                                 data : {
@@ -589,9 +620,11 @@
                                             current_page--;
                                         }
                                     }
-                                    else{
+                                    else {
                                         if(current_page+1 < total){
+                                              
                                             $.ajax({
+                                                
                                                 url : `/Mission/VolunteerPaging/${mission_id}`,
                                                 method : "POST",
                                                 data :{
@@ -609,7 +642,24 @@
                                         }
                                     }
                                 }
-      
+                              
+      function check_inviteVolunteer(){
+          var check = false
+          $('.form-check-input').each(function () {
+              if($(this).is(":checked")){
+                  check = true
+              }
+          });
+          if(check){
+              
+              $("#volunteerInvitebtn").attr("enabled", "enabled")
+              $("#volunteerInvitebtn").removeAttr("disabled", "disabled")
+          }
+          else{
+              $("#volunteerInvitebtn").removeAttr("enabled", "enabled")
+              $("#volunteerInvitebtn").attr("disabled", "disabled")
+          }
+      }
                             
 
                     </script>

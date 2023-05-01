@@ -36,10 +36,18 @@ namespace CI_PlatForm.Controllers
 
             List<Card> VolunteerCard = _MissionRepository.GetMissionCard(userId);
 
-            var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
+            /*var missions = VolunteerCard.FirstOrDefault(i => i.MissionId == id);
             ViewBag.cardData = missions;
+            /*ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, userId);
+            if(missions != null)
+            {
+                ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, userId);
+            }
+            else
+            {
+                ViewBag.getRating = 0;
+            }*/
 
-            
 
 
 
@@ -60,6 +68,15 @@ namespace CI_PlatForm.Controllers
             ViewBag.pg_no = 1;
             ViewBag.Totalpages = Math.Ceiling(missionCardDetails.Count() / 6.0);
             ViewBag.missionCardDetails = missionCardDetails.Skip((1-1)*6).Take(6).ToList();
+           
+            /*if(missions != null)
+            {
+                ViewBag.getRating = _MissionRepository.getRating(missions.MissionId, userId);
+            }
+            else
+            {
+                ViewBag.getRating = null;
+            }*/
             ViewBag.pg_no = 1;
             return View();
 
@@ -179,7 +196,7 @@ namespace CI_PlatForm.Controllers
             return fav;
         }
         public int PostRating(byte rate, long missionId)
-        {
+         {
             long userId = Convert.ToInt64(HttpContext.Session.GetString("userId"));
             bool UserValid = _MissionRepository.checkApplied(missionId,userId);
             if(UserValid == true)
@@ -206,25 +223,28 @@ namespace CI_PlatForm.Controllers
             }
         }
         public ActionResult VolunteerPaging(int paging, long mission_id)
-        {
-            double total_pages = Math.Ceiling(_MissionRepository.GetRecentUser(mission_id).Count() / 9.0);
-            if(paging > 0 && paging <= total_pages)
-            {
-                ViewBag.getVolunteer = _MissionRepository.GetRecentUser(mission_id).Skip(9 * paging).Take(9).ToList();
-                ViewBag.totalVol = _MissionRepository.GetRecentUser(mission_id).Count();
-                ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
-                ViewBag.pg_no = paging;
-                return PartialView("_RecentVolunteer");
-            }
-            else
-            {
-                ViewBag.getVolunteer = _MissionRepository.GetRecentUser(mission_id).Skip(9 * paging).Take(9).ToList();
-                ViewBag.totalVol = _MissionRepository.GetRecentUser(mission_id).Count();
-                ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
-                ViewBag.pg_no = paging;
-                return PartialView("_RecentVolunteer");
-            }
-        }
+         {
+             double total_pages = Math.Ceiling(_MissionRepository.GetRecentUser(mission_id).Count() / 9.0);
+             if(paging > 0 && paging <= total_pages)
+             {
+                 ViewBag.getVolunteer = _MissionRepository.GetRecentUser(mission_id).Skip(9 * paging).Take(9).ToList();
+                 ViewBag.totalVol = _MissionRepository.GetRecentUser(mission_id).Count();
+                 ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
+                 ViewBag.pg_no = paging;
+                 return PartialView("_RecentVolunteer");
+             }
+             else
+             {
+                 ViewBag.getVolunteer = _MissionRepository.GetRecentUser(mission_id).Skip(9 * paging).Take(9).ToList();
+                 ViewBag.totalVol = _MissionRepository.GetRecentUser(mission_id).Count();
+                 ViewBag.totalApplicant = _MissionRepository.getMissionApplicant().Count();
+                 ViewBag.pg_no = paging;
+                 return PartialView("_RecentVolunteer");
+             }
+         }
+       
+
+
 
         /* ------------------------Volunteer story---------------------------------------------------*/
         public IActionResult VolunteeringStory()
@@ -287,10 +307,18 @@ namespace CI_PlatForm.Controllers
             {
                 ViewBag.sessionValue = HttpContext.Session.GetString("username");
                 ViewBag.missionStoryList = _MissionRepository.getStoryMission(userId);
+               
                 return View();
             }
            
         }
+        public IActionResult GetDraftDetails(long mission_id)
+        {
+            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
+            StoryViewModel draft = _MissionRepository.GetDraftDetails(mission_id, userId);
+            return Json(draft);
+        }
+        /*-------------------Story detail----------------------------------------*/
         public IActionResult StoryDetail(long id)
         {
             ViewBag.sessionValue = HttpContext.Session.GetString("username");
@@ -307,12 +335,7 @@ namespace CI_PlatForm.Controllers
             
             return View(model);
         }
-        public IActionResult GetDraftDetails(long mission_id)
-        {
-            long userId = (long)Convert.ToInt64(HttpContext.Session.GetString("userId"));
-            StoryViewModel draft = _MissionRepository.GetDraftDetails(mission_id, userId);
-            return Json(draft);
-        }
+       
 
         /*-----------------Volunteering Timesheet---------------------------*/
         public IActionResult VolunteeringTimeSheet()

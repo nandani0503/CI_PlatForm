@@ -16,7 +16,14 @@ namespace CI_PlatForm.Entities.ViewModel
         public List<MissionApplication>? MissionApplicationList { get; set; } = new List<MissionApplication>(); 
         public List<CmsPage> CmsList { get; set; } = new List<CmsPage>();
         public List<Story>? StoryList { get; set; } = new List<Story> { };
-     
+        public List<MissionSkill>? missionSkills { get; set; }
+        public List<Country>? countryList { get; set; }
+        public List<Skill>? SkillList { get; set; }
+        public List<int>? skillsToAdd { get; set; }
+        public List<Banner>? BannerList { get; set; }
+        public List<City>? city_list { get; set; }
+        public CI_PlatForm.Entities.ViewModel.MissionAdminViewModel? MissionModel { get; set; }
+
       
 
 

@@ -92,5 +92,47 @@ namespace CI_PlatForm.Controllers
             bool delete = _adminRepository.deleteAdminData(Id, who);
             return Json(delete);
         }
+        public IActionResult getDetails(long id, string who)
+        {
+            if (who == "theme")
+            {
+                var data = _adminRepository.getAdminModalInfo(id, who);
+                return Json(data.ThemeList.FirstOrDefault());
+            }
+            if (who == "skill")
+            {
+                var data = _adminRepository.getAdminModalInfo(id, who);
+                return Json(data.SkillList.FirstOrDefault());
+            }
+            return Json(null);
+        }
+        public IActionResult addDetails(Card userData)
+        {
+            var save = _adminRepository.saveDetailsAdmin(userData);
+            return Json(save);
+        }
+
+        public IActionResult approveAdminData(long Id, string who)
+        {
+            bool status = _adminRepository.approveAdminData(Id, who);
+            return Json(status);
+        }
+        [Route("/Admin/AddMission")]
+        public IActionResult AddMission(CI_PlatForm.Entities.ViewModel.AdminViewModel model, string? search, int pg)
+        {
+            if (model.MissionModel is null)
+            {
+
+                CI_PlatForm.Entities.ViewModel.AdminViewModel missions = _adminRepository.getMissionDetails(search, 0);
+                return View("UserCRUD", missions);
+            }
+            else
+            {
+                bool success = _adminRepository.AddMission(model.MissionModel);
+                CI_PlatForm.Entities.ViewModel.AdminViewModel mis = _adminRepository.getMissionDetails(search, 0);
+                return View("UserCRUD", mis);
+            }
+
+        }
     }
 }

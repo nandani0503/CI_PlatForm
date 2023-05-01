@@ -7,6 +7,15 @@
 
 @{
     <style>
+    .close{
+       width: 20px;
+       height: 20px;
+       opacity: 90%;
+       position: absolute;
+       top: -73%;
+       left: 81%;
+       cursor: pointer;
+    }
   
     #image-preview .preview-container {
     display: inline-block;
@@ -43,10 +52,10 @@
                 <div class="col-lg-4 col-md-4 col-12">
 
                     <label for="SelectMission">Select Mission</label>
-                    <select class="dropdown-toggle w-100 mt-2" asp-for="MissionId" id="SelectMission" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;" required>
+                    <select class="dropdown-toggle w-100 mt-2" asp-for="MissionId" onchange="getDraftDetails()" id="getMissionId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="height:34px;border-radius:5px;border-color:lightgray;" required>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                            <option class="dropdown-item" selected>Select your Mission</option>
+                            <option class="dropdown-item" value="0" selected>Select your Mission</option>
                             @foreach (var objMission in @ViewBag.missionStoryList)
                             {
                                 <option class="dropdown-item" value="@objMission.MissionId">@objMission.Title</option>
@@ -57,14 +66,16 @@
                 </div> 
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="mb-3">
-                        <label for="StoryTitle" class="form-label">My Story Title</label>
-                        <input asp-for="Title" type="text" class="form-control" id="StoryTitle" aria-describedby="addon-wrapping" required>
+                        <label for="draft_title" class="form-label">My Story Title</label>
+                        <input asp-for="Title" id="draft_title" type="text" class="form-control" aria-describedby="addon-wrapping" maxlength=255 required>
+                        <span asp-validation-for=Title class="d-block text-danger"></span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-12">
                     <div class="mb-3">
-                        <label for="StoryDate" class="form-label">Date</label>
-                        <input asp-for="PublishDate" type="date" class="form-control" id="StoryDate" required>
+                        <label for="draft_date" class="form-label">Date</label>
+                        <input asp-for="PublishDate" id="draft_date" type="date" class="form-control" required>
+                        <span asp-validation-for=PublishDate class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -75,27 +86,34 @@
             <div class="form-group">
                 <label for="storytext">My Story</label>
                 <textarea asp-for="Description" class="form-control" id="editor" rows="3" placeholder="Sample Editor 1" required></textarea>
+                <span asp-validation-for=Description class="d-block text-danger"></span>
             </div>
         </div>
 
         <div class="container">
             <div class="row">
-                <div class="mb-3 py-3">
+                <div class="mb-3 py-3" id="urlVideo">
                     <label for="VideoURL" class="form-label">Enter Video URL</label>
-                    <input type="url" asp-for="Url" class="form-control" id="VideoURL" placeholder="Enter your url">
+                    <input type="text" name="Url[]" asp-for="Url" class="form-control" id="VideoURL" placeholder="Enter your url">
+                    <button type="button" class="btn btn-outline-primary" id="addLink">Add link</button>
                 </div>
             </div>
         </div>
         <div class="container">
             <label for="dragDrop">Upload Your Photos</label>
-            <div class="border text-center p-3">
+            <div class="uploadPhotos border text-center p-3">
                 
-                <input id="images" asp-for="Images" type="file" class="position-relative originalFileSelect" multiple="multiple" accept="image/jpeg,image/png,image/jpg" required>
-                <div class = "d-flex">
-                
-                    <output id="image-preview" class="h-100 w-100"></output>
+                <input id="images" asp-for="Images" type="file" class="position-relative originalFileSelect" multiple="multiple" accept="image/jpeg,image/png,image/jpg" onchange="loadimages()" required/>
+                <div class = "text-center">
+                 <img src="/Images/CI Platform Assets/drag-and-drop.png">
+                   @* <output id="image-preview" class="h-100 w-100"></output>*@
                
                 </div>
+                <span asp-validation-for=Images class="text-danger"></span>
+            </div>
+            <div class="flex-column flex-wrap gallary" id="image-preview">
+            <input type="hidden" id="imgs" asp-for=imgs />
+            <input type="hidden" id="story_id" asp-for=StoryId />
             </div>
         </div>
 
@@ -106,8 +124,8 @@
                 </div>
                 <div class="col-9 justify-content-end d-flex">
                    
-                    <button value="Save" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Save</button>
-                    <button value="Submit" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Submit</button>
+                    <button value="Save" onclick="getimages()" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Save</button>
+                    <button value="Submit" onclick="getimages()" name="submit" type="submit" asp-controller="Mission" asp-action="ShareStory" class="btn btn-outline-warning border rounded-pill mx-2">Submit</button>
                 </div>
             </div>
         </div>
@@ -129,7 +147,7 @@
          toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help fullscreen ',
          skin :'bootstrap',
          toolbar_drawer : 'floating',
-         min_height:200,
+         min_height:360,
          autoresize_bottom_margin:16,
          setup : (editor) => {
              editor.on('init', () => {
@@ -145,49 +163,130 @@
              });
          }
          })
-        
+        $(document).ready(function () {
+    $('#addLink').click(function () {
+        //var index = $('input[name="URL"]').length;
+        var input = '<input type="text" class="form-control" asp-for="Url" name="Url[]" /> <br/>';
+        $(this).before(input);
+        //$(input).appendTo('form');
+    });
+});
          
-$(function () {
+@*$(function () {
     var selectedCount = 0;
     var selectedCountElement = $('#selected-count');
-    @* Listen for changes to the file input element*@
+    @* Listen for changes to the file input element
     $('#images').on('change', function () {
-        @* Clear any previous preview images*@
-       @* $('#image-preview').empty();*@
+        @* Clear any previous preview images
+       @* $('#image-preview').empty();
         selectedCount = 0;
         selectedCountElement.html('0 images selected');
-        @* Loop through the selected files*@
+        @* Loop through the selected files
         $.each(this.files, function (i, file) {
-            @* Create a container for the preview image and remove button*@
+            @* Create a container for the preview image and remove button
             var container = $('<div />', { class: 'preview-container' });
-            @* Create an image element to show the preview*@
+            @* Create an image element to show the preview
             var img = $('<img  />');
             img.attr('src', URL.createObjectURL(file));
             img.attr('alt', file.name);
-            @* Create a remove button to remove the image from the preview*@
+            @* Create a remove button to remove the image from the preview
             var removeBtn = $('<i />', { class: 'remove-icon' });
             removeBtn.attr('class', "d-flex bi bi-x-square-fill remove-icon  justify-content-end align-items-lg-start");
             removeBtn.attr('alt', file.name);
-            @*removeBtn.html('&#x2715;');*@
+            @*removeBtn.html('&#x2715;');
             removeBtn.on('click', function () {
                 container.remove();
                 selectedCount--;
                 selectedCountElement.html(selectedCount + ' images selected');
             });
-            @* Add the image and remove button to the container*@
+            @* Add the image and remove button to the container
             container.append(img, removeBtn);
-            @*Add the container to the preview container*@
+            @*Add the container to the preview container
             $('#image-preview').append(container);
             selectedCount++;
             selectedCountElement.html(selectedCount + ' images selected');
         });
     });
-});
+});*@
+var count = 0;
+var imgs = []
+function loadimages() {
+    var image = document.getElementById('images').files
+    var images_count = $('.gallary').find('.main-image').length
+    if (images_count + image.length <= 20 && image.length <= 20) {
+        if (images_count == 1) {
+            if (image[0].size < 4194304) {
+                var fr = new FileReader()
+                const div = document.createElement('div')
+                const img = document.createElement('img')
+                const close_div = document.createElement('div')
+                close_div.className = "bg-black close d-flex justify-content-center align-items-center"
+                const close_img = document.createElement('img')
+                close_img.src = "/Images/CI Platform Assets/cancel.png"
+                div.id = `image-${count}`
+                div.className = "main-image-div"
+                fr.readAsDataURL(image[0])
+                fr.onload = () => {
+                    img.src = fr.result
+                }
+                img.className = "main-image"
+                $('.gallary').append(div)
+                $(`#image-${count}`).append(img)
+                close_div.append(close_img)
+                close_div.onclick = function () { this.parentNode.remove() }
+                $(`#image-${count}`).append(close_div)
+                count++
+            }
+        }
+        else {
+            var total_size = 0
+            for (var i = 0; i < image.length; i++) {
+                total_size = total_size + image[i].size
+            }
+            console.log(total_size)
+            for (var i = 0; i < image.length; i++) {
+                if (image[i].size < 4194304 && total_size < 4194304) {
+                    let fr = new FileReader()
+                    fr.onload = () => {
+                        const div = document.createElement('div')
+                        const img = document.createElement('img')
+                        const close_div = document.createElement('div')
+                        close_div.className = "bg-black close d-flex justify-content-center align-items-center position-relative"
+                        const close_img = document.createElement('img')
+                        close_img.src = "/Images/CI Platform Assets/cancel.png"
+                        div.id = `image-${count}`
+                        div.className = "main-image-div"
+                        img.src = fr.result
+                        img.className = "main-image"
+                        $('.gallary').append(div)
+                        $(`#image-${count}`).append(img)
+                        close_div.append(close_img)
+                        close_div.onclick = function () { this.parentNode.remove() }
+                        $(`#image-${count}`).append(close_div)
+                        count++
+                    }
+                    fr.readAsDataURL(image[i])
+                }
+            }
+        }
+    }
+}
+const getimages = () => {
+    $(".gallary").find(".main-image").each(function (i, item) {
+        if (item.src.length > 300) {
+            imgs.push(item.src.split(",")[1])
+        }
+        else {
+            imgs.push(item.src)
+        }
+    })
+    document.getElementById("imgs").value = imgs
+}
 function getDraftDetails() {
     var div1 = document.getElementById("getMissionId");
     var selectedOption = div1.options[div1.selectedIndex];
     var MissionId = selectedOption.value;
-
+    
     $.ajax({
         url: "/Mission/GetDraftDetails",
         method: "GET",
@@ -197,7 +296,7 @@ function getDraftDetails() {
         success: function (data) {
             console.log(data)
             document.getElementById("draft_title").value = data.title;
-
+            document.getElementById("story_id").value = data.storyId
             if (data.publishDate != null) {
                 var date = new Date(data.publishDate).toLocaleDateString("fr-CA").split(',')[0];
                 document.getElementById("draft_date").value = date;
@@ -223,7 +322,7 @@ function getDraftDetails() {
                     var img = $('<img>');
                     img.attr('src', '/Images/CI Platform Assets/StoryImages' + data.storymedia[i].path);
                     img.attr('alt', 'temp');
-
+                    img.addClass("main-image")
                     var container = $('<div>');
                     container.addClass('image-container');
                     container.append(img);

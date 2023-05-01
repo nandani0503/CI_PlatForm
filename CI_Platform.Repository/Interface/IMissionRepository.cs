@@ -45,7 +45,7 @@ namespace CI_PlatForm.Repository.Interface
         public void AddToRecent(long missionId, long userId);
         public List<CommentViewModel> GetRecentUser(long missionId);
 
-        public List<MissionApplication> getMissionApplicant();
+        public List<MissionApplication> getMissionApplicant(long mission_id);
 
         public bool Recommend(long user_id, long mission_id, List<long> co_workers);
         public bool checkFavourite(long missionId, long userId);

@@ -181,7 +181,7 @@
     if (who == undefined) {
         who = 'user';
     };
-   debugger
+   
     $.ajax({
         url: "/Admin/Search",
         method: "POST",
@@ -220,7 +220,136 @@
     })
 
 }
-     
+     function ApproveAdminData(id, who) {
+      debugger
+    $.ajax({
+        url: '/Admin/approveAdminData',
+        type: 'post',
+        data: {
+            Id: id,
+            who: who
+        },
+        success: function (result) {
+            console.log(result)
+            if (who == 'DeclineApp') {
+                if (result == true) {
+                    toastr.success('User Application Declined');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                } else {
+                    toastr.error('User Application Not Declined!!!');
+                }
+            }
+            if (who == 'ApproveApp') {
+                if (result == true) {
+                    toastr.success('User Application Approved');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                } else {
+                    toastr.error('User Application Not Approved!!!');
+                }
+            }
+            if (who == 'ApproveStory') {
+                if (result == true) {
+                    toastr.success('User Story Approved');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                } else {
+                    toastr.error('User story Not Approved!!!');
+                }
+            }
+            if (who == 'DeclineStory') {
+                if (result == true) {
+                    toastr.success('User Story Declined');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 500);
+                } else {
+                    toastr.error('User story Not declined!!!');
+                }
+            }
+
+        },
+        error: function () {
+            console.log("Error updating variable");
+        }
+    })
+}
+function editDetails(id, who) {
+    debugger
+    $.ajax({
+        url: '/Admin/getDetails',
+        type: 'get',
+        data: {
+            id: id,
+            who : who
+        },
+        success: function (data) {
+            if (who == "skill") {
+                document.getElementById("skill_name").value = data.skillName;
+                document.getElementById("skill_status").value = data.status;
+            }
+           
+        },
+        error: function () {
+            console.log("Error updating variable");
+        }
+    })
+}
+
+function updateDetails(id, who) {
+    
+    var skillName = document.getElementById("skill_name").value;
+    var skillStatus = document.getElementById("skill_status").value;
+    var skills = [skillName, skillStatus];
+    debugger
+    $.ajax({
+        url: '/Admin/addDetails',
+        type: 'post',
+        data: {
+            id: id,
+            who: who,
+            skills: skills
+        },
+        success: function (data) {
+            toastr.success('Data updated successfully');
+
+        },
+        error: function () {
+            console.log("Error updating variable");
+        }
+    })
+}
+function deleteItem(id, who) {
+    
+    $.ajax({
+        url: '/Admin/deleteAdminData',
+        type: 'post',
+        data: {
+            Id: id,
+            who: who
+        },
+        success: function (result) {
+            console.log(result)
+            if (result == true) {
+                toastr.success('Data deleted successfully');
+                setTimeout(function () {
+                    location.reload();
+                }, 500);
+            } else {
+                toastr.success('Data not deleted from database!!!');
+
+            }
+            
+        },
+        error: function () {
+            console.log("Error updating variable");
+        }
+    })
+}
    
 </script>
       
